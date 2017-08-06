@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:background="@color/colorPrimary" >
+
+    <ImageButton
+        android:id="@+id/setting_button"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:scaleType="centerInside"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:padding="12dp"
+        android:background="@null"
+        android:src="@drawable/button_setting"/>
+
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/logo" />
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:scaleType="centerInside"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:padding="12dp"
+        android:background="@null"
+        android:src="@drawable/button_create" />
+
+</RelativeLayout>

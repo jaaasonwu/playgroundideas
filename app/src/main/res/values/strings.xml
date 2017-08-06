@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Playground Ideas</string>
+    <string name="designs">Designs</string>
+    <string name="manuals">Manuals</string>
+    <string name="plans">Plans</string>
+    <string name="projects">Projects</string>
+
+</resources>
