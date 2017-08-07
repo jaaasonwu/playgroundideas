@@ -5,4 +5,11 @@
     <string name="plans">Plans</string>
     <string name="projects">Projects</string>
 
+    <string name="fav_designs">Favourite Designs</string>
+    <string name="brs_designs">Browse Designs</string>
+    <string name="my_plans">My Plans</string>
+    <string name="brs_plans">Browse Plans</string>
+    <string name="offline_manuals">Offline Manuals</string>
+    <string name="my_projects">My Projects</string>
+    <string name="brs_projects">Browse Projects</string>
 </resources>
