@@ -6,21 +6,33 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 public class PagerAdapter extends FragmentStatePagerAdapter {
-    private int mNumOfTabs = 4;
+    private int mNumOfTabs = 2;
     private int mCurrentFragment;
     private Fragment mFragment;
+    private CharSequence[] mTabTitles;
 
     static final int LEFT = 0;
     static final int RIGHT = 1;
 
-    public PagerAdapter(FragmentManager fm, int numOfTabs, int currentFragment) {
+    public PagerAdapter(FragmentManager fm, int numOfTabs, int currentFragment, CharSequence[] tabTitles) {
         super(fm);
         this.mNumOfTabs = numOfTabs;
         this.mCurrentFragment = currentFragment;
+        this.mTabTitles = tabTitles;
+    }
+
+
+    /**
+     * Used to show the title of each tab
+     */
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return mTabTitles[position];
     }
 
     @Override
     public Fragment getItem(int position) {
+        // Get different fragment according
         switch (mCurrentFragment) {
             case 0:
                 mFragment = new DesignsFragment();
@@ -36,6 +48,7 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
                 break;
         }
         Bundle args = new Bundle();
+        // Get different page for each fragment
         switch (position) {
             case 0:
                 args.putInt("position", LEFT);

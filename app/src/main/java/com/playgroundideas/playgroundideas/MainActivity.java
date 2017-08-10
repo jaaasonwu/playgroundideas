@@ -19,8 +19,6 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout mTabLayout;
     private LayoutInflater mInflater;
     private ViewPager mViewPager;
-    private TabLayout.Tab mLeftTab;
-    private TabLayout.Tab mRightTab;
     private ArrayList<PagerAdapter> mAdapters;
     public int mCurrentFragment;
 
@@ -29,34 +27,26 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
-        @Override
         /**
          * This method defines the behavior when a different bottom navigation item is selected
          */
+        @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             boolean success = false;
             switch (item.getItemId()) {
                 case R.id.navigation_designs:
-                    mLeftTab.setText(R.string.fav_designs);
-                    mRightTab.setText(R.string.brs_designs);
                     mCurrentFragment = 0;
                     success = true;
                     break;
                 case R.id.navigation_plans:
-                    mLeftTab.setText(R.string.my_plans);
-                    mRightTab.setText(R.string.brs_plans);
                     mCurrentFragment = 1;
                     success = true;
                     break;
                 case R.id.navigation_manuals:
-                    mLeftTab.setText(R.string.manuals);
-                    mRightTab.setText(R.string.offline_manuals);
                     mCurrentFragment = 2;
                     success = true;
                     break;
                 case R.id.navigation_projects:
-                    mLeftTab.setText(R.string.my_projects);
-                    mRightTab.setText(R.string.brs_projects);
                     mCurrentFragment = 3;
                     success = true;
                     break;
@@ -98,26 +88,31 @@ public class MainActivity extends AppCompatActivity {
         mTabLayout.addTab(mTabLayout.newTab().setText(R.string.brs_designs));
         mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        // Get the created tabs
-        mLeftTab = mTabLayout.getTabAt(0);
-        mRightTab = mTabLayout.getTabAt(1);
 
         mViewPager = (ViewPager) findViewById(R.id.main_pager);
-        mCurrentFragment = 0;
-
+        // Create one adapter for each bottom tab
         mAdapters = new ArrayList<>(4);
+        // Define all the tab titles
+        CharSequence[][] tabTitles = new CharSequence[][]{
+                {getText(R.string.fav_designs), getText(R.string.brs_designs)},
+                {getText(R.string.my_plans), getText(R.string.brs_plans)},
+                {getText(R.string.manuals), getText(R.string.offline_manuals)},
+                {getText(R.string.my_projects), getText(R.string.brs_projects)}};
         for (int i = 0; i < NUM_BOTTOM_TABS; i++) {
-            mAdapters.add(new PagerAdapter(getSupportFragmentManager(), mTabLayout.getTabCount(), i));
+            mAdapters.add(new PagerAdapter(getSupportFragmentManager(), mTabLayout.getTabCount(), i, tabTitles[i]));
         }
         mViewPager.setAdapter(mAdapters.get(mCurrentFragment));
-        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
         mViewPager.setCurrentItem(0);
+        mTabLayout.setupWithViewPager(mViewPager);
 
-        setTabListener();
+        setViewPagerListener();
+
+        mCurrentFragment = 0;
+        mViewPager.setAdapter(mAdapters.get(mCurrentFragment));
 
     }
 
-    private void setTabListener() {
+    private void setViewPagerListener() {
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
