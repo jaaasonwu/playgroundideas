@@ -8,37 +8,6 @@
     android:orientation="vertical"
     tools:context="com.playgroundideas.playgroundideas.MainActivity">
 
-    <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:orientation="horizontal"-->
-        <!--android:layout_height="36dp"-->
-        <!--android:background="@color/colorPrimary">-->
-
-        <!--<TextView-->
-            <!--android:id="@+id/leftNavigation"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_weight="1"-->
-            <!--android:background="@drawable/rectangle_border"-->
-            <!--android:textAlignment="center"-->
-            <!--android:textColor="@color/colorPrimaryDark"-->
-            <!--android:gravity="center"/>-->
-        <!--<View-->
-            <!--android:layout_width="1dp"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:background="@color/colorPrimaryDark"/>-->
-        <!--<TextView-->
-            <!--android:id="@+id/rightNavigation"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_weight="1"-->
-            <!--android:background="@drawable/rectangle_border"-->
-            <!--android:textAlignment="center"-->
-            <!--android:textColor="@color/colorPrimaryDark"-->
-            <!--android:gravity="center"/>-->
-
-    <!--</LinearLayout>-->
-
     <android.support.design.widget.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
