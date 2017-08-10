@@ -1,6 +1,7 @@
 package com.playgroundideas.playgroundideas;
 
 import android.content.res.ColorStateList;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -11,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -75,12 +77,19 @@ public class MainActivity extends AppCompatActivity {
         navigation.setItemIconTintList(navigationColor);
         navigation.setItemTextColor(navigationColor);
 
+
         // Use custom action bar
         mInflater = LayoutInflater.from(this);
         View mActionBarView = mInflater.inflate(R.layout.custom_actionbar, null);
         ActionBar mActionBar = getSupportActionBar();
         mActionBar.setCustomView(mActionBarView);
         mActionBar.setDisplayShowCustomEnabled(true);
+
+        Typeface iconFont = FontManager.getTypeface(this, FontManager.FONTAWESOME);
+        TextView settingButton = (TextView) findViewById(R.id.setting_button);
+        TextView createButton = (TextView) findViewById(R.id.create_button);
+        settingButton.setTypeface(iconFont);
+        createButton.setTypeface(iconFont);
 
         //Define the top tabs
         mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
