@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private LayoutInflater mInflater;
     private ViewPager mViewPager;
     private ArrayList<PagerAdapter> mAdapters;
-    public int mCurrentFragment;
+    private int mCurrentFragment;
 
     static final int NUM_BOTTOM_TABS = 4;
 
