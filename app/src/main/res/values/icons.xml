@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_icon">&#xE8B8;</string>
+    <string name="create_icon">&#xf067;</string>
+</resources>

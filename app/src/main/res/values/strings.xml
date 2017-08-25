@@ -12,8 +12,6 @@
     <string name="offline_manuals">Offline Manuals</string>
     <string name="my_projects">My Projects</string>
     <string name="brs_projects">Browse Projects</string>
-    <string name="setting_icon">&#xf013;</string>
-    <string name="create_icon">&#xf067;</string>
     <string name="title_activity_drawer">DrawerActivity</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>

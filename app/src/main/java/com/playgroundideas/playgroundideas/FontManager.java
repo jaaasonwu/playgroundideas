@@ -8,6 +8,7 @@ import android.graphics.Typeface;
  */
 class FontManager {
     static final String FONTAWESOME = "fontawesome-webfont.ttf";
+    static final String MATERIALICONS = "materialIcons-regular.ttf";
 
     static Typeface getTypeface(Context context, String font) {
         return Typeface.createFromAsset(context.getAssets(), font);
