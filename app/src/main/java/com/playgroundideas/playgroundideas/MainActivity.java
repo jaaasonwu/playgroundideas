@@ -13,6 +13,40 @@ import com.playgroundideas.playgroundideas.plans.PlansFragment;
 
 public class MainActivity extends AppCompatActivity {
 
+    BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            boolean success = false;
+            Fragment fragment = null;
+            switch (item.getItemId()) {
+                case R.id.navigation_designs:
+                    fragment = new DesignsFragment();
+                    success = true;
+                    break;
+                case R.id.navigation_plans:
+                    fragment = new PlansFragment();
+                    success = true;
+                    break;
+                case R.id.navigation_manuals:
+                    fragment = new ManualsFragment();
+                    success = true;
+                    break;
+                case R.id.navigation_projects:
+                    fragment = new ProjectsFragment();
+                    success = true;
+                    break;
+            }
+            if (success) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, fragment).commit();
+                return true;
+            } else {
+                return false;
+            }
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,45 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
         // bottom navigation view
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(
-                new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-                    /**
-                     * This method defines the behavior when a different bottom navigation item is selected
-                     */
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        boolean success = false;
-                        Fragment fragment = null;
-                        switch (item.getItemId()) {
-                            case R.id.navigation_designs:
-                                fragment = new DesignsFragment();
-                                success = true;
-                                break;
-                            case R.id.navigation_plans:
-                                fragment = new PlansFragment();
-                                success = true;
-                                break;
-                            case R.id.navigation_manuals:
-                                fragment = new ManualsFragment();
-                                success = true;
-                                break;
-                            case R.id.navigation_projects:
-                                fragment = new ProjectsFragment();
-                                success = true;
-                                break;
-                        }
-                        if (success) {
-                            getSupportFragmentManager().beginTransaction()
-                                    .replace(R.id.fragment_container, fragment).commit();
-                            return true;
-                        } else {
-                            return false;
-                        }
-                    }
-                }
-
-        );
+        bottomNavigationView.setOnNavigationItemSelectedListener(this.onNavigationItemSelectedListener);
 
         //initialise first fragment
         // Check that the activity is using the layout version with

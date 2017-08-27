@@ -12,11 +12,11 @@ import java.util.List;
  * Created by Ferdinand on 27/08/2017.
  */
 
-public class CollectionPagerAdapter extends FragmentPagerAdapter {
+public class SectionPagerAdapter extends FragmentPagerAdapter {
 
     private List<? extends Class<? extends Fragment>> collection;
 
-    public CollectionPagerAdapter(FragmentManager fragmentManager, List<? extends Class<? extends Fragment>> collection) {
+    public SectionPagerAdapter(FragmentManager fragmentManager, List<? extends Class<? extends Fragment>> collection) {
         super(fragmentManager);
         this.collection = collection;
     }
