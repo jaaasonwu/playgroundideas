@@ -9,6 +9,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.joanzapata.iconify.IconDrawable;
+import com.joanzapata.iconify.Iconify;
+import com.joanzapata.iconify.fonts.MaterialIcons;
+import com.joanzapata.iconify.fonts.MaterialModule;
 import com.playgroundideas.playgroundideas.plans.PlansFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -52,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Iconify.with(new MaterialModule());
+
         // bottom navigation view
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(this.onNavigationItemSelectedListener);
@@ -84,6 +90,12 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.toolbar_overflow_menu, menu);
+        // Set an icon in the toolbar
+        menu.findItem(R.id.action_settings).setIcon(
+                new IconDrawable(this, MaterialIcons.md_settings)
+                        .colorRes(R.color.white)
+                        .actionBarSize());
+
         return true;
     }
 
