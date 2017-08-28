@@ -14,4 +14,17 @@
     <string name="brs_projects">Browse Projects</string>
     <string name="setting_icon">&#xf013;</string>
     <string name="create_icon">&#xf067;</string>
+    <string name="design_slogan">Explore over 150 DIY playground designs</string>
+    <string name="button_design">ADD DESIGNS</string>
+    <string-array name="description">
+        <item>Scoope and Shaft</item>
+        <item>Mayan Pyramid</item>
+        <item>Tire Swing</item>
+        <item>Tire Seat</item>
+        <item>Wall</item>
+        <item>DragonFly</item>
+        <item>Scorpion</item>
+        <item>Tire Sphere</item>
+    </string-array>
+    <string name="add_button">+ Add to Favourites</string>
 </resources>

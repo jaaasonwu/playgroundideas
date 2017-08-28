@@ -6,14 +6,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.Button;
 
-import static com.playgroundideas.playgroundideas.PagerAdapter.LEFT;
-import static com.playgroundideas.playgroundideas.PagerAdapter.RIGHT;
-
-public class DesignsFragment extends Fragment {
+public class DesignsFragment_Fav extends Fragment implements View.OnClickListener{
     int position;
-    public DesignsFragment () {
+    Button button;
+    Communicator comm;
+
+    public DesignsFragment_Fav() {
 
     }
 
@@ -26,14 +26,28 @@ public class DesignsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_designs, container, false);
-        TextView text = rootView.findViewById(R.id.message);
+        View rootView = inflater.inflate(R.layout.fragment_fav_designs, container, false);
+        /*TextView text = rootView.findViewById(R.id.message);
 
         if (position == LEFT) {
             text.setText(R.string.fav_designs);
         } else if (position == RIGHT) {
             text.setText(R.string.brs_designs);
-        }
+        }*/
         return rootView;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        this.button = (Button) getActivity().findViewById(R.id.dbutton);
+        button.setOnClickListener(this);
+        comm = (Communicator) getActivity();
+
+    }
+
+    @Override
+    public void onClick(View view) {
+        comm.respond();
     }
 }

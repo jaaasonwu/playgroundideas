@@ -35,7 +35,10 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
         // Get different fragment according
         switch (mCurrentFragment) {
             case 0:
-                mFragment = new DesignsFragment();
+                if(position == 0)
+                    mFragment = new DesignsFragment_Fav();
+                else
+                    mFragment = new DesignsFragment_Br();
                 break;
             case 1:
                 mFragment = new PlansFragment();
@@ -51,9 +54,10 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
         // Get different page for each fragment
         switch (position) {
             case 0:
-                args.putInt("position", LEFT);
+                /*args.putInt("position", LEFT);
                 mFragment.setArguments(args);
-                return mFragment;
+                return mFragment;*/
+                ;
             case 1:
                 args.putInt("position", RIGHT);
                 mFragment.setArguments(args);
