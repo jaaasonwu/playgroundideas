@@ -48,6 +48,16 @@ public class DesignsFragment_Br extends Fragment {
             this.image = image;
         }
     }
+
+    class View_Holder {
+        TextView desc;
+        ImageView image;
+
+        View_Holder(View v){
+            this.desc = (TextView) v.findViewById(R.id.textView);
+            this.image = (ImageView) v.findViewById(R.id.imageView);
+        }
+    }
     class GridViewAdapter extends BaseAdapter{
         ArrayList<DesignItem> list;
         Context context;
@@ -80,15 +90,22 @@ public class DesignsFragment_Br extends Fragment {
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View designItem = inflater.inflate(R.layout.design_item, viewGroup, false);
-            TextView desc = designItem.findViewById(R.id.textView);
-            ImageView image = designItem.findViewById(R.id.imageView);
+            View designItem = view;
+            View_Holder holder = null;
+            if(designItem == null){
+                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                designItem = inflater.inflate(R.layout.design_item, viewGroup, false);
+                holder = new View_Holder(designItem);
+                designItem.setTag(holder);
+            }
+            else{
+                holder = (View_Holder) designItem.getTag();
+            }
 
             DesignItem temp_item = list.get(i);
 
-            desc.setText(temp_item.description);
-            image.setImageResource(temp_item.image);
+            holder.desc.setText(temp_item.description);
+            holder.image.setImageResource(temp_item.image);
             return designItem;
 
         }
