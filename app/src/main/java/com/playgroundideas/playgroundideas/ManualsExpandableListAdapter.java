@@ -58,7 +58,7 @@ public class ManualsExpandableListAdapter extends BaseExpandableListAdapter {
         TextView download = view.findViewById(R.id.manual_download);
         download.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view){
-                new ManualDownloadHelper(mContext).execute("https://playgroundideas.org/?download_course=94608ca9f67bd9eb462f034fc434a8d1");
+                new ManualDownloadHelper(mContext).execute("http://192.168.1.107:3000/manuals/starter");
             }
         });
         TextView headerView = view.findViewById(R.id.listTitle);

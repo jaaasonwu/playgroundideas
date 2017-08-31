@@ -39,8 +39,6 @@ public class ManualDownloadHelper extends AsyncTask<String, String, String> {
         try {
             URL url = new URL(urlStr[0]);
             HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-            connection.setRequestMethod("GET");
-            connection.setDoOutput(true);
             connection.connect();
 
             if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
