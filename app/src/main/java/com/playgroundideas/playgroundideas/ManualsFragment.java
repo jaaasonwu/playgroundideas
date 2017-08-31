@@ -101,12 +101,11 @@ public class ManualsFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_manuals, container, false);
 //        TextView text = rootView.findViewById(R.id.message);
         fillListData();
-        mManualsList = rootView.findViewById(R.id.manuals_exp_list);
-        mManualsListAdapter = new ManualsExpandableListAdapter(this.getContext(), mGroupHeader, mItemHeader);
-        mManualsList.setAdapter(mManualsListAdapter);
-
 
         if (position == LEFT) {
+            mManualsList = rootView.findViewById(R.id.manuals_exp_list);
+            mManualsListAdapter = new ManualsExpandableListAdapter(this.getContext(), mGroupHeader, mItemHeader);
+            mManualsList.setAdapter(mManualsListAdapter);
 //            text.setText(R.string.manuals);
 
         } else if (position == RIGHT) {

@@ -7,6 +7,9 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
+import com.joanzapata.iconify.Iconify;
+import com.joanzapata.iconify.fonts.MaterialModule;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -21,6 +24,8 @@ public class ManualsExpandableListAdapter extends BaseExpandableListAdapter {
         this.mContext = context;
         this.mGroupHeader = groupHeader;
         this.mItemHeader = itemHeader;
+
+        Iconify.with(new MaterialModule());
     }
 
     @Override
