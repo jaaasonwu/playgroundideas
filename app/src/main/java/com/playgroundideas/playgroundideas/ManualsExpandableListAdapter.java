@@ -55,11 +55,19 @@ public class ManualsExpandableListAdapter extends BaseExpandableListAdapter {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.manuals_list_group, null);
         }
+        TextView download = view.findViewById(R.id.manual_download);
+        download.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view){
+                new ManualDownloadHelper(mContext).execute("https://playgroundideas.org/?download_course=94608ca9f67bd9eb462f034fc434a8d1");
+            }
+        });
         TextView headerView = view.findViewById(R.id.listTitle);
         headerView.setText(headerText);
 
         return view;
     }
+
+
 
     @Override
     public int getChildrenCount(int i) {
