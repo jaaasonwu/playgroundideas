@@ -9,14 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.playgroundideas.playgroundideas.R;
-import com.playgroundideas.playgroundideas.helper.SectionPagerAdapter;
-
-import java.util.LinkedList;
-import java.util.List;
 
 public class PlansFragment extends Fragment {
 
-    SectionPagerAdapter sectionPagerAdapter;
+    private PlanTabPagerAdapter planTabPagerAdapter;
     ViewPager viewPager;
 
     @Override
@@ -30,13 +26,9 @@ public class PlansFragment extends Fragment {
                 R.layout.fragment_plans, container, false);
 
         // create the swipe views
-        List<Class<? extends Fragment>> tabs = new LinkedList<Class<? extends Fragment>>();
-        tabs.add(PlanList.class);
-        tabs.add(PlanBrowser.class);
-
-        sectionPagerAdapter = new SectionPagerAdapter(getChildFragmentManager(), tabs);
+        planTabPagerAdapter = new PlanTabPagerAdapter(getChildFragmentManager(), getContext());
         viewPager = rootView.findViewById(R.id.planPager);
-        viewPager.setAdapter(sectionPagerAdapter);
+        viewPager.setAdapter(planTabPagerAdapter);
 
         TabLayout tabLayout = rootView.findViewById(R.id.plan_tabs);
         tabLayout.setupWithViewPager(viewPager);
