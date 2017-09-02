@@ -94,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
         // Set an icon in the toolbar
         menu.findItem(R.id.action_settings).setIcon(
                 new IconDrawable(this, MaterialIcons.md_settings)
+                        .colorRes(R.color.white)
                         .actionBarSize());
 
         return true;
