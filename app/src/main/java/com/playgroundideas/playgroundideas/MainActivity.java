@@ -13,6 +13,7 @@ import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.MaterialIcons;
 import com.joanzapata.iconify.fonts.MaterialModule;
+import com.playgroundideas.playgroundideas.manuals.ManualsFragment;
 import com.playgroundideas.playgroundideas.plans.PlansFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -93,7 +94,6 @@ public class MainActivity extends AppCompatActivity {
         // Set an icon in the toolbar
         menu.findItem(R.id.action_settings).setIcon(
                 new IconDrawable(this, MaterialIcons.md_settings)
-                        .colorRes(R.color.white)
                         .actionBarSize());
 
         return true;

@@ -1,26 +1,35 @@
-package com.playgroundideas.playgroundideas;
+package com.playgroundideas.playgroundideas.manuals;
 
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 
+import com.playgroundideas.playgroundideas.R;
+import com.playgroundideas.playgroundideas.helper.SectionPagerAdapter;
+import com.playgroundideas.playgroundideas.plans.PlanBrowser;
+import com.playgroundideas.playgroundideas.plans.PlanList;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
-import static com.playgroundideas.playgroundideas.PagerAdapter.LEFT;
-import static com.playgroundideas.playgroundideas.PagerAdapter.RIGHT;
-
 public class ManualsFragment extends Fragment {
-    int position;
+
+    SectionPagerAdapter sectionPagerAdapter;
+    ViewPager viewPager;
+
     private List<String> mGroupHeader;
     private HashMap<String, List<String>> mItemHeader;
     private ExpandableListView mManualsList;
     private ExpandableListAdapter mManualsListAdapter;
+
     public ManualsFragment () {
 
     }
@@ -96,22 +105,24 @@ public class ManualsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Bundle args = getArguments();
-        position = args.getInt("position");
         View rootView = inflater.inflate(R.layout.fragment_manuals, container, false);
-//        TextView text = rootView.findViewById(R.id.message);
+        // create the swipe views
+        List<Class<? extends Fragment>> tabs = new LinkedList<Class<? extends Fragment>>();
+        tabs.add(PlanList.class);
+        tabs.add(PlanBrowser.class);
+
+        sectionPagerAdapter = new SectionPagerAdapter(getChildFragmentManager(), tabs);
+        viewPager = rootView.findViewById(R.id.manualPager);
+        viewPager.setAdapter(sectionPagerAdapter);
+
+        TabLayout tabLayout = rootView.findViewById(R.id.manual_tabs);
+        tabLayout.setupWithViewPager(viewPager);
+
         fillListData();
         mManualsList = rootView.findViewById(R.id.manuals_exp_list);
         mManualsListAdapter = new ManualsExpandableListAdapter(this.getContext(), mGroupHeader, mItemHeader);
         mManualsList.setAdapter(mManualsListAdapter);
 
-
-        if (position == LEFT) {
-//            text.setText(R.string.manuals);
-
-        } else if (position == RIGHT) {
-//            text.setText(R.string.offline_manuals);
-        }
         return rootView;
     }
 }

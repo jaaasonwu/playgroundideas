@@ -38,7 +38,7 @@ public class PlansFragment extends Fragment {
         viewPager = rootView.findViewById(R.id.planPager);
         viewPager.setAdapter(sectionPagerAdapter);
 
-        TabLayout tabLayout = rootView.findViewById(R.id.tabs);
+        TabLayout tabLayout = rootView.findViewById(R.id.plan_tabs);
         tabLayout.setupWithViewPager(viewPager);
 
         return rootView;
