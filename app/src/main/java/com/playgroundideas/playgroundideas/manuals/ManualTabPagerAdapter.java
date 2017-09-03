@@ -9,10 +9,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.playgroundideas.playgroundideas.R;
 import com.playgroundideas.playgroundideas.plans.PlanList;
 
-/**
- * Created by Ferdinand on 2/09/2017.
- */
-
 class ManualTabPagerAdapter extends FragmentPagerAdapter {
 
     private Resources resources;

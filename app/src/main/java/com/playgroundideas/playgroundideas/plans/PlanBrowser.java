@@ -7,10 +7,6 @@ import android.view.ViewGroup;
 
 import com.playgroundideas.playgroundideas.R;
 
-/**
- * Created by Ferdinand on 27/08/2017.
- */
-
 public class PlanBrowser extends PlanList {
 
     @Override
