@@ -1,0 +1,42 @@
+package com.playgroundideas.playgroundideas.projects;
+
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.support.v4.app.Fragment;
+import android.widget.ImageButton;
+
+
+import com.playgroundideas.playgroundideas.R;
+
+/**
+ * Created by TongNiu on 4/9/17.
+ */
+
+public class ProjectMy extends Fragment implements View.OnClickListener{
+
+
+    private ImageButton mCreateBtn;
+    public interface CreateBtnClickListener {
+        void onCreateBtnClick();
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater,
+                             ViewGroup container, Bundle savedInstanceState) {
+        View rootView = inflater.inflate(
+                R.layout.project_my, container, false);
+        mCreateBtn = (ImageButton) rootView.findViewById(R.id.create_project);
+        mCreateBtn.setOnClickListener(this);
+        return rootView;
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        if(getActivity() instanceof CreateBtnClickListener) {
+            ((CreateBtnClickListener) getActivity()).onCreateBtnClick();
+        }
+    }
+}

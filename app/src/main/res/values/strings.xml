@@ -13,9 +13,12 @@
     <string name="my_projects">My Projects</string>
     <string name="brs_projects">Browse Projects</string>
     <string name="title_activity_drawer">DrawerActivity</string>
-
+    <string name="New_Project">New Project</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
