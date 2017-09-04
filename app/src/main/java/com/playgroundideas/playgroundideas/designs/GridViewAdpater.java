@@ -1,7 +1,9 @@
 package com.playgroundideas.playgroundideas.designs;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,6 +46,7 @@ class GridViewAdapter extends BaseAdapter {
     }
     ArrayList<DesignItem> list;
     Context context;
+
     GridViewAdapter(Context context){
         list = new ArrayList<DesignItem>();
         this.context = context;
@@ -56,6 +59,7 @@ class GridViewAdapter extends BaseAdapter {
             list.add(new DesignItem(desc[i], images[i]));
         }
     }
+
     @Override
     public int getCount() {
         return list.size();
@@ -73,9 +77,11 @@ class GridViewAdapter extends BaseAdapter {
 
     class ButtonHandler implements View.OnClickListener {
         int item_seq;
-
-        public ButtonHandler(int i) {
+        DesignItem designItem;
+        public ButtonHandler(int i, DesignItem designItem)
+        {
             this.item_seq = i;
+            this.designItem = designItem;
         }
 
         @Override
@@ -97,6 +103,10 @@ class GridViewAdapter extends BaseAdapter {
                 case R.id.imageView:
                     toast = Toast.makeText(context, "The " + text_item_num + " design detail.", Toast.LENGTH_SHORT);
                     toast.show();
+                    Intent intent = new Intent(context, DesignDetailsActivity.class);
+                    intent.putExtra("designName", this.designItem.description);
+                    intent.putExtra("designDetail", this.designItem.image);
+                    context.startActivity(intent);
                     break;
                 case R.id.addButton:
                     toast = Toast.makeText(context, "The " + text_item_num + " favorite design is added.", Toast.LENGTH_SHORT);
@@ -127,8 +137,9 @@ class GridViewAdapter extends BaseAdapter {
 
         holder.desc.setText(temp_item.description);
         holder.image.setImageResource(temp_item.image);
-        holder.image.setOnClickListener(new ButtonHandler(i));
-        holder.addButton.setOnClickListener(new ButtonHandler(i));
+        ButtonHandler buttonHandler = new ButtonHandler(i, temp_item);
+        holder.image.setOnClickListener(buttonHandler);
+        holder.addButton.setOnClickListener(buttonHandler);
         return designItem;
 
     }
