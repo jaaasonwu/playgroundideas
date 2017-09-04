@@ -38,9 +38,9 @@ class PlanTabPagerAdapter extends FragmentPagerAdapter {
     @Override
     public String getPageTitle(int position) {
         switch (position) {
-            case 0: return resources.getString(R.string.my_projects);
-            case 1: return resources.getString(R.string.brs_projects);
-            default: return resources.getString(R.string.my_projects);
+            case 0: return resources.getString(R.string.my_plans);
+            case 1: return resources.getString(R.string.brs_plans);
+            default: return resources.getString(R.string.my_plans);
         }
     }
 }
