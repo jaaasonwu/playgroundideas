@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".projects.CreateProjectActivity"
-            android:label="@string/New_Project">
+            android:label="@string/new_project">
         </activity>
     </application>
 
