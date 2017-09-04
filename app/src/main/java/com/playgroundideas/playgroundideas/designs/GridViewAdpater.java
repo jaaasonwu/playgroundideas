@@ -1,4 +1,4 @@
-package com.playgroundideas.playgroundideas;
+package com.playgroundideas.playgroundideas.designs;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.playgroundideas.playgroundideas.R;
 
 import java.util.ArrayList;
 

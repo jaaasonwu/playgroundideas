@@ -13,6 +13,7 @@ import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.MaterialIcons;
 import com.joanzapata.iconify.fonts.MaterialModule;
+import com.playgroundideas.playgroundideas.designs.DesignsFragment;
 import com.playgroundideas.playgroundideas.manuals.ManualsFragment;
 import com.playgroundideas.playgroundideas.plans.PlansFragment;
 
@@ -115,8 +116,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void respond() {
-        mViewPager.setAdapter(mAdapters.get(0));
-        mViewPager.setCurrentItem(1);
-    }
 }
