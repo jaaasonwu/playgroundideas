@@ -1,19 +1,28 @@
 package com.playgroundideas.playgroundideas;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.GridView;
+import android.widget.TextView;
 
-public class DesignsFragment_Fav extends Fragment implements View.OnClickListener{
+import static com.playgroundideas.playgroundideas.PagerAdapter.LEFT;
+import static com.playgroundideas.playgroundideas.PagerAdapter.RIGHT;
+
+public class DesignsFragment extends Fragment implements View.OnClickListener{
+    GridView myGrid;
     int position;
     Button button;
-    Communicator comm;
-
-    public DesignsFragment_Fav() {
+    MainActivity comm;
+    // manager;
+    public DesignsFragment () {
 
     }
 
@@ -27,13 +36,15 @@ public class DesignsFragment_Fav extends Fragment implements View.OnClickListene
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_fav_designs, container, false);
-        /*TextView text = rootView.findViewById(R.id.message);
-
+       // manager = getActivity().getSupportFragmentManager();
         if (position == LEFT) {
-            text.setText(R.string.fav_designs);
+           // FragmentTransaction transaction = manager.beginTransaction();
+            rootView = inflater.inflate(R.layout.fragment_fav_designs, container, false);
         } else if (position == RIGHT) {
-            text.setText(R.string.brs_designs);
-        }*/
+            rootView = inflater.inflate(R.layout.fragment_br_designs, container, false);
+            myGrid = (GridView) rootView.findViewById(R.id.myGrid);
+            myGrid.setAdapter(new GridViewAdapter(getActivity()));
+        }
         return rootView;
     }
 
@@ -42,7 +53,7 @@ public class DesignsFragment_Fav extends Fragment implements View.OnClickListene
         super.onActivityCreated(savedInstanceState);
         this.button = (Button) getActivity().findViewById(R.id.dbutton);
         button.setOnClickListener(this);
-        comm = (Communicator) getActivity();
+        comm = (MainActivity) getActivity();
 
     }
 

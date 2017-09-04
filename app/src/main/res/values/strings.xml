@@ -28,4 +28,7 @@
     </string-array>
     <string name="add_button">+ Add to Favourites</string>
     <string name="title_activity_design_item_details">DesignItemDetailsActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements Communicator{
+public class MainActivity extends AppCompatActivity {
 
     private TabLayout mTabLayout;
     private LayoutInflater mInflater;
@@ -140,7 +140,6 @@ public class MainActivity extends AppCompatActivity implements Communicator{
         });
     }
 
-    @Override
     public void respond() {
         mViewPager.setAdapter(mAdapters.get(0));
         mViewPager.setCurrentItem(1);
