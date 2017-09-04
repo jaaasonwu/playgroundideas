@@ -2,12 +2,15 @@ package com.playgroundideas.playgroundideas;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -15,6 +18,7 @@ import java.util.ArrayList;
  * Created by Peter Chen on 2017/8/29.
  */
 class GridViewAdapter extends BaseAdapter {
+
     class DesignItem{
         String description;
         int image;
@@ -28,10 +32,12 @@ class GridViewAdapter extends BaseAdapter {
     class View_Holder {
         TextView desc;
         ImageView image;
+        Button addButton;
 
         View_Holder(View v){
             this.desc = (TextView) v.findViewById(R.id.textView);
             this.image = (ImageView) v.findViewById(R.id.imageView);
+            this.addButton = (Button) v.findViewById(R.id.addButton);
         }
     }
     ArrayList<DesignItem> list;
@@ -63,6 +69,31 @@ class GridViewAdapter extends BaseAdapter {
         return i;
     }
 
+    class AddButtonHandler implements View.OnClickListener {
+        int item_seq;
+
+        public AddButtonHandler(int i) {
+            this.item_seq = i;
+        }
+
+        @Override
+        public void onClick(View view) {
+            String text_item_num;
+            int sequence = this.item_seq + 1;
+            int residual = (sequence) % 10;
+            if( residual == 1)
+                text_item_num = sequence + " st";
+            else if(residual == 2)
+                text_item_num = sequence + " nd";
+            else if(residual == 3)
+                text_item_num = sequence + " rd";
+            else
+                text_item_num = sequence + " th";
+            Toast toast = Toast.makeText(context, "The " + text_item_num + " favorite design is added", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+    }
+
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
 
@@ -82,6 +113,7 @@ class GridViewAdapter extends BaseAdapter {
 
         holder.desc.setText(temp_item.description);
         holder.image.setImageResource(temp_item.image);
+        holder.addButton.setOnClickListener(new AddButtonHandler(i));
         return designItem;
 
     }
