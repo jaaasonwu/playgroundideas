@@ -10,21 +10,6 @@
               android:paddingTop="@dimen/activity_vertical_margin"
               tools:context="com.playgroundideas.playgroundideas.login.LoginFragment">
 
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal">
-        <!-- Login progress -->
-        <ProgressBar
-            android:id="@+id/login_progress"
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_gravity="center_vertical"
-            android:visibility="gone"/>
-    </FrameLayout>
-
 
     <ScrollView
         android:id="@+id/login_form"
@@ -57,33 +42,15 @@
 
             </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="16dp"
-                android:paddingTop="16dp">
-
-                <EditText
-                    android:id="@+id/password"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/prompt_password"
-                    android:imeActionId="@+id/login"
-                    android:imeActionLabel="@string/action_log_in"
-                    android:imeOptions="actionUnspecified"
-                    android:inputType="textPassword"
-                    android:maxLines="1"/>
-
-            </android.support.design.widget.TextInputLayout>
 
             <Button
-                android:id="@+id/email_sign_in_button"
+                android:id="@+id/email_sign_up_button"
                 style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@color/green"
-                android:text="@string/action_log_in"
+                android:text="@string/action_sign_up"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -96,12 +63,12 @@
                 android:background="@color/colorPrimary"/>
 
             <TextView
-                android:id="@+id/switch_signup"
+                android:id="@+id/switch_login"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_marginTop="16dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="24dp"
                 android:gravity="center"
-                android:text="@string/create_account_prompt"
+                android:text="@string/login_prompt"
                 android:textSize="18sp"/>
         </LinearLayout>
     </ScrollView>

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -37,6 +38,7 @@ public class LoginFragment extends Fragment {
     private UserLoginTask mAuthTask = null;
 
     // UI references.
+    private View mRootView;
     private TextView mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
@@ -56,9 +58,9 @@ public class LoginFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_login, container, false);
-        mEmailView = view.findViewById(R.id.email);
-        mPasswordView = view.findViewById(R.id.password);
+        mRootView = inflater.inflate(R.layout.fragment_login, container, false);
+        mEmailView = mRootView.findViewById(R.id.email);
+        mPasswordView = mRootView.findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -69,7 +71,7 @@ public class LoginFragment extends Fragment {
                 return false;
             }
         });
-        mLoginButton = view.findViewById(R.id.email_sign_in_button);
+        mLoginButton = mRootView.findViewById(R.id.email_sign_in_button);
         mLoginButton.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,10 +79,24 @@ public class LoginFragment extends Fragment {
             }
         });
 
-        mLoginFormView = view.findViewById(R.id.login_form);
-        mProgressView = view.findViewById(R.id.login_progress);
+        mLoginFormView = mRootView.findViewById(R.id.login_form);
+        mProgressView = mRootView.findViewById(R.id.login_progress);
+        setSwitchSignupListener();
+        getActivity().setTitle(R.string.action_log_in);
 
-        return view;
+        return mRootView;
+    }
+
+    private void setSwitchSignupListener() {
+        TextView switchSignup = mRootView.findViewById(R.id.switch_signup);
+        switchSignup.setOnClickListener(new TextView.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                Fragment signupFragment = new SignUpFragment();
+                fragmentTransaction.replace(R.id.login_container, signupFragment).commit();
+            }
+        });
     }
 
 
