@@ -69,16 +69,17 @@ class GridViewAdapter extends BaseAdapter {
         return i;
     }
 
-    class AddButtonHandler implements View.OnClickListener {
+    class ButtonHandler implements View.OnClickListener {
         int item_seq;
 
-        public AddButtonHandler(int i) {
+        public ButtonHandler(int i) {
             this.item_seq = i;
         }
 
         @Override
         public void onClick(View view) {
             String text_item_num;
+            Toast toast;
             int sequence = this.item_seq + 1;
             int residual = (sequence) % 10;
             if( residual == 1)
@@ -89,8 +90,19 @@ class GridViewAdapter extends BaseAdapter {
                 text_item_num = sequence + " rd";
             else
                 text_item_num = sequence + " th";
-            Toast toast = Toast.makeText(context, "The " + text_item_num + " favorite design is added", Toast.LENGTH_SHORT);
-            toast.show();
+
+            switch (view.getId()){
+                case R.id.imageView:
+                    toast = Toast.makeText(context, "The " + text_item_num + " design detail.", Toast.LENGTH_SHORT);
+                    toast.show();
+                    break;
+                case R.id.addButton:
+                    toast = Toast.makeText(context, "The " + text_item_num + " favorite design is added.", Toast.LENGTH_SHORT);
+                    toast.show();
+                    break;
+
+            }
+
         }
     }
 
@@ -113,7 +125,8 @@ class GridViewAdapter extends BaseAdapter {
 
         holder.desc.setText(temp_item.description);
         holder.image.setImageResource(temp_item.image);
-        holder.addButton.setOnClickListener(new AddButtonHandler(i));
+        holder.image.setOnClickListener(new ButtonHandler(i));
+        holder.addButton.setOnClickListener(new ButtonHandler(i));
         return designItem;
 
     }
