@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void respond() {
+    public void respondCreate() {
         Intent intent = new Intent();
         intent.setClass(MainActivity.this, CreateProjectActivity.class);
         startActivity(intent);

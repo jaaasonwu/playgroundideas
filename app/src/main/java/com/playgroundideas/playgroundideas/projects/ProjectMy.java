@@ -34,6 +34,6 @@ public class ProjectMy extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        mainActivity.respond();
+        mainActivity.respondCreate();
     }
 }
