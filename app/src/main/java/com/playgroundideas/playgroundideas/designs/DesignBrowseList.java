@@ -22,7 +22,6 @@ public class DesignBrowseList extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         fav_list = new ArrayList<DesignItem>();
-        Log.e("OnCreate ", "Browse List");
     }
 
     @Override
@@ -30,7 +29,6 @@ public class DesignBrowseList extends Fragment {
         super.onViewStateRestored(savedInstanceState);
         if(savedInstanceState != null && savedInstanceState.containsKey("fav_list")) {
             fav_list = savedInstanceState.getParcelableArrayList("fav_list");
-            Log.d("onViewStateRestored", "Restored size: " + fav_list.size());
         }
     }
 
