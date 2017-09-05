@@ -24,6 +24,7 @@ public class ProjectMy extends Fragment implements View.OnClickListener{
                              ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(
                 R.layout.project_my, container, false);
+        //use icon button
         mCreateBtn = (IconButton) rootView.findViewById(R.id.create_project);
         mCreateBtn.setOnClickListener(this);
         mainActivity =(MainActivity) getActivity();

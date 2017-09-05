@@ -20,6 +20,7 @@ public class CreateProjectActivity extends AppCompatActivity {
         add_list();
     }
 
+    //spinner initial function
     private void add_list() {
        sp = (Spinner) findViewById(R.id.spinner_countires);
         ArrayAdapter<String>adapter = new ArrayAdapter<String>(this,
