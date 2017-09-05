@@ -1,6 +1,5 @@
 package com.playgroundideas.playgroundideas;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -16,7 +15,6 @@ import com.joanzapata.iconify.fonts.MaterialIcons;
 import com.joanzapata.iconify.fonts.MaterialModule;
 import com.playgroundideas.playgroundideas.manuals.ManualsFragment;
 import com.playgroundideas.playgroundideas.plans.PlansFragment;
-import com.playgroundideas.playgroundideas.projects.CreateProjectActivity;
 import com.playgroundideas.playgroundideas.projects.ProjectsFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -116,12 +114,6 @@ public class MainActivity extends AppCompatActivity {
                 // Invoke the superclass to handle it.
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    public void respondCreate() {
-        Intent intent = new Intent();
-        intent.setClass(MainActivity.this, CreateProjectActivity.class);
-        startActivity(intent);
     }
 
 }

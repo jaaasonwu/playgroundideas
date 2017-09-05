@@ -15,7 +15,7 @@ public class ProjectsFragment extends Fragment {
 
 
     private ProjectsTabPagerAdapter projectsTabPagerAdapter;
-    ViewPager viewPager;
+    private ViewPager viewPager;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
