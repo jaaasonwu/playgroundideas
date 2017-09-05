@@ -3,8 +3,6 @@ package com.playgroundideas.playgroundideas.designs;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,42 +19,31 @@ import java.util.ArrayList;
 /**
  * Created by Peter Chen on 2017/8/29.
  */
-class GridViewAdapter extends BaseAdapter {
-
-    class DesignItem{
-        String description;
-        int image;
-
-        DesignItem(String desc, int image){
-            this.description = desc;
-            this.image = image;
-        }
-    }
+class GridViewAdapterFavorite extends BaseAdapter {
 
     class View_Holder {
         TextView desc;
         ImageView image;
-        Button addButton;
+        Button deleteButton;
 
         View_Holder(View v){
             this.desc = (TextView) v.findViewById(R.id.textView);
             this.image = (ImageView) v.findViewById(R.id.imageView);
-            this.addButton = (Button) v.findViewById(R.id.addButton);
+            this.deleteButton = (Button) v.findViewById(R.id.a_d_button);
         }
     }
+
     ArrayList<DesignItem> list;
     Context context;
+    ArrayList<DesignItem> fav_list;
 
-    GridViewAdapter(Context context){
+    GridViewAdapterFavorite(Context context, ArrayList<DesignItem> fav_list){
         list = new ArrayList<DesignItem>();
         this.context = context;
-        Resources resources = context.getResources();
-        String[] desc = resources.getStringArray(R.array.description);
-        int[] images = {R.drawable.sample1, R.drawable.sample1, R.drawable.sample1, R.drawable.sample1, R.drawable.sample1,
-                R.drawable.sample1, R.drawable.sample1, R.drawable.sample1};
+        this.fav_list = fav_list;
 
-        for(int i = 0; i < 8; i++){
-            list.add(new DesignItem(desc[i], images[i]));
+        for(int i = 0; i < fav_list.size(); i++){
+            list.add(new DesignItem(fav_list.get(i).description, fav_list.get(i).image));
         }
     }
 
@@ -78,7 +65,7 @@ class GridViewAdapter extends BaseAdapter {
     class ButtonHandler implements View.OnClickListener {
         int item_seq;
         DesignItem designItem;
-        public ButtonHandler(int i, DesignItem designItem)
+        public ButtonHandler(int i, DesignItem designItem, ArrayList<DesignItem> fav_list)
         {
             this.item_seq = i;
             this.designItem = designItem;
@@ -108,9 +95,10 @@ class GridViewAdapter extends BaseAdapter {
                     intent.putExtra("designDetail", this.designItem.image);
                     context.startActivity(intent);
                     break;
-                case R.id.addButton:
-                    toast = Toast.makeText(context, "The " + text_item_num + " favorite design is added.", Toast.LENGTH_SHORT);
-                    toast.show();
+                case R.id.a_d_button:
+                        toast = Toast.makeText(context, text_item_num +
+                                " favorite design was removed.", Toast.LENGTH_SHORT);
+                        toast.show();
                     break;
 
             }
@@ -127,6 +115,7 @@ class GridViewAdapter extends BaseAdapter {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             designItem = inflater.inflate(R.layout.design_item, viewGroup, false);
             holder = new View_Holder(designItem);
+            holder.deleteButton.setText("delete button");
             designItem.setTag(holder);
         }
         else{
@@ -137,13 +126,13 @@ class GridViewAdapter extends BaseAdapter {
 
         holder.desc.setText(temp_item.description);
         holder.image.setImageResource(temp_item.image);
-        ButtonHandler buttonHandler = new ButtonHandler(i, temp_item);
+        ButtonHandler buttonHandler = new ButtonHandler(i, temp_item, fav_list);
         holder.image.setOnClickListener(buttonHandler);
-        holder.addButton.setOnClickListener(buttonHandler);
+        holder.deleteButton.setOnClickListener(buttonHandler);
         return designItem;
 
     }
-}
 
+}
 
 

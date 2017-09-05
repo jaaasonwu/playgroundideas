@@ -14,17 +14,14 @@ import android.widget.GridView;
 import com.playgroundideas.playgroundideas.MainActivity;
 import com.playgroundideas.playgroundideas.R;
 
-//import static com.playgroundideas.playgroundideas.PagerAdapter.LEFT;
-//import static com.playgroundideas.playgroundideas.PagerAdapter.RIGHT;
 
 public class DesignsFragment extends Fragment {
-    GridView myGrid;
-    int position;
-    Button button;
-    MainActivity comm;
-    // manager;
+    private GridView myGrid;
+    private int position;
+    private Button button;
+
     private DesignTabPagerAdapter designTabPagerAdapter;
-    ViewPager viewPager;
+    private ViewPager viewPager;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

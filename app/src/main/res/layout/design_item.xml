@@ -12,7 +12,7 @@
         android:layout_alignParentStart="true" />
 
     <Button
-        android:id="@+id/addButton"
+        android:id="@+id/a_d_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/add_button"
@@ -24,9 +24,9 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="37dp"
-        android:layout_marginStart="44dp"
+        android:layout_marginStart="48dp"
         android:text="TextView"
-        android:layout_above="@+id/button2"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="20dp" />
 </RelativeLayout>
