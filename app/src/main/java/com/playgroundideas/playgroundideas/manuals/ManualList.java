@@ -9,14 +9,9 @@ import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 
 import com.playgroundideas.playgroundideas.R;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-/**
- * Created by Ferdinand on 2/09/2017.
- */
 
 public class ManualList extends Fragment{
 
