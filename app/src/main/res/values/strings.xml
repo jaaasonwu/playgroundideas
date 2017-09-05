@@ -20,4 +20,6 @@
 
     <string name="action_settings">Settings</string>
     <string name="download_icon">{md-file-download}</string>
+    <string name="create_icon">{md-add-circle}</string>
+
 </resources>

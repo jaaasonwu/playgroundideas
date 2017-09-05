@@ -6,8 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.app.Fragment;
 import android.widget.ImageButton;
-
-
+import com.joanzapata.iconify.widget.IconButton;
 import com.playgroundideas.playgroundideas.MainActivity;
 import com.playgroundideas.playgroundideas.R;
 
@@ -18,14 +17,14 @@ import com.playgroundideas.playgroundideas.R;
 public class ProjectMy extends Fragment implements View.OnClickListener{
 
 
-    private ImageButton mCreateBtn;
+    private IconButton mCreateBtn;
     private MainActivity mainActivity;
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(
                 R.layout.project_my, container, false);
-        mCreateBtn = (ImageButton) rootView.findViewById(R.id.create_project);
+        mCreateBtn = (IconButton) rootView.findViewById(R.id.create_project);
         mCreateBtn.setOnClickListener(this);
         mainActivity =(MainActivity) getActivity();
         return rootView;
