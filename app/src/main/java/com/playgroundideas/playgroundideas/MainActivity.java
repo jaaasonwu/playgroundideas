@@ -16,8 +16,10 @@ import com.joanzapata.iconify.fonts.MaterialModule;
 import com.playgroundideas.playgroundideas.designs.DesignsFragment;
 import com.playgroundideas.playgroundideas.manuals.ManualsFragment;
 import com.playgroundideas.playgroundideas.plans.PlansFragment;
+import com.playgroundideas.playgroundideas.projects.ProjectsFragment;
 
 public class MainActivity extends AppCompatActivity {
+
 
     BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -112,7 +114,6 @@ public class MainActivity extends AppCompatActivity {
                 // If we got here, the user's action was not recognized.
                 // Invoke the superclass to handle it.
                 return super.onOptionsItemSelected(item);
-
         }
     }
 
