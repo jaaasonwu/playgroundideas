@@ -13,10 +13,13 @@
     <string name="my_projects">My Projects</string>
     <string name="brs_projects">Browse Projects</string>
     <string name="title_activity_drawer">DrawerActivity</string>
+    <string name="new_project">New Project</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
     <string name="download_icon">{md-file-download}</string>
+    <string name="create_icon">{md-add-circle}</string>
+
 </resources>
