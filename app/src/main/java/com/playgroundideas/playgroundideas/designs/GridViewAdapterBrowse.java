@@ -33,7 +33,7 @@ class GridViewAdapterBrowse extends BaseAdapter {
         View_Holder(View v){
             this.desc = (TextView) v.findViewById(R.id.textView);
             this.image = (ImageView) v.findViewById(R.id.imageView);
-            this.addButton = (Button) v.findViewById(R.id.a_d_button);
+            this.addButton = (Button) v.findViewById(R.id.add_or_delete_button);
         }
     }
 
@@ -103,7 +103,7 @@ class GridViewAdapterBrowse extends BaseAdapter {
                     intent.putExtra("designDetail", this.designItem.image);
                     context.startActivity(intent);
                     break;
-                case R.id.a_d_button:
+                case R.id.add_or_delete_button:
                     if(fav_list.contains(this.designItem)){
                         toast = Toast.makeText(context, "Can not be added since the " + text_item_num +
                                 " favorite design was added before.", Toast.LENGTH_SHORT);

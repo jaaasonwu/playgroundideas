@@ -16,9 +16,6 @@ import com.playgroundideas.playgroundideas.R;
 
 
 public class DesignsFragment extends Fragment {
-    private GridView myGrid;
-    private int position;
-    private Button button;
 
     private DesignTabPagerAdapter designTabPagerAdapter;
     private ViewPager viewPager;

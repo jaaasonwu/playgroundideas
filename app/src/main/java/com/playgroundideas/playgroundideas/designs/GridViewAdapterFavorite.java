@@ -29,22 +29,25 @@ class GridViewAdapterFavorite extends BaseAdapter {
         View_Holder(View v){
             this.desc = (TextView) v.findViewById(R.id.textView);
             this.image = (ImageView) v.findViewById(R.id.imageView);
-            this.deleteButton = (Button) v.findViewById(R.id.a_d_button);
+            this.deleteButton = (Button) v.findViewById(R.id.add_or_delete_button);
         }
     }
 
     ArrayList<DesignItem> list;
     Context context;
-    ArrayList<DesignItem> fav_list;
 
-    GridViewAdapterFavorite(Context context, ArrayList<DesignItem> fav_list){
+    GridViewAdapterFavorite(Context context){
         list = new ArrayList<DesignItem>();
         this.context = context;
-        this.fav_list = fav_list;
+        Resources resources = context.getResources();
+        String[] desc = resources.getStringArray(R.array.description);
+        int[] images = {R.drawable.sample1, R.drawable.sample1, R.drawable.sample1, R.drawable.sample1, R.drawable.sample1,
+                R.drawable.sample1, R.drawable.sample1, R.drawable.sample1};
 
-        for(int i = 0; i < fav_list.size(); i++){
-            list.add(new DesignItem(fav_list.get(i).description, fav_list.get(i).image));
+        for(int i = 0; i < desc.length; i++){
+            list.add(new DesignItem(desc[i], images[i]));
         }
+
     }
 
     @Override
@@ -65,7 +68,7 @@ class GridViewAdapterFavorite extends BaseAdapter {
     class ButtonHandler implements View.OnClickListener {
         int item_seq;
         DesignItem designItem;
-        public ButtonHandler(int i, DesignItem designItem, ArrayList<DesignItem> fav_list)
+        public ButtonHandler(int i, DesignItem designItem)
         {
             this.item_seq = i;
             this.designItem = designItem;
@@ -95,7 +98,7 @@ class GridViewAdapterFavorite extends BaseAdapter {
                     intent.putExtra("designDetail", this.designItem.image);
                     context.startActivity(intent);
                     break;
-                case R.id.a_d_button:
+                case R.id.add_or_delete_button:
                         toast = Toast.makeText(context, text_item_num +
                                 " favorite design was removed.", Toast.LENGTH_SHORT);
                         toast.show();
@@ -126,7 +129,7 @@ class GridViewAdapterFavorite extends BaseAdapter {
 
         holder.desc.setText(temp_item.description);
         holder.image.setImageResource(temp_item.image);
-        ButtonHandler buttonHandler = new ButtonHandler(i, temp_item, fav_list);
+        ButtonHandler buttonHandler = new ButtonHandler(i, temp_item);
         holder.image.setOnClickListener(buttonHandler);
         holder.deleteButton.setOnClickListener(buttonHandler);
         return designItem;
