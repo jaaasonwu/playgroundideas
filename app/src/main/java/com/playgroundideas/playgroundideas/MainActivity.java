@@ -18,9 +18,8 @@ import com.playgroundideas.playgroundideas.manuals.ManualsFragment;
 import com.playgroundideas.playgroundideas.plans.PlansFragment;
 import com.playgroundideas.playgroundideas.projects.CreateProjectActivity;
 import com.playgroundideas.playgroundideas.projects.ProjectsFragment;
-import com.playgroundideas.playgroundideas.projects.ProjectMy.CreateBtnClickListener;
 
-public class MainActivity extends AppCompatActivity implements CreateBtnClickListener{
+public class MainActivity extends AppCompatActivity {
 
 
     BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -119,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements CreateBtnClickLis
         }
     }
 
-    public void onCreateBtnClick() {
+    public void respond() {
         Intent intent = new Intent();
         intent.setClass(MainActivity.this, CreateProjectActivity.class);
         startActivity(intent);
