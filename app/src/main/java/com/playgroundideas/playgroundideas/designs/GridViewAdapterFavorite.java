@@ -22,9 +22,9 @@ import java.util.ArrayList;
 class GridViewAdapterFavorite extends BaseAdapter {
 
     class View_Holder {
-        TextView desc;
-        ImageView image;
-        Button deleteButton;
+        private TextView desc;
+        private ImageView image;
+        private Button deleteButton;
 
         View_Holder(View v){
             this.desc = (TextView) v.findViewById(R.id.textView);
@@ -33,8 +33,8 @@ class GridViewAdapterFavorite extends BaseAdapter {
         }
     }
 
-    ArrayList<DesignItem> list;
-    Context context;
+    private ArrayList<DesignItem> list;
+    private Context context;
 
     GridViewAdapterFavorite(Context context){
         list = new ArrayList<DesignItem>();
@@ -66,32 +66,32 @@ class GridViewAdapterFavorite extends BaseAdapter {
     }
 
     class ButtonHandler implements View.OnClickListener {
-        int item_seq;
-        DesignItem designItem;
+        private int itemSeq;
+        private DesignItem designItem;
         public ButtonHandler(int i, DesignItem designItem)
         {
-            this.item_seq = i;
+            this.itemSeq = i;
             this.designItem = designItem;
         }
 
         @Override
         public void onClick(View view) {
-            String text_item_num;
+            String textItemNum;
             Toast toast;
-            int sequence = this.item_seq + 1;
+            int sequence = this.itemSeq + 1;
             int residual = (sequence) % 10;
             if( residual == 1)
-                text_item_num = sequence + " st";
+                textItemNum = sequence + " st";
             else if(residual == 2)
-                text_item_num = sequence + " nd";
+                textItemNum = sequence + " nd";
             else if(residual == 3)
-                text_item_num = sequence + " rd";
+                textItemNum = sequence + " rd";
             else
-                text_item_num = sequence + " th";
+                textItemNum = sequence + " th";
 
             switch (view.getId()){
                 case R.id.imageView:
-                    toast = Toast.makeText(context, "The " + text_item_num + " design detail.", Toast.LENGTH_SHORT);
+                    toast = Toast.makeText(context, "The " + textItemNum + " design detail.", Toast.LENGTH_SHORT);
                     toast.show();
                     Intent intent = new Intent(context, DesignDetailsActivity.class);
                     intent.putExtra("designName", this.designItem.description);
@@ -99,7 +99,7 @@ class GridViewAdapterFavorite extends BaseAdapter {
                     context.startActivity(intent);
                     break;
                 case R.id.add_or_delete_button:
-                        toast = Toast.makeText(context, text_item_num +
+                        toast = Toast.makeText(context, textItemNum +
                                 " favorite design was removed.", Toast.LENGTH_SHORT);
                         toast.show();
                     break;

@@ -26,9 +26,9 @@ import java.util.ArrayList;
 class GridViewAdapterBrowse extends BaseAdapter {
 
     class View_Holder {
-        TextView desc;
-        ImageView image;
-        Button addButton;
+        private TextView desc;
+        private ImageView image;
+        private Button addButton;
 
         View_Holder(View v){
             this.desc = (TextView) v.findViewById(R.id.textView);
@@ -39,12 +39,12 @@ class GridViewAdapterBrowse extends BaseAdapter {
 
     private ArrayList<DesignItem> list;
     private Context context;
-    private ArrayList<DesignItem> fav_list;
+    private ArrayList<DesignItem> favoriteList;
 
-    GridViewAdapterBrowse(Context context, ArrayList<DesignItem> fav_list){
+    GridViewAdapterBrowse(Context context, ArrayList<DesignItem> favoriteList){
         list = new ArrayList<DesignItem>();
         this.context = context;
-        this.fav_list = fav_list;
+        this.favoriteList = favoriteList;
         Resources resources = context.getResources();
         String[] desc = resources.getStringArray(R.array.description);
         int[] images = {R.drawable.sample1, R.drawable.sample1, R.drawable.sample1, R.drawable.sample1, R.drawable.sample1,
@@ -71,32 +71,32 @@ class GridViewAdapterBrowse extends BaseAdapter {
     }
 
     class ButtonHandler implements View.OnClickListener {
-        int item_seq;
-        DesignItem designItem;
-        public ButtonHandler(int i, DesignItem designItem, ArrayList<DesignItem> fav_list)
+        private int itemSeq;
+        private DesignItem designItem;
+        public ButtonHandler(int i, DesignItem designItem, ArrayList<DesignItem> favoriteList)
         {
-            this.item_seq = i;
+            this.itemSeq = i;
             this.designItem = designItem;
         }
 
         @Override
         public void onClick(View view) {
-            String text_item_num;
+            String textItemNum;
             Toast toast;
-            int sequence = this.item_seq + 1;
+            int sequence = this.itemSeq + 1;
             int residual = (sequence) % 10;
             if( residual == 1)
-                text_item_num = sequence + " st";
+                textItemNum = sequence + " st";
             else if(residual == 2)
-                text_item_num = sequence + " nd";
+                textItemNum = sequence + " nd";
             else if(residual == 3)
-                text_item_num = sequence + " rd";
+                textItemNum = sequence + " rd";
             else
-                text_item_num = sequence + " th";
+                textItemNum = sequence + " th";
 
             switch (view.getId()){
                 case R.id.imageView:
-                    toast = Toast.makeText(context, "The " + text_item_num + " design detail.", Toast.LENGTH_SHORT);
+                    toast = Toast.makeText(context, "The " + textItemNum + " design detail.", Toast.LENGTH_SHORT);
                     toast.show();
                     Intent intent = new Intent(context, DesignDetailsActivity.class);
                     intent.putExtra("designName", this.designItem.description);
@@ -104,14 +104,14 @@ class GridViewAdapterBrowse extends BaseAdapter {
                     context.startActivity(intent);
                     break;
                 case R.id.add_or_delete_button:
-                    if(fav_list.contains(this.designItem)){
-                        toast = Toast.makeText(context, "Can not be added since the " + text_item_num +
+                    if(favoriteList.contains(this.designItem)){
+                        toast = Toast.makeText(context, "Can not be added since the " + textItemNum +
                                 " favorite design was added before.", Toast.LENGTH_SHORT);
                         toast.show();
                     }
                     else{
-                        fav_list.add(this.designItem);
-                        toast = Toast.makeText(context, "The " + text_item_num + " favorite design is added.", Toast.LENGTH_SHORT);
+                        favoriteList.add(this.designItem);
+                        toast = Toast.makeText(context, "The " + textItemNum + " favorite design is added.", Toast.LENGTH_SHORT);
                         toast.show();
                     }
                     break;
@@ -140,7 +140,7 @@ class GridViewAdapterBrowse extends BaseAdapter {
 
         holder.desc.setText(temp_item.description);
         holder.image.setImageResource(temp_item.image);
-        ButtonHandler buttonHandler = new ButtonHandler(i, temp_item, fav_list);
+        ButtonHandler buttonHandler = new ButtonHandler(i, temp_item, favoriteList);
         holder.image.setOnClickListener(buttonHandler);
         holder.addButton.setOnClickListener(buttonHandler);
         return designItem;

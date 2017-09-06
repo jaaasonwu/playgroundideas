@@ -15,13 +15,13 @@ import java.util.ArrayList;
 
 public class DesignBrowseList extends Fragment {
 
-    private ArrayList<DesignItem> fav_list;
+    private ArrayList<DesignItem> favoriteList;
     private GridView myGrid;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        fav_list = new ArrayList<DesignItem>();
+        favoriteList = new ArrayList<DesignItem>();
     }
 
 
@@ -31,7 +31,7 @@ public class DesignBrowseList extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_design_browse_list, container, false);
         myGrid = (GridView) view.findViewById(R.id.myGrid);
-        myGrid.setAdapter(new GridViewAdapterBrowse(getActivity(), fav_list));
+        myGrid.setAdapter(new GridViewAdapterBrowse(getActivity(), favoriteList));
         return view;
     }
 
