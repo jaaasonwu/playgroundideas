@@ -1,140 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.playgroundideas.playgroundideas.projects.CreateProjectActivity">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/textView"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:text="Project Title"
-        android:textAppearance="@style/TextAppearance.AppCompat" />
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <EditText
-        style="?android:attr/textViewStyle"
-        android:id="@+id/editText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/textView"
-        android:ems="10"
-        android:inputType="text"
-        android:background="@null"
-        android:hint="Project Title"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:labelFor="@id/title_edit"
+                android:text="@string/project_title"/>
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Country"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:layout_below="@+id/editText"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="16dp" />
+            <EditText
+                android:id="@+id/title_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"/>
 
-    <Spinner
-        android:id="@+id/spinner_countires"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView2"
-        android:layout_marginTop="14dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/country"/>
 
-    <EditText
-        android:id="@+id/editText4"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/textView3"
-        android:layout_marginStart="13dp"
-        android:ems="10"
-        android:inputType="date" />
+            <Spinner
+                android:id="@+id/spinner_countires"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/editText4"
-        android:layout_alignStart="@+id/editText4"
-        android:layout_below="@+id/spinner_countires"
-        android:layout_marginTop="32dp"
-        android:text="StartDate"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/start_date"/>
 
-    <EditText
-        android:id="@+id/editText9"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/editText4"
-        android:layout_marginStart="35dp"
-        android:layout_toEndOf="@+id/textView3"
-        android:ems="10"
-        android:inputType="date" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/show_start"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/black"/>
+                <Button
+                    android:id="@+id/set_start"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/set_start"
+                    />
+            </LinearLayout>
 
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/editText9"
-        android:layout_alignStart="@+id/editText9"
-        android:layout_alignTop="@+id/textView3"
-        android:text="End Date"
-        android:textAppearance="@style/TextAppearance.AppCompat" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/end_date"/>
 
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="PayPal Email Address"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:layout_below="@+id/editText4"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="39dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/show_end"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/black"/>
+                <Button
+                    android:id="@+id/set_end"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/set_end"/>
+            </LinearLayout>
 
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/editText10"
-        android:layout_marginTop="21dp"
-        android:text="Currency"
-        android:textAppearance="@style/TextAppearance.AppCompat" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:labelFor="@id/paypal_email"
+                android:text="@string/paypal_email"/>
 
-    <Spinner
-        android:id="@+id/spinner_currenies"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/textView11" />
+            <EditText
+                android:id="@+id/paypal_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"/>
 
-    <EditText
-        android:id="@+id/editText11"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/spinner_currenies"
-        android:ems="10"
-        android:inputType="textMultiLine"
-        android:hint="Description" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/currency"/>
 
-    <EditText
-        android:id="@+id/editText10"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="17dp"
-        android:ems="10"
-        android:inputType="textEmailAddress"
-        android:hint="Email"
-        android:layout_below="@+id/textView9"
-        android:layout_alignParentStart="true" />
+            <Spinner
+                android:id="@+id/spinner_currenies"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+    </ScrollView>
 
 
-</RelativeLayout>
+</LinearLayout>
