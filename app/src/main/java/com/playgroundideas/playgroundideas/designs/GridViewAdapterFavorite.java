@@ -21,12 +21,12 @@ import java.util.ArrayList;
  */
 class GridViewAdapterFavorite extends BaseAdapter {
 
-    class View_Holder {
+    class ViewHolder {
         private TextView desc;
         private ImageView image;
         private Button deleteButton;
 
-        View_Holder(View v){
+        ViewHolder(View v){
             this.desc = (TextView) v.findViewById(R.id.textView);
             this.image = (ImageView) v.findViewById(R.id.imageView);
             this.deleteButton = (Button) v.findViewById(R.id.add_or_delete_button);
@@ -113,16 +113,16 @@ class GridViewAdapterFavorite extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
 
         View designItem = view;
-        View_Holder holder = null;
+        ViewHolder holder = null;
         if(designItem == null){
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             designItem = inflater.inflate(R.layout.design_item, viewGroup, false);
-            holder = new View_Holder(designItem);
+            holder = new ViewHolder(designItem);
             holder.deleteButton.setText("delete button");
             designItem.setTag(holder);
         }
         else{
-            holder = (View_Holder) designItem.getTag();
+            holder = (ViewHolder) designItem.getTag();
         }
 
         DesignItem temp_item = list.get(i);
