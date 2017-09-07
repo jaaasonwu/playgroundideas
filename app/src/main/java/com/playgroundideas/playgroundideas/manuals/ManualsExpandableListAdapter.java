@@ -80,7 +80,6 @@ public class ManualsExpandableListAdapter extends BaseExpandableListAdapter {
 
         }
         TextView itemText = view.findViewById(R.id.expandedListItem);
-
         itemText.setText(childText);
         return view;
     }
