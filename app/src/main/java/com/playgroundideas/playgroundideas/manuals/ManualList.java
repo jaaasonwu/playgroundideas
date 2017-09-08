@@ -1,4 +1,4 @@
-package com.playgroundideas.playgroundideas;
+package com.playgroundideas.playgroundideas.manuals;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,22 +8,17 @@ import android.view.ViewGroup;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 
+import com.playgroundideas.playgroundideas.R;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static com.playgroundideas.playgroundideas.PagerAdapter.LEFT;
-import static com.playgroundideas.playgroundideas.PagerAdapter.RIGHT;
+public class ManualList extends Fragment{
 
-public class ManualsFragment extends Fragment {
-    int position;
     private List<String> mGroupHeader;
     private HashMap<String, List<String>> mItemHeader;
     private ExpandableListView mManualsList;
     private ExpandableListAdapter mManualsListAdapter;
-    public ManualsFragment () {
-
-    }
 
     private void fillListData() {
         mGroupHeader = new ArrayList<>();
@@ -95,22 +90,16 @@ public class ManualsFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Bundle args = getArguments();
-        position = args.getInt("position");
-        View rootView = inflater.inflate(R.layout.fragment_manuals, container, false);
-//        TextView text = rootView.findViewById(R.id.message);
+    public View onCreateView(LayoutInflater inflater,
+                             ViewGroup container, Bundle savedInstanceState) {
+        View rootView = inflater.inflate(
+                R.layout.manual_list, container, false);
+
         fillListData();
+        mManualsList = rootView.findViewById(R.id.manuals_exp_list);
+        mManualsListAdapter = new ManualsExpandableListAdapter(this.getContext(), mGroupHeader, mItemHeader);
+        mManualsList.setAdapter(mManualsListAdapter);
 
-        if (position == LEFT) {
-            mManualsList = rootView.findViewById(R.id.manuals_exp_list);
-            mManualsListAdapter = new ManualsExpandableListAdapter(this.getContext(), mGroupHeader, mItemHeader);
-            mManualsList.setAdapter(mManualsListAdapter);
-//            text.setText(R.string.manuals);
-
-        } else if (position == RIGHT) {
-//            text.setText(R.string.offline_manuals);
-        }
         return rootView;
     }
 }
