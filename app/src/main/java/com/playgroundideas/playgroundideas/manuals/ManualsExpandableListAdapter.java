@@ -6,21 +6,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
+
 import com.playgroundideas.playgroundideas.R;
+
 import java.util.HashMap;
 import java.util.List;
 
 
 public class ManualsExpandableListAdapter extends BaseExpandableListAdapter {
     private Context mContext;
-    private List<String> mGroupHeader;
+    protected List<String> groupHeader;
     private HashMap<String, List<String>> mItemHeader;
+    protected HashMap<String, Boolean> mDownloadStatus;
 
-    public ManualsExpandableListAdapter(Context context, List<String> groupHeader,
-                                 HashMap<String, List<String>> itemHeader) {
+    ManualsExpandableListAdapter(Context context, List<String> groupHeader,
+                                        HashMap<String, List<String>> itemHeader,
+                                        HashMap<String, Boolean> mDownloadStatus) {
         this.mContext = context;
-        this.mGroupHeader = groupHeader;
+        this.groupHeader = groupHeader;
         this.mItemHeader = itemHeader;
+        this.mDownloadStatus = mDownloadStatus;
     }
 
     @Override
@@ -35,7 +40,7 @@ public class ManualsExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Object getGroup(int i) {
-        return mGroupHeader.get(i);
+        return groupHeader.get(i);
     }
 
     @Override
@@ -44,18 +49,24 @@ public class ManualsExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getGroupView(int i, boolean b, View view, ViewGroup viewGroup) {
+    public View getGroupView(final int i, boolean b, View view, ViewGroup viewGroup) {
         String headerText = (String) getGroup(i);
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.manuals_list_group, null);
         }
-        TextView download = view.findViewById(R.id.manual_download);
-        download.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view){
-                new ManualDownloadHelper(mContext).execute("http://192.168.1.107:3000/manuals/starter");
-            }
-        });
+
+        final TextView download = view.findViewById(R.id.manual_download);
+        if (mDownloadStatus.get(groupHeader.get(i)) == Boolean.FALSE) {
+            download.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    new ManualDownloadHelper(mContext, mDownloadStatus, download)
+                            .execute(groupHeader.get(i));
+                }
+            });
+        } else {
+            download.setVisibility(View.INVISIBLE);
+        }
         TextView headerView = view.findViewById(R.id.listTitle);
         headerView.setText(headerText);
 
@@ -63,16 +74,16 @@ public class ManualsExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
 
-
     @Override
     public int getChildrenCount(int i) {
-        return mItemHeader.get(mGroupHeader.get(i)).size();
+        return mItemHeader.get(groupHeader.get(i)).size();
     }
 
     @Override
     public Object getChild(int i, int i1) {
-        return mItemHeader.get(mGroupHeader.get(i)).get(i1);
+        return mItemHeader.get(groupHeader.get(i)).get(i1);
     }
+
     @Override
     public long getChildId(int i, int i1) {
         return i1;
