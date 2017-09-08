@@ -1,23 +1,27 @@
 package com.playgroundideas.playgroundideas.projects;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.playgroundideas.playgroundideas.R;
 import java.util.List;
+import android.media.Image;
+
 
 
 public class ProjectsListAdapter extends BaseAdapter {
 
 
-    private List<String> mProject;
+    private List<ProjectItem> mProject;
     private Context mContext;
 
 
-    public ProjectsListAdapter(Context context, List<String> data) {
+    public ProjectsListAdapter(Context context, List<ProjectItem> data) {
         mContext = context;
         mProject = data;
     }
@@ -49,9 +53,12 @@ public class ProjectsListAdapter extends BaseAdapter {
             rootView = converView;
         }
 
-        String item = mProject.get(position);
+        String ProjectTitle = mProject.get(position).getProjectTtile();
+        Bitmap ProjectImage = mProject.get(position).getImage();
         TextView titleTextView = (TextView) rootView.findViewById(R.id.project_title);
-        titleTextView.setText(item);
+        titleTextView.setText(ProjectTitle);
+        ImageView imageProjectView = (ImageView) rootView.findViewById(R.id.project_image);
+        imageProjectView.setImageBitmap(ProjectImage);
 
         return rootView;
     }

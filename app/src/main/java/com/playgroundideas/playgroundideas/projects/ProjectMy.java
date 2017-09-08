@@ -1,6 +1,8 @@
 package com.playgroundideas.playgroundideas.projects;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,7 @@ import com.playgroundideas.playgroundideas.MainActivity;
 import com.playgroundideas.playgroundideas.R;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -24,12 +27,17 @@ public class ProjectMy extends Fragment {
 
     private ListView mProjectSampleList;
     private ProjectsListAdapter mProjectListAdapter;
-    private List<String> mProject;
+    private List<ProjectItem> mProject;
     private static final int PROJECT_COUNTER = 10;
+    private Bitmap mProjectImage;
+    private Calendar mCalendar = Calendar.getInstance();
     private void initial_list() {
+        mProjectImage = BitmapFactory.decodeResource(getResources(),R.drawable.image_project);
         mProject = new ArrayList<>();
+        ProjectItem newProject;
         for(int i = 0; i< PROJECT_COUNTER; i++) {
-            mProject.add("MyProject " + (i+1));
+            newProject = new ProjectItem("Project" + " " + i,mProjectImage);
+            mProject.add(newProject);
         }
     }
     private IconButton mCreateBtn;
