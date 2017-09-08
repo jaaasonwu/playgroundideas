@@ -56,4 +56,13 @@
         completions."
     </string>
     <string name="back_button">Back</string>
+
+    <string name="project_title">Project Title</string>
+    <string name="country">Country</string>
+    <string name="start_date">Start Date</string>
+    <string name="set_start">Set Start</string>
+    <string name="end_date">End Date</string>
+    <string name="set_end">Set End</string>
+    <string name="paypal_email">Paypal Email Address</string>
+    <string name="currency">Currency</string>
 </resources>
