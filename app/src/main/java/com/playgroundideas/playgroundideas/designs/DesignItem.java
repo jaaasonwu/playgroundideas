@@ -7,8 +7,23 @@ import android.os.Parcelable;
  * Created by Peter Chen on 2017/9/5.
  */
 class DesignItem implements Parcelable {
-    protected String description;
-    protected int image;
+    private String description;
+    private int image;
+
+    protected  void setDescription(String description){
+        this.description = description;
+    }
+
+    protected void setImage(int image){
+        this.image = image;
+    }
+    protected String getDescription(){
+        return new String(this.description);
+    }
+
+    protected int getImage(){
+        return this.image;
+    }
 
     DesignItem(String desc, int image){
         this.description = desc;

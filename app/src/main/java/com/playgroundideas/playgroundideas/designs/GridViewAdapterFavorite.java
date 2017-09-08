@@ -94,8 +94,8 @@ class GridViewAdapterFavorite extends BaseAdapter {
                     toast = Toast.makeText(context, "The " + textItemNum + " design detail.", Toast.LENGTH_SHORT);
                     toast.show();
                     Intent intent = new Intent(context, DesignDetailsActivity.class);
-                    intent.putExtra("designName", this.designItem.description);
-                    intent.putExtra("designDetail", this.designItem.image);
+                    intent.putExtra("designName", this.designItem.getDescription());
+                    intent.putExtra("designDetail", this.designItem.getImage());
                     context.startActivity(intent);
                     break;
                 case R.id.add_or_delete_button:
@@ -127,8 +127,8 @@ class GridViewAdapterFavorite extends BaseAdapter {
 
         DesignItem temp_item = list.get(i);
 
-        holder.desc.setText(temp_item.description);
-        holder.image.setImageResource(temp_item.image);
+        holder.desc.setText(temp_item.getDescription());
+        holder.image.setImageResource(temp_item.getImage());
         ButtonHandler buttonHandler = new ButtonHandler(i, temp_item);
         holder.image.setOnClickListener(buttonHandler);
         holder.deleteButton.setOnClickListener(buttonHandler);
