@@ -1,22 +1,19 @@
 package com.playgroundideas.playgroundideas.designs;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.GridView;
-import android.widget.ImageView;
 
+import com.joanzapata.iconify.IconDrawable;
+import com.joanzapata.iconify.Iconify;
+import com.joanzapata.iconify.fonts.MaterialIcons;
+import com.joanzapata.iconify.fonts.MaterialModule;
 import com.playgroundideas.playgroundideas.R;
-
-import java.util.ArrayList;
 
 
 public class DesignFavoriteList extends Fragment {
@@ -30,7 +27,7 @@ public class DesignFavoriteList extends Fragment {
                              Bundle savedInstanceState) {
         View view;
         view = inflater.inflate(R.layout.fragment_design_favorite_list, container, false);
-        myFavoriteGrid = (GridView) view.findViewById(R.id.my_favorite_grid);
+        myFavoriteGrid = view.findViewById(R.id.my_favorite_grid);
         myFavoriteGrid.setAdapter(new GridViewAdapterFavorite(getActivity()));
         return view;
 
@@ -39,7 +36,8 @@ public class DesignFavoriteList extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        this.designsAddFab = (FloatingActionButton) getActivity().findViewById(R.id.add_designs_fab);
+        Iconify.with(new MaterialModule());
+        this.designsAddFab = getActivity().findViewById(R.id.add_designs_fab);
         designsAddFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -47,6 +45,8 @@ public class DesignFavoriteList extends Fragment {
                 designsFragment.respond();
             }
         });
+        designsAddFab.setImageDrawable(new IconDrawable(getContext(), MaterialIcons.md_shopping_cart)
+                .colorRes(R.color.white).actionBarSize());
 
     }
 }
