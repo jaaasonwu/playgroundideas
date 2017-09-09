@@ -1,13 +1,18 @@
 package com.playgroundideas.playgroundideas.manuals;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.FileProvider;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.playgroundideas.playgroundideas.BuildConfig;
 import com.playgroundideas.playgroundideas.R;
 
 import java.io.File;
@@ -54,7 +59,9 @@ public class ManualsOfflineLIstAdapter extends ArrayAdapter<String> {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.titleText.setText(mDownloaded.get(position));
+        String title = mDownloaded.get(position);
+        holder.titleText.setText(title);
+        holder.titleText.setOnClickListener(new onOpenManualClick(title, mContext));
         holder.deleteButton.setOnClickListener(new onDeleteButtonClick(this, position));
         return convertView;
     }
@@ -81,6 +88,33 @@ public class ManualsOfflineLIstAdapter extends ArrayAdapter<String> {
             }
         }
     }
+
+    private class onOpenManualClick implements View.OnClickListener {
+        private String mFilename;
+        private Context mContext;
+        public onOpenManualClick(String filename, Context context) {
+            mFilename = filename;
+            mContext = context;
+        }
+
+        @Override
+        public void onClick(View view) {
+            File folder = new File(String.valueOf(mContext.getExternalFilesDir(null)));
+            File manual = new File(folder.getAbsolutePath() + "/" + mFilename + ".pdf");
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                Uri uri = FileProvider.getUriForFile(mContext, BuildConfig.APPLICATION_ID + ".fileProvider", manual);
+                intent.setDataAndType(uri, "application/pdf");
+            } else {
+                intent.setDataAndType(Uri.fromFile(manual), "application/pdf");
+                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            }
+            mContext.startActivity(intent);
+        }
+    }
+
 
     private class ViewHolder {
         private TextView titleText;
