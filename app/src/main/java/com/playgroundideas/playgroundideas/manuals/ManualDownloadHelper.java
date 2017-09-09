@@ -21,7 +21,7 @@ public class ManualDownloadHelper extends AsyncTask<String, String, String> {
     private HashMap<String, Boolean> mDownloadStatus;
     private TextView mDownload;
     private int mLength;
-    private final String URL_BASE = "http://192.168.1.107:3000/manuals";
+    private final String URL_BASE = "http://swen90014v-2017plp.cis.unimelb.edu.au:3000/manuals";
 
     public ManualDownloadHelper(Context context, HashMap<String, Boolean> downloadStatus, TextView download) {
         mContext = context;
