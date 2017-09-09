@@ -15,7 +15,6 @@
             android:layout_margin="@dimen/fab_margin"
             android:backgroundTint="@color/colorPrimary"
             app:fabSize="normal"
-            app:srcCompat="@drawable/ic_add_shopping_cart_black_24dp"
             android:id="@+id/add_designs_fab"/>
 
         <GridView
