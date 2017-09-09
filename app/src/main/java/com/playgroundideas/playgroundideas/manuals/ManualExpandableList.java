@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 
 import com.playgroundideas.playgroundideas.R;
@@ -19,7 +18,7 @@ import java.util.List;
 public class ManualExpandableList extends Fragment {
 
     private ExpandableListView mManualsList;
-    private ExpandableListAdapter mManualsListAdapter;
+    private ManualsExpandableListAdapter mManualsListAdapter;
     private ArrayList<String> mGroupHeader;
     private HashMap<String, Boolean> mDownloadStatus;
     private HashMap<String, List<String>> mItemHeader;
@@ -52,5 +51,13 @@ public class ManualExpandableList extends Fragment {
         mManualsList.setAdapter(mManualsListAdapter);
 
         return rootView;
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && mManualsListAdapter != null) {
+            mManualsListAdapter.notifyDataSetChanged();
+        }
     }
 }

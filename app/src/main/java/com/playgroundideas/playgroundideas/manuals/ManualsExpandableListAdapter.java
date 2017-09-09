@@ -15,15 +15,15 @@ import java.util.List;
 
 public class ManualsExpandableListAdapter extends BaseExpandableListAdapter {
     private Context mContext;
-    protected List<String> groupHeader;
+    private List<String> mGroupHeader;
     private HashMap<String, List<String>> mItemHeader;
-    protected HashMap<String, Boolean> mDownloadStatus;
+    private HashMap<String, Boolean> mDownloadStatus;
 
     ManualsExpandableListAdapter(Context context, List<String> groupHeader,
                                         HashMap<String, List<String>> itemHeader,
                                         HashMap<String, Boolean> mDownloadStatus) {
         this.mContext = context;
-        this.groupHeader = groupHeader;
+        this.mGroupHeader = groupHeader;
         this.mItemHeader = itemHeader;
         this.mDownloadStatus = mDownloadStatus;
     }
@@ -40,7 +40,7 @@ public class ManualsExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Object getGroup(int i) {
-        return groupHeader.get(i);
+        return mGroupHeader.get(i);
     }
 
     @Override
@@ -57,13 +57,14 @@ public class ManualsExpandableListAdapter extends BaseExpandableListAdapter {
         }
 
         final TextView download = view.findViewById(R.id.manual_download);
-        if (mDownloadStatus.get(groupHeader.get(i)) == Boolean.FALSE) {
+        if (mDownloadStatus.get(mGroupHeader.get(i)) == Boolean.FALSE) {
             download.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
                     new ManualDownloadHelper(mContext, mDownloadStatus, download)
-                            .execute(groupHeader.get(i));
+                            .execute(mGroupHeader.get(i));
                 }
             });
+            download.setVisibility(View.VISIBLE);
         } else {
             download.setVisibility(View.INVISIBLE);
         }
@@ -76,12 +77,12 @@ public class ManualsExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int i) {
-        return mItemHeader.get(groupHeader.get(i)).size();
+        return mItemHeader.get(mGroupHeader.get(i)).size();
     }
 
     @Override
     public Object getChild(int i, int i1) {
-        return mItemHeader.get(groupHeader.get(i)).get(i1);
+        return mItemHeader.get(mGroupHeader.get(i)).get(i1);
     }
 
     @Override

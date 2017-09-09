@@ -16,9 +16,9 @@ import java.util.List;
 class ManualTabPagerAdapter extends FragmentPagerAdapter {
 
     private Resources resources;
-    protected ArrayList<String> groupHeader;
-    protected HashMap<String, Boolean> downloadStatus;
-    protected HashMap<String, List<String>> itemHeader;
+    private ArrayList<String> mGroupHeader;
+    private HashMap<String, Boolean> mDownloadStatus;
+    private HashMap<String, List<String>> mItemHeader;
 
     ManualTabPagerAdapter (FragmentManager fm, Context context) {
         super(fm);
@@ -31,14 +31,19 @@ class ManualTabPagerAdapter extends FragmentPagerAdapter {
         switch(i) {
             case 0:
                 Bundle args = new Bundle();
-                args.putStringArrayList("groupHeader", groupHeader);
-                args.putSerializable("downloadStatus", downloadStatus);
-                args.putSerializable("itemHeader", itemHeader);
+                args.putStringArrayList("groupHeader", mGroupHeader);
+                args.putSerializable("downloadStatus", mDownloadStatus);
+                args.putSerializable("itemHeader", mItemHeader);
                 ManualExpandableList manualExpandableList = new ManualExpandableList();
                 manualExpandableList.setArguments(args);
                 return manualExpandableList;
             case 1:
-                return null;
+                args = new Bundle();
+                args.putStringArrayList("groupHeader", mGroupHeader);
+                args.putSerializable("downloadStatus", mDownloadStatus);
+                ManualsOfflineList manualsOfflineList = new ManualsOfflineList();
+                manualsOfflineList.setArguments(args);
+                return manualsOfflineList;
             default:
                 return null;
         }
@@ -59,19 +64,19 @@ class ManualTabPagerAdapter extends FragmentPagerAdapter {
     }
 
     private void fillListData() {
-        groupHeader = new ArrayList<>();
-        itemHeader = new HashMap<>();
-        downloadStatus = new HashMap<>();
+        mGroupHeader = new ArrayList<>();
+        mItemHeader = new HashMap<>();
+        mDownloadStatus = new HashMap<>();
         List<String> starter = new ArrayList<>();
 
-        groupHeader.add("Playground Starter");
-        groupHeader.add("Builder's Handbook");
-        groupHeader.add("Safety Handbook");
-        groupHeader.add("Loose Parts Manual");
-        groupHeader.add("Inclusive Design Manual");
-        groupHeader.add("Cut & Paste");
-        groupHeader.add("Teacher Training");
-        groupHeader.add("Case for Play");
+        mGroupHeader.add("Playground Starter");
+        mGroupHeader.add("Builder's Handbook");
+        mGroupHeader.add("Safety Handbook");
+        mGroupHeader.add("Loose Parts Manual");
+        mGroupHeader.add("Inclusive Design Manual");
+        mGroupHeader.add("Cut & Paste");
+        mGroupHeader.add("Teacher Training");
+        mGroupHeader.add("Case for Play");
 
         List<String> dumbChildList = new ArrayList<>();
         dumbChildList.add("Welcome");
@@ -80,9 +85,9 @@ class ManualTabPagerAdapter extends FragmentPagerAdapter {
         dumbChildList.add("Elements");
         dumbChildList.add("Join Us!");
 
-        for (String s : groupHeader) {
-            itemHeader.put(s, dumbChildList);
-            downloadStatus.put(s, Boolean.FALSE);
+        for (String s : mGroupHeader) {
+            mItemHeader.put(s, dumbChildList);
+            mDownloadStatus.put(s, Boolean.FALSE);
         }
     }
 }
