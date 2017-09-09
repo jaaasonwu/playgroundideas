@@ -1,5 +1,6 @@
 package com.playgroundideas.playgroundideas.designs;
 
+import android.app.Application;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,16 +15,19 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 
+import com.joanzapata.iconify.Iconify;
+import com.joanzapata.iconify.fonts.MaterialModule;
 import com.playgroundideas.playgroundideas.R;
 
 import java.util.ArrayList;
 
 
-public class DesignFavoriteList extends Fragment {
+public class DesignFavoriteList extends Fragment{
 
     private DesignsFragment designsFragment;
     private FloatingActionButton designsAddFab;
     private GridView myFavoriteGrid;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
