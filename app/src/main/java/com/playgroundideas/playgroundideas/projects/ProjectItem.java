@@ -1,27 +1,23 @@
 package com.playgroundideas.playgroundideas.projects;
 
-import android.graphics.Bitmap;
-import android.media.Image;
 
 import java.util.Date;
 
-/**
- * Created by TongNiu on 8/9/17.
- */
+
 
 public class ProjectItem {
+
     private String mProjectTtile;
-    /*private Date mStartDate;
+    private Date mStartDate;
     private Date mEndDate;
     private String mEmailAddress;
     private String mCountry;
     private String mCurrency;
-    private String mProjectDescription;*/
+    private String mProjectDescription;
+    private String mImageUrl;
 
-    private Bitmap mImage;
-
-    /*public ProjectItem(String projectTtile,Date startDate, Date endDate, String emailAddress,
-                       String country, String currency, String projectDescription, Bitmap image) {
+    public ProjectItem(String projectTtile,Date startDate, Date endDate, String emailAddress,
+                       String country, String currency, String projectDescription, String mImageUrl) {
 
         this.mProjectTtile = projectTtile;
         this.mStartDate = startDate;
@@ -30,19 +26,15 @@ public class ProjectItem {
         this.mCurrency = currency;
         this.mEmailAddress = emailAddress;
         this.mProjectDescription = projectDescription;
-        this.mImage = image;
-    }*/
-
-    public ProjectItem(String projectTtile,Bitmap image) {
-        this.mProjectTtile = projectTtile;
-        this.mImage = image;
+        this.mImageUrl = mImageUrl;
     }
+
 
     public String getProjectTtile() {
         return mProjectTtile;
     }
 
-   /* public String getCountry() {
+    public String getCountry() {
         return mCountry;
     }
 
@@ -64,9 +56,9 @@ public class ProjectItem {
 
     public Date getEndDate() {
         return mEndDate;
-    }*/
+    }
 
-    public Bitmap getImage() {
-        return mImage;
+   public String getImageUrl() {
+        return mImageUrl;
     }
 }

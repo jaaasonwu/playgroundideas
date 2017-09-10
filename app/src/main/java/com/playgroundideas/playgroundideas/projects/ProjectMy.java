@@ -1,8 +1,7 @@
 package com.playgroundideas.playgroundideas.projects;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,16 +11,13 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.joanzapata.iconify.widget.IconButton;
-import com.playgroundideas.playgroundideas.MainActivity;
 import com.playgroundideas.playgroundideas.R;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
-/**
- * Created by TongNiu on 4/9/17.
- */
 
 public class ProjectMy extends Fragment {
 
@@ -29,18 +25,8 @@ public class ProjectMy extends Fragment {
     private ProjectsListAdapter mProjectListAdapter;
     private List<ProjectItem> mProject;
     private static final int PROJECT_COUNTER = 10;
-    private Bitmap mProjectImage;
-    private Calendar mCalendar = Calendar.getInstance();
-    private void initial_list() {
-        mProjectImage = BitmapFactory.decodeResource(getResources(),R.drawable.image_project);
-        mProject = new ArrayList<>();
-        ProjectItem newProject;
-        for(int i = 0; i< PROJECT_COUNTER; i++) {
-            newProject = new ProjectItem("Project" + " " + i,mProjectImage);
-            mProject.add(newProject);
-        }
-    }
     private IconButton mCreateBtn;
+
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -75,8 +61,25 @@ public class ProjectMy extends Fragment {
 
     public void checkProjectDetail() {
         Intent intent = new Intent();
-        intent.setClass(getContext(), CreateProjectActivity.class);
+        intent.setClass(getContext(), DetailProjectActivity.class);
         startActivity(intent);
     }
 
+    private void initial_list() {
+        Calendar mCalendar = Calendar.getInstance();
+        mProject = new ArrayList<>();
+        Date sampleDate = mCalendar.getTime();
+        String sampleTitle = "My Project";
+        String sampleEmailAddress = "playpus@gmail.com";
+        String sampleCountry = "Australia";
+        String sampleCurrency = "AUD";
+        String sampleDescription = "It is my first project";
+        String sampleImageUrl = "https://playgroundideas.org/wp-content/uploads/2017/02/IMGP0204-1024x768.jpg";
+        ProjectItem newProject;
+        for(int i = 0; i< PROJECT_COUNTER; i++) {
+            newProject = new ProjectItem(sampleTitle+ " " + i,sampleDate,sampleDate,sampleEmailAddress
+                    ,sampleCountry,sampleCurrency,sampleDescription,sampleImageUrl);
+            mProject.add(newProject);
+        }
+    }
 }
