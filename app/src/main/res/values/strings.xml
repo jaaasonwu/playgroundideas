@@ -24,7 +24,7 @@
         <item>Scorpion</item>
         <item>Tire Sphere</item>
     </string-array>
-    <string name="add_button">+ Add to Favourites</string>
+    <string name="add_button"> + Add to Favourites</string>
     <string name="title_activity_design_item_details">DesignItemDetailsActivity</string>
 
     <!-- TODO: Remove or change this placeholder text -->
