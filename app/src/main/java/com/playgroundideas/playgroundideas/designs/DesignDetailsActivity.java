@@ -21,13 +21,27 @@ public class DesignDetailsActivity extends AppCompatActivity {
         textView.setText(getIntent().getExtras().getString("designName"));
         ImageView imageView = (ImageView) findViewById(R.id.imageDetails);
         imageView.setImageResource(getIntent().getExtras().getInt("designDetail"));
-        Button button = (Button) findViewById(R.id.back_button);
+        Button button = (Button) findViewById(R.id.back_button_favorite_list);
+        Button button1 = (Button) findViewById(R.id.back_button_browse_list);
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent();
                 intent.setClassName("com.playgroundideas.playgroundideas",
                         "com.playgroundideas.playgroundideas.MainActivity");
+                intent.putExtra("tabNum", 0);
+                startActivity(intent);
+            }
+        });
+
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setClassName("com.playgroundideas.playgroundideas",
+                        "com.playgroundideas.playgroundideas.MainActivity");
+                intent.putExtra("tabNum", 1);
                 startActivity(intent);
             }
         });

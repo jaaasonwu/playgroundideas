@@ -118,7 +118,7 @@ class GridViewAdapterFavorite extends BaseAdapter {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             designItem = inflater.inflate(R.layout.design_item, viewGroup, false);
             holder = new ViewHolder(designItem);
-            holder.deleteButton.setText("   Delete");
+            holder.deleteButton.setText("Delete");
             designItem.setTag(holder);
         }
         else{

@@ -1,5 +1,6 @@
 package com.playgroundideas.playgroundideas.designs;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -28,10 +29,12 @@ public class DesignFavoriteList extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view;
-        view = inflater.inflate(R.layout.fragment_design_favorite_list, container, false);
-        myFavoriteGrid = view.findViewById(R.id.my_favorite_grid);
-        myFavoriteGrid.setAdapter(new GridViewAdapterFavorite(getActivity()));
-        return view;
+
+            view = inflater.inflate(R.layout.fragment_design_favorite_list, container, false);
+            myFavoriteGrid = view.findViewById(R.id.my_favorite_grid);
+            myFavoriteGrid.setAdapter(new GridViewAdapterFavorite(getActivity()));
+            return view;
+
 
     }
 
@@ -47,8 +50,7 @@ public class DesignFavoriteList extends Fragment {
                 designsFragment.respond();
             }
         });
-        designsAddFab.setImageDrawable(new IconDrawable(getContext(), MaterialIcons.md_shopping_cart)
+        designsAddFab.setImageDrawable(new IconDrawable(getContext(), MaterialIcons.md_add)
                 .colorRes(R.color.white).actionBarSize());
-
     }
 }

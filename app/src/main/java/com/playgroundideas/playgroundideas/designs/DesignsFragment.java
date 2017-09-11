@@ -1,5 +1,6 @@
 package com.playgroundideas.playgroundideas.designs;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -34,6 +35,7 @@ public class DesignsFragment extends Fragment {
 
         TabLayout tabLayout = rootView.findViewById(R.id.design_tabs);
         tabLayout.setupWithViewPager(viewPager);
+        goToOneFragmentFromDesignsDetailsActivity(viewPager);
         return rootView;
     }
 
@@ -41,4 +43,13 @@ public class DesignsFragment extends Fragment {
         viewPager.setAdapter(designTabPagerAdapter);
         viewPager.setCurrentItem(1);
     }
+
+    private void goToOneFragmentFromDesignsDetailsActivity(ViewPager viewPager){
+        if(getActivity().getIntent().hasExtra("tabNum") && getActivity().getIntent().getIntExtra("tabNum", 0) == 1){
+            viewPager.setCurrentItem(1);
+            getActivity().getIntent().removeExtra("tabNum");
+        }
+    }
+
+
 }
