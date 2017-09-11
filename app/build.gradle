@@ -36,5 +36,12 @@ dependencies {
     compile 'com.android.support:support-v4:26.0.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.joanzapata.iconify:android-iconify-material:2.2.2'
+    compile 'android.arch.lifecycle:runtime:1.0.0-alpha9'
+    compile 'android.arch.lifecycle:extensions:1.0.0-alpha9'
+    annotationProcessor "android.arch.lifecycle:compiler:1.0.0-alpha9"
+    compile "android.arch.persistence.room:runtime:1.0.0-alpha9"
+    annotationProcessor "android.arch.persistence.room:compiler:1.0.0-alpha9"
     testCompile 'junit:junit:4.12'
+    compile 'javax.inject:javax.inject:1'
+    compile 'com.squareup.retrofit2:retrofit:2.3.0'
 }
