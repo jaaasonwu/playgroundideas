@@ -33,6 +33,7 @@
 
     <string name="action_settings">Settings</string>
     <string name="download_icon">{md-file-download}</string>
+    <string name="delete_icon">{md-delete}</string>
     <string name="create_icon">{md-add-circle}</string>
     <!-- Strings related to login -->
     <string name="title_activity_login">Sign In</string>
