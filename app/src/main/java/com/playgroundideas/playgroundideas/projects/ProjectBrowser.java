@@ -55,7 +55,7 @@ public class ProjectBrowser extends Fragment {
         String sampleCurrency = "AUD";
         String sampleDescription = "It is my first project";
         String sampleTitle = "My Project";
-        String sampleImageUrl = "https://playgroundideas.org/wp-content/uploads/2017/02/IMGP0204-1024x768.jpg";
+        String sampleImageUrl = "https://playgroundideas.org/wp-content/uploads/2016/09/DSC_2414-1024x685.jpg";
         ProjectItem newProject;
         for(int i = 0; i< PROJECT_COUNTER; i++) {
             newProject = new ProjectItem(sampleTitle+ " " + i,sampleDate,sampleDate,sampleEmailAddress
