@@ -4,7 +4,7 @@ import android.arch.lifecycle.LiveData;
 
 import com.playgroundideas.playgroundideas.datasource.local.ManualDao;
 import com.playgroundideas.playgroundideas.datasource.remote.ManualWebservice;
-import com.playgroundideas.playgroundideas.domain.Manual;
+import com.playgroundideas.playgroundideas.model.Manual;
 
 import java.util.concurrent.Executor;
 

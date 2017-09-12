@@ -1,4 +1,4 @@
-package com.playgroundideas.playgroundideas.domain;
+package com.playgroundideas.playgroundideas.model;
 
 import android.arch.persistence.room.Entity;
 
