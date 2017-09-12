@@ -59,4 +59,5 @@
     <string name="set_end">Set End</string>
     <string name="paypal_email">Paypal Email Address</string>
     <string name="currency">Currency</string>
+    <string name="description">Description"</string>
 </resources>

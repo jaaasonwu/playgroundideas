@@ -24,9 +24,6 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".projects.CreateProjectActivity"
-            android:label="@string/new_project">
-        </activity>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -38,5 +35,9 @@
                 android:resource="@xml/file_paths" />
         </provider>
         <activity android:name=".designs.DesignDetailsActivity"></activity>
+        <activity
+            android:name=".projects.CreateProjectActivity"
+            android:label="@string/new_project"></activity>
+        <activity android:name=".projects.DetailProjectActivity"></activity>
     </application>
 </manifest>

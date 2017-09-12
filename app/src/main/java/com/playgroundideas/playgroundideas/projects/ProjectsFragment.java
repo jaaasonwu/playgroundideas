@@ -10,12 +10,18 @@ import android.view.ViewGroup;
 
 import com.playgroundideas.playgroundideas.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class ProjectsFragment extends Fragment {
 
 
+
     private ProjectsTabPagerAdapter projectsTabPagerAdapter;
     private ViewPager viewPager;
+
+
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +31,7 @@ public class ProjectsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         View rootView = inflater.inflate(
                 R.layout.fragment_projects, container, false);
 
@@ -35,6 +42,7 @@ public class ProjectsFragment extends Fragment {
 
         TabLayout tabLayout = rootView.findViewById(R.id.projects_tab);
         tabLayout.setupWithViewPager(viewPager);
+
 
         return rootView;
     }
