@@ -8,7 +8,7 @@ import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
-import com.playgroundideas.playgroundideas.domain.Project;
+import com.playgroundideas.playgroundideas.model.Project;
 
 /**
  * Created by Ferdinand on 11/09/2017.

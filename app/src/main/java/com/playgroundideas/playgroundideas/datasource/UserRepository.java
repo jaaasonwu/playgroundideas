@@ -4,7 +4,7 @@ import android.arch.lifecycle.LiveData;
 
 import com.playgroundideas.playgroundideas.datasource.local.UserDao;
 import com.playgroundideas.playgroundideas.datasource.remote.UserWebservice;
-import com.playgroundideas.playgroundideas.domain.User;
+import com.playgroundideas.playgroundideas.model.User;
 
 import java.util.concurrent.Executor;
 
