@@ -1,41 +1,51 @@
-package com.playgroundideas.playgroundideas.domain;
+package com.playgroundideas.playgroundideas.model;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
-import android.icu.util.CurrencyAmount;
-import android.location.Address;
+import android.arch.persistence.room.TypeConverters;
 
+import com.playgroundideas.playgroundideas.datasource.local.Converters;
+
+import java.util.LinkedList;
 import java.util.List;
+
+import javax.money.MonetaryAmount;
 
 /**
  * Created by Ferdinand on 9/09/2017.
  */
 
-@Entity
+@Entity(indices = {@Index("creatorId")}, foreignKeys = {@ForeignKey(entity = User.class, parentColumns = "id", childColumns = "creatorId")})
 public class Project {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = false)
     private Long id;
-    private Address location;
+    private String location;
     private boolean requiresFunding;
     private boolean seekingVolunteers;
-    private List<String> picturesFileNames;
+    @Ignore
+    private List<File> pictures;
     private String description;
-    private User creator;
+    private Long creatorId;
     private int numberOfDonations;
     private int daysLeftUntilFundingEnd;
-    private CurrencyAmount fundingSum;
-    private CurrencyAmount fundingGoal;
+    @TypeConverters(Converters.class)
+    private MonetaryAmount fundingSum;
+    @TypeConverters(Converters.class)
+    private MonetaryAmount fundingGoal;
 
-    public Project(Long id, Address location, boolean requiresFunding, boolean seekingVolunteers, List<String> picturesFileNames, String description, User creator, int numberOfDonations, int daysLeftUntilFundingEnd, CurrencyAmount fundingSum, CurrencyAmount fundingGoal) {
+    public Project(Long id, String location, boolean requiresFunding, boolean seekingVolunteers, String description, Long creatorId, int numberOfDonations, int daysLeftUntilFundingEnd, MonetaryAmount fundingSum, MonetaryAmount fundingGoal) {
 
         this.id = id;
         this.location = location;
         this.requiresFunding = requiresFunding;
         this.seekingVolunteers = seekingVolunteers;
-        this.picturesFileNames = picturesFileNames;
+        this.pictures = new LinkedList<>();
         this.description = description;
-        this.creator = creator;
+        this.creatorId = creatorId;
         this.numberOfDonations = numberOfDonations;
         this.daysLeftUntilFundingEnd = daysLeftUntilFundingEnd;
         this.fundingSum = fundingSum;
@@ -50,11 +60,11 @@ public class Project {
         this.id = id;
     }
 
-    public Address getLocation() {
+    public String getLocation() {
         return location;
     }
 
-    public void setLocation(Address location) {
+    public void setLocation(String location) {
         this.location = location;
     }
 
@@ -74,12 +84,12 @@ public class Project {
         this.seekingVolunteers = seekingVolunteers;
     }
 
-    public List<String> getPicturesFileNames() {
-        return picturesFileNames;
+    public List<File> getPictures() {
+        return pictures;
     }
 
-    public void setPicturesFileNames(List<String> picturesFileNames) {
-        this.picturesFileNames = picturesFileNames;
+    public void setPictures(List<File> pictures) {
+        this.pictures = pictures;
     }
 
     public String getDescription() {
@@ -90,12 +100,12 @@ public class Project {
         this.description = description;
     }
 
-    public User getCreator() {
-        return creator;
+    public Long getCreatorId() {
+        return creatorId;
     }
 
-    public void setCreator(User creator) {
-        this.creator = creator;
+    public void setCreatorId(Long creatorId) {
+        this.creatorId = creatorId;
     }
 
     public int getNumberOfDonations() {
@@ -114,19 +124,19 @@ public class Project {
         this.daysLeftUntilFundingEnd = daysLeftUntilFundingEnd;
     }
 
-    public CurrencyAmount getFundingSum() {
+    public MonetaryAmount getFundingSum() {
         return fundingSum;
     }
 
-    public void setFundingSum(CurrencyAmount fundingSum) {
+    public void setFundingSum(MonetaryAmount fundingSum) {
         this.fundingSum = fundingSum;
     }
 
-    public CurrencyAmount getFundingGoal() {
+    public MonetaryAmount getFundingGoal() {
         return fundingGoal;
     }
 
-    public void setFundingGoal(CurrencyAmount fundingGoal) {
+    public void setFundingGoal(MonetaryAmount fundingGoal) {
         this.fundingGoal = fundingGoal;
     }
 }

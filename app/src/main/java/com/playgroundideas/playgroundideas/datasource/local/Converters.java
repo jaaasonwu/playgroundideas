@@ -2,7 +2,7 @@ package com.playgroundideas.playgroundideas.datasource.local;
 
 import android.arch.persistence.room.TypeConverter;
 
-import com.playgroundideas.playgroundideas.domain.DesignCategory;
+import com.playgroundideas.playgroundideas.model.DesignCategory;
 
 import java.util.Locale;
 

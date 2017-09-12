@@ -1,6 +1,6 @@
 package com.playgroundideas.playgroundideas.datasource.remote;
 
-import com.playgroundideas.playgroundideas.domain.Design;
+import com.playgroundideas.playgroundideas.model.Design;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
