@@ -15,9 +15,6 @@ public class ManualsFragment extends Fragment {
     ManualTabPagerAdapter manualTabPagerAdapter;
     ViewPager viewPager;
 
-    public ManualsFragment () {
-
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
