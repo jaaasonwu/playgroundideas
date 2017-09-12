@@ -12,8 +12,6 @@
     <string name="offline_manuals">Offline Manuals</string>
     <string name="my_projects">My Projects</string>
     <string name="brs_projects">Browse Projects</string>
-1    <string name="design_slogan">Explore over 150 DIY playground designs</string>
-    <string name="button_design">ADD DESIGNS</string>
     <string-array name="description">
         <item>Scoope and Shaft</item>
         <item>Mayan Pyramid</item>
@@ -25,7 +23,6 @@
         <item>Tire Sphere</item>
     </string-array>
     <string name="add_button"> + Add to Favourites</string>
-    <string name="title_activity_design_item_details">DesignItemDetailsActivity</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="title_activity_drawer">DrawerActivity</string>
