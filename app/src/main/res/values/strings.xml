@@ -12,6 +12,19 @@
     <string name="offline_manuals">Offline Manuals</string>
     <string name="my_projects">My Projects</string>
     <string name="brs_projects">Browse Projects</string>
+    <string-array name="description">
+        <item>Scoope and Shaft</item>
+        <item>Mayan Pyramid</item>
+        <item>Tire Swing</item>
+        <item>Tire Seat</item>
+        <item>Wall</item>
+        <item>DragonFly</item>
+        <item>Scorpion</item>
+        <item>Tire Sphere</item>
+    </string-array>
+    <string name="add_button"> + Add to Favourites</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="title_activity_drawer">DrawerActivity</string>
     <string name="new_project">New Project</string>
 
@@ -22,7 +35,6 @@
     <string name="download_icon">{md-file-download}</string>
     <string name="delete_icon">{md-delete}</string>
     <string name="create_icon">{md-add-circle}</string>
-
     <!-- Strings related to login -->
     <string name="title_activity_login">Sign In</string>
     <string name="create_account_prompt">No account yet? Create one!</string>
@@ -39,7 +51,6 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-
     <string name="project_title">Project Title</string>
     <string name="country">Country</string>
     <string name="start_date">Start Date</string>
