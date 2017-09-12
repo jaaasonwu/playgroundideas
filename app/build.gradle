@@ -45,5 +45,6 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'javax.inject:javax.inject:1'
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    compile group: 'javax.money', name: 'money-api-bp', version: '1.0.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.1.1'
 }
