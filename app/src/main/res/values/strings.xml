@@ -60,4 +60,7 @@
     <string name="paypal_email">Paypal Email Address</string>
     <string name="currency">Currency</string>
     <string name="description">Description"</string>
+    <string name="relative_pdf_manuals_directory_name">playgroundHandbooks</string>
+    <string name="relative_design_pictures_directory_name">playgroundDesignPictures</string>
+    <string name="relative_project_pictures_directory_name">playgroundProjectPictures</string>
 </resources>
