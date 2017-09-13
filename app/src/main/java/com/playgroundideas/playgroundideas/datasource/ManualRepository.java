@@ -6,6 +6,7 @@ import com.playgroundideas.playgroundideas.datasource.local.ManualDao;
 import com.playgroundideas.playgroundideas.datasource.remote.ManualWebservice;
 import com.playgroundideas.playgroundideas.model.Manual;
 
+import java.util.List;
 import java.util.concurrent.Executor;
 
 import javax.inject.Inject;
@@ -35,6 +36,14 @@ public class ManualRepository {
         return manualDao.load(id);
     }
 
+    public LiveData<List<Manual>> getAll() {
+        return manualDao.loadAll();
+    }
+
+    public LiveData<List<Manual>> getDownloaded() {
+
+    }
+
     private void refreshManual(final Long id) {
         executor.execute(new Runnable() {
             @Override
@@ -43,7 +52,7 @@ public class ManualRepository {
                 // check if user was fetched recently
                 boolean userExists = manualDao.hasManual(id);
                 if (!userExists) {
-                    // TODO implement API response handling (see UserRepository)
+                    // TODO implement API call and response handling (see UserRepository)
                 }
             }
         });

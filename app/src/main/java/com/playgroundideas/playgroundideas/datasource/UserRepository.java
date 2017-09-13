@@ -2,15 +2,10 @@ package com.playgroundideas.playgroundideas.datasource;
 
 import android.arch.lifecycle.LiveData;
 
-import com.playgroundideas.playgroundideas.datasource.local.FavouritedDesignsPerUserDao;
 import com.playgroundideas.playgroundideas.datasource.local.UserDao;
 import com.playgroundideas.playgroundideas.datasource.remote.UserWebservice;
-import com.playgroundideas.playgroundideas.model.Design;
-import com.playgroundideas.playgroundideas.model.FavouritedDesignsPerUser;
 import com.playgroundideas.playgroundideas.model.User;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.concurrent.Executor;
 
 import javax.inject.Inject;
@@ -24,21 +19,19 @@ public class UserRepository {
 
     private final UserWebservice webservice;
     private final UserDao userDao;
-    private final FavouritedDesignsPerUserDao favouriteDesignsDao;
     private final Executor executor;
     private final ProjectRepository projectRepository;
     private final DesignRepository designRepository;
     private final ManualRepository manualRepository;
 
     @Inject
-    public UserRepository(UserWebservice webservice, UserDao userDao, Executor executor, ProjectRepository projectRepository, DesignRepository designRepository, ManualRepository manualRepository, FavouritedDesignsPerUserDao favouriteDesignsDao) {
+    public UserRepository(UserWebservice webservice, UserDao userDao, Executor executor, ProjectRepository projectRepository, DesignRepository designRepository, ManualRepository manualRepository) {
         this.webservice = webservice;
         this.userDao = userDao;
         this.executor = executor;
         this.projectRepository = projectRepository;
         this.designRepository = designRepository;
         this.manualRepository = manualRepository;
-        this.favouriteDesignsDao = favouriteDesignsDao;
     }
 
     public LiveData<User> getUser(Long id) {
@@ -47,11 +40,7 @@ public class UserRepository {
         // set the associated created designs
         userLiveData.getValue().setCreatedDesigns(designRepository.getAllCreatedBy(id).getValue());
         // set the associated favourited designs
-        List<Design> favouritedDesigns = new LinkedList<>();
-        for (FavouritedDesignsPerUser f : favouriteDesignsDao.loadAllOf(id).getValue()) {
-            favouritedDesigns.add(designRepository.get(f.getDesignId()).getValue());
-        }
-        userLiveData.getValue().setFavouritedDesigns(favouritedDesigns);
+        userLiveData.getValue().setFavouritedDesigns(designRepository.getFavouritesOf(id).getValue());
         // set the associated created projects
         userLiveData.getValue().setCreatedProjects(projectRepository.getAllCreatedBy(id).getValue());
 

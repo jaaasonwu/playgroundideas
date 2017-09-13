@@ -3,7 +3,6 @@ package com.playgroundideas.playgroundideas.datasource;
 import android.arch.lifecycle.LiveData;
 
 import com.playgroundideas.playgroundideas.datasource.local.ProjectDao;
-import com.playgroundideas.playgroundideas.datasource.local.ProjectPictureFileDao;
 import com.playgroundideas.playgroundideas.datasource.remote.ProjectWebservice;
 import com.playgroundideas.playgroundideas.model.Project;
 import com.playgroundideas.playgroundideas.model.ProjectPictureFile;

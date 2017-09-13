@@ -31,8 +31,14 @@ public interface DesignDao {
     @Query("SELECT * FROM design WHERE id = :id")
     LiveData<Design> load(long id);
 
+    @Query("SELECT * FROM design")
+    LiveData<List<Design>> loadAll();
+
     @Query("SELECT * FROM design WHERE creatorId = :creatorId")
     LiveData<List<Design>> loadAllOf(long creatorId);
+
+    @Query("SELECT design.* FROM design INNER JOIN favouritedDesignsPerUser ON favouritedDesignsPerUser.userId =  :userId")
+    LiveData<List<Design>> loadFavouritesOf(long userId);
 
     @Query("SELECT COUNT(1) FROM design WHERE id = :id")
     boolean hasDesign(long id);

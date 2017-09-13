@@ -9,6 +9,7 @@ import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
 import com.playgroundideas.playgroundideas.model.Project;
+import com.playgroundideas.playgroundideas.model.ProjectPictureFile;
 
 import java.util.List;
 
@@ -39,4 +40,22 @@ public interface ProjectDao {
 
     @Query("SELECT COUNT(1) FROM project WHERE id = :id")
     boolean hasProject(long id);
+
+    @Update
+    void update(ProjectPictureFile pictureFile);
+    @Delete
+    void delete(ProjectPictureFile pictureFile);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    long insert(ProjectPictureFile pictureFile);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    long[] insert(ProjectPictureFile... pictureFiles);
+
+    @Query("SELECT * FROM projectPictureFile WHERE projectId = :projectId AND name = :filename")
+    LiveData<ProjectPictureFile> load(Long projectId, String filename);
+
+    @Query("SELECT * FROM projectPictureFile WHERE projectId = :projectId")
+    LiveData<List<ProjectPictureFile>> loadALLOf(Long projectId);
+
+    @Query("SELECT COUNT(1) FROM projectPictureFile WHERE projectId = :projectId AND name = :filename")
+    boolean hasPicture(Long projectId, String filename);
 }

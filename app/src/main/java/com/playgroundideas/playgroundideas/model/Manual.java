@@ -15,12 +15,12 @@ public class Manual {
     private Long id;
     private String name;
     @Embedded(prefix = "pdf_")
-    private ManualFile pdf;
+    private ManualFile pdfInfo;
 
-    public Manual(Long id, String name, ManualFile pdf) {
+    public Manual(Long id, String name, ManualFile pdfInfo) {
         this.id = id;
         this.name = name;
-        this.pdf = pdf;
+        this.pdfInfo = pdfInfo;
     }
 
     public Long getId() {
@@ -31,12 +31,12 @@ public class Manual {
         this.id = id;
     }
 
-    public ManualFile getPdf() {
-        return pdf;
+    public ManualFile getPdfInfo() {
+        return pdfInfo;
     }
 
-    public void setPdf(ManualFile pdf) {
-        this.pdf = pdf;
+    public void setPdfInfo(ManualFile pdfInfo) {
+        this.pdfInfo = pdfInfo;
     }
 
     public String getName() {

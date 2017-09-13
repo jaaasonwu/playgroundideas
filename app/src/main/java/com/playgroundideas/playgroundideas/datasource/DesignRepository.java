@@ -40,6 +40,16 @@ public class DesignRepository {
         return designsLiveData;
     }
 
+    public LiveData<List<Design>> getAll() {
+        LiveData<List<Design>> designsLiveData = designDao.loadAll();
+        return designsLiveData;
+    }
+
+    public LiveData<List<Design>> getFavouritesOf(Long userId) {
+        LiveData<List<Design>> favouriteDesigns = designDao.loadFavouritesOf(userId);
+        return favouriteDesigns;
+    }
+
     private void refreshDesign(final Long id) {
         executor.execute(new Runnable() {
             @Override
