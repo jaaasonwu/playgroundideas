@@ -10,6 +10,8 @@ import android.arch.persistence.room.Update;
 
 import com.playgroundideas.playgroundideas.model.Project;
 
+import java.util.List;
+
 /**
  * Created by Ferdinand on 11/09/2017.
  */
@@ -28,6 +30,12 @@ public interface ProjectDao {
 
     @Query("SELECT * FROM project WHERE id = :id")
     LiveData<Project> load(long id);
+
+    @Query("SELECT * FROM project")
+    LiveData<List<Project>> loadAll();
+
+    @Query("SELECT * FROM project WHERE creatorId = :creatorId")
+    LiveData<List<Project>> loadAllOf(long creatorId);
 
     @Query("SELECT COUNT(1) FROM project WHERE id = :id")
     boolean hasProject(long id);

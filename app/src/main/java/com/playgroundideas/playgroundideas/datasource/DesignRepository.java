@@ -6,6 +6,7 @@ import com.playgroundideas.playgroundideas.datasource.local.DesignDao;
 import com.playgroundideas.playgroundideas.datasource.remote.DesignWebservice;
 import com.playgroundideas.playgroundideas.model.Design;
 
+import java.util.List;
 import java.util.concurrent.Executor;
 
 import javax.inject.Inject;
@@ -29,13 +30,17 @@ public class DesignRepository {
         this.executor = executor;
     }
 
-    public LiveData<Design> getDesign(long id) {
+    public LiveData<Design> get(Long id) {
         refreshDesign(id);
-        // return a LiveData directly from the database.
         return designDao.load(id);
     }
 
-    private void refreshDesign(final long id) {
+    public LiveData<List<Design>> getAllCreatedBy(Long creatorId) {
+        LiveData<List<Design>> designsLiveData = designDao.loadAllOf(creatorId);
+        return designsLiveData;
+    }
+
+    private void refreshDesign(final Long id) {
         executor.execute(new Runnable() {
             @Override
             public void run() {

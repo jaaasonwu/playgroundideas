@@ -27,7 +27,7 @@ public class Project {
     private boolean requiresFunding;
     private boolean seekingVolunteers;
     @Ignore
-    private List<File> pictures;
+    private List<ProjectPictureFile> pictures;
     private String description;
     private Long creatorId;
     private int numberOfDonations;
@@ -38,7 +38,6 @@ public class Project {
     private MonetaryAmount fundingGoal;
 
     public Project(Long id, String location, boolean requiresFunding, boolean seekingVolunteers, String description, Long creatorId, int numberOfDonations, int daysLeftUntilFundingEnd, MonetaryAmount fundingSum, MonetaryAmount fundingGoal) {
-
         this.id = id;
         this.location = location;
         this.requiresFunding = requiresFunding;
@@ -50,6 +49,14 @@ public class Project {
         this.daysLeftUntilFundingEnd = daysLeftUntilFundingEnd;
         this.fundingSum = fundingSum;
         this.fundingGoal = fundingGoal;
+    }
+
+    public Long getCreatorId() {
+        return creatorId;
+    }
+
+    public void setCreatorId(Long creatorId) {
+        this.creatorId = creatorId;
     }
 
     public Long getId() {
@@ -84,11 +91,11 @@ public class Project {
         this.seekingVolunteers = seekingVolunteers;
     }
 
-    public List<File> getPictures() {
+    public List<ProjectPictureFile> getPictures() {
         return pictures;
     }
 
-    public void setPictures(List<File> pictures) {
+    public void setPictures(List<ProjectPictureFile> pictures) {
         this.pictures = pictures;
     }
 
@@ -98,14 +105,6 @@ public class Project {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Long getCreatorId() {
-        return creatorId;
-    }
-
-    public void setCreatorId(Long creatorId) {
-        this.creatorId = creatorId;
     }
 
     public int getNumberOfDonations() {

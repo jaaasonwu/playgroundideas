@@ -13,11 +13,13 @@ public class Manual {
 
     @PrimaryKey(autoGenerate = false)
     private Long id;
+    private String name;
     @Embedded(prefix = "pdf_")
     private ManualFile pdf;
 
-    public Manual(Long id, ManualFile pdf) {
+    public Manual(Long id, String name, ManualFile pdf) {
         this.id = id;
+        this.name = name;
         this.pdf = pdf;
     }
 
@@ -37,4 +39,11 @@ public class Manual {
         this.pdf = pdf;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

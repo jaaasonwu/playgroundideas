@@ -29,13 +29,13 @@ public class ManualRepository {
         this.executor = executor;
     }
 
-    public LiveData<Manual> getManual(long id) {
+    public LiveData<Manual> getManual(Long id) {
         refreshManual(id);
         // return a LiveData directly from the database.
         return manualDao.load(id);
     }
 
-    private void refreshManual(final long id) {
+    private void refreshManual(final Long id) {
         executor.execute(new Runnable() {
             @Override
             public void run() {

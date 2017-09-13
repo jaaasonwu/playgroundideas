@@ -26,8 +26,6 @@ public class User {
     private List<Design> createdDesigns;
     @Ignore
     private List<Design> favouritedDesigns;
-    @Ignore
-    private List<Manual> downloadedManuals;
 
 
     public User(Long id, String firstName, String surname, String email, String phoneNumber) {
@@ -39,7 +37,6 @@ public class User {
         this.createdProjects = new LinkedList<>();
         this.createdDesigns = new LinkedList<>();
         this.favouritedDesigns = new LinkedList<>();
-        this.downloadedManuals = new LinkedList<>();
     }
 
     public List<Project> getCreatedProjects() {
@@ -64,14 +61,6 @@ public class User {
 
     public void setFavouritedDesigns(List<Design> favouritedDesigns) {
         this.favouritedDesigns = favouritedDesigns;
-    }
-
-    public List<Manual> getDownloadedManuals() {
-        return downloadedManuals;
-    }
-
-    public void setDownloadedManuals(List<Manual> downloadedManuals) {
-        this.downloadedManuals = downloadedManuals;
     }
 
     public Long getId() {
