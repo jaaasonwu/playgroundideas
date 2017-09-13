@@ -10,6 +10,8 @@ import android.arch.persistence.room.Update;
 
 import com.playgroundideas.playgroundideas.model.Manual;
 
+import java.util.List;
+
 /**
  * Created by Ferdinand on 11/09/2017.
  */
@@ -28,6 +30,9 @@ public interface ManualDao {
 
     @Query("SELECT * FROM manual WHERE id = :id")
     LiveData<Manual> load(long id);
+
+    @Query("SELECT * FROM manual")
+    LiveData<List<Manual>> loadAll();
 
     @Query("SELECT COUNT(1) FROM manual WHERE id = :id")
     boolean hasManual(long id);

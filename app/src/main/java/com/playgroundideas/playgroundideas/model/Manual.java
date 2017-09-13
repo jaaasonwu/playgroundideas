@@ -13,12 +13,14 @@ public class Manual {
 
     @PrimaryKey(autoGenerate = false)
     private Long id;
+    private String name;
     @Embedded(prefix = "pdf_")
-    private ManualFile pdf;
+    private ManualFile pdfInfo;
 
-    public Manual(Long id, ManualFile pdf) {
+    public Manual(Long id, String name, ManualFile pdfInfo) {
         this.id = id;
-        this.pdf = pdf;
+        this.name = name;
+        this.pdfInfo = pdfInfo;
     }
 
     public Long getId() {
@@ -29,12 +31,19 @@ public class Manual {
         this.id = id;
     }
 
-    public ManualFile getPdf() {
-        return pdf;
+    public ManualFile getPdfInfo() {
+        return pdfInfo;
     }
 
-    public void setPdf(ManualFile pdf) {
-        this.pdf = pdf;
+    public void setPdfInfo(ManualFile pdfInfo) {
+        this.pdfInfo = pdfInfo;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

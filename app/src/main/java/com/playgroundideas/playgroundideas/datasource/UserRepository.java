@@ -20,22 +20,35 @@ public class UserRepository {
     private final UserWebservice webservice;
     private final UserDao userDao;
     private final Executor executor;
+    private final ProjectRepository projectRepository;
+    private final DesignRepository designRepository;
+    private final ManualRepository manualRepository;
 
     @Inject
-    public UserRepository(UserWebservice webservice, UserDao userDao, Executor executor) {
+    public UserRepository(UserWebservice webservice, UserDao userDao, Executor executor, ProjectRepository projectRepository, DesignRepository designRepository, ManualRepository manualRepository) {
         this.webservice = webservice;
         this.userDao = userDao;
         this.executor = executor;
+        this.projectRepository = projectRepository;
+        this.designRepository = designRepository;
+        this.manualRepository = manualRepository;
     }
 
-    public LiveData<User> getUser(long id) {
+    public LiveData<User> getUser(Long id) {
         refreshUser(id);
-        // return a LiveData directly from the database.
-        return userDao.load(id);
+        LiveData<User> userLiveData = userDao.load(id);
+        // set the associated created designs
+        userLiveData.getValue().setCreatedDesigns(designRepository.getAllCreatedBy(id).getValue());
+        // set the associated favourited designs
+        userLiveData.getValue().setFavouritedDesigns(designRepository.getFavouritesOf(id).getValue());
+        // set the associated created projects
+        userLiveData.getValue().setCreatedProjects(projectRepository.getAllCreatedBy(id).getValue());
+
+        return userLiveData;
     }
 
 
-    private void refreshUser(final long id) {
+    private void refreshUser(final Long id) {
         executor.execute(new Runnable() {
             @Override
             public void run() {
