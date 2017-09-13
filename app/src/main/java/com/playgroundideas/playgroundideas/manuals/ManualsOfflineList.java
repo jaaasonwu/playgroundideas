@@ -1,31 +1,45 @@
 package com.playgroundideas.playgroundideas.manuals;
 
+import android.arch.lifecycle.LifecycleFragment;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.playgroundideas.playgroundideas.R;
+import com.playgroundideas.playgroundideas.model.Manual;
+import com.playgroundideas.playgroundideas.viewmodel.ManualsListViewModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 
-public class ManualsOfflineList extends Fragment {
+public class ManualsOfflineList extends LifecycleFragment {
     private ListView mListView;
     private ManualsOfflineLIstAdapter mAdapter;
     private ArrayList<String> mGroupHeader;
     private HashMap<String, Boolean> mDownloadStatus;
     private List<String> mDownloaded;
+    private ManualsListViewModel viewModel;
 
     @SuppressWarnings("unchecked")
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        viewModel = ViewModelProviders.of(this).get(ManualsListViewModel.class);
+        viewModel.init(true);
+        viewModel.getManualList().observe(this, new Observer<List<Manual>>() {
+            @Override
+            public void onChanged(@Nullable List<Manual> manuals) {
+                // TODO update UI
+            }
+        });
 
         Bundle bundle = getArguments();
         mGroupHeader = bundle.getStringArrayList("groupHeader");
