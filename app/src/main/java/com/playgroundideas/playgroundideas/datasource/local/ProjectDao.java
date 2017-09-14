@@ -9,7 +9,7 @@ import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
 import com.playgroundideas.playgroundideas.model.Project;
-import com.playgroundideas.playgroundideas.model.ProjectPictureFile;
+import com.playgroundideas.playgroundideas.model.ProjectPictureFileInfo;
 
 /**
  * Created by Ferdinand on 11/09/2017.
@@ -34,20 +34,23 @@ public interface ProjectDao {
     boolean hasProject(long id);
 
     @Update
-    void update(ProjectPictureFile pictureFile);
+    void update(ProjectPictureFileInfo pictureFile);
     @Delete
-    void delete(ProjectPictureFile pictureFile);
+    void delete(ProjectPictureFileInfo pictureFile);
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    long insert(ProjectPictureFile pictureFile);
+    long insert(ProjectPictureFileInfo pictureFile);
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    long[] insert(ProjectPictureFile... pictureFiles);
+    long[] insert(ProjectPictureFileInfo... pictureFiles);
 
-    @Query("SELECT * FROM projectPictureFile WHERE projectId = :projectId AND name = :filename")
-    LiveData<ProjectPictureFile> load(Long projectId, String filename);
+    @Query("SELECT * FROM projectPictureFileInfo WHERE projectId = :projectId AND name = :filename")
+    LiveData<ProjectPictureFileInfo> load(Long projectId, String filename);
 
-    @Query("SELECT * FROM projectPictureFile WHERE projectId = :projectId")
-    LiveData<List<ProjectPictureFile>> loadALLOf(Long projectId);
+    @Query("SELECT * FROM projectPictureFileInfo WHERE projectId = :projectId")
+    LiveData<List<ProjectPictureFileInfo>> loadAllPicturesOf(Long projectId);
 
-    @Query("SELECT COUNT(1) FROM projectPictureFile WHERE projectId = :projectId AND name = :filename")
+    @Query("SELECT * FROM projectPictureFileInfo")
+    LiveData<List<ProjectPictureFileInfo>> loadAllPictures();
+
+    @Query("SELECT COUNT(1) FROM projectPictureFileInfo WHERE projectId = :projectId AND name = :filename")
     boolean hasPicture(Long projectId, String filename);
 }

@@ -15,9 +15,9 @@ public class Manual {
     private Long id;
     private String name;
     @Embedded(prefix = "pdf_")
-    private ManualFile pdfInfo;
+    private ManualFileInfo pdfInfo;
 
-    public Manual(Long id, String name, ManualFile pdfInfo) {
+    public Manual(Long id, String name, ManualFileInfo pdfInfo) {
         this.id = id;
         this.name = name;
         this.pdfInfo = pdfInfo;
@@ -31,11 +31,11 @@ public class Manual {
         this.id = id;
     }
 
-    public ManualFile getPdfInfo() {
+    public ManualFileInfo getPdfInfo() {
         return pdfInfo;
     }
 
-    public void setPdfInfo(ManualFile pdfInfo) {
+    public void setPdfInfo(ManualFileInfo pdfInfo) {
         this.pdfInfo = pdfInfo;
     }
 
