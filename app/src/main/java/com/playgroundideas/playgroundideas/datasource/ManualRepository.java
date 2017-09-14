@@ -16,10 +16,6 @@ import java.util.concurrent.Executor;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-/**
- * Created by Ferdinand on 9/09/2017.
- */
-
 @Singleton
 public class ManualRepository {
 
@@ -46,10 +42,10 @@ public class ManualRepository {
 
     public LiveData<List<Manual>> getDownloaded() {
         LiveData<List<Manual>> liveData = manualDao.loadAll();
-        LiveData<List<Manual>> result = Transformations.map(liveData, new Function<List<Manual>, List<Manual>>() {
+        return Transformations.map(liveData, new Function<List<Manual>, List<Manual>>() {
             @Override
             public List<Manual> apply(List<Manual> manuals) {
-                List<Manual> downloadedManuals = new LinkedList<Manual>();
+                List<Manual> downloadedManuals = new LinkedList<>();
                 for(Manual m : manuals) {
                     if(FileStorage.isDownloaded(m.getPdfInfo())) {
                         downloadedManuals.add(m);
@@ -58,7 +54,11 @@ public class ManualRepository {
                 return downloadedManuals;
             }
         });
-        return result;
+    }
+
+    public void downloadManual(Manual manual) {
+        // TODO download manual using webservice
+        //FileStorage.writeManualFile(manual.getPdfInfo(), tempFile);
     }
 
     private void refreshManual(final Long id) {
