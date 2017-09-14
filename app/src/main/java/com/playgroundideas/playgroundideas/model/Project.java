@@ -2,15 +2,11 @@ package com.playgroundideas.playgroundideas.model;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
-import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 
 import com.playgroundideas.playgroundideas.datasource.local.Converters;
-
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.money.MonetaryAmount;
 
@@ -26,8 +22,6 @@ public class Project {
     private String location;
     private boolean requiresFunding;
     private boolean seekingVolunteers;
-    @Ignore
-    private List<ProjectPictureFile> pictures;
     private String description;
     private Long creatorId;
     private int numberOfDonations;
@@ -42,7 +36,6 @@ public class Project {
         this.location = location;
         this.requiresFunding = requiresFunding;
         this.seekingVolunteers = seekingVolunteers;
-        this.pictures = new LinkedList<>();
         this.description = description;
         this.creatorId = creatorId;
         this.numberOfDonations = numberOfDonations;
@@ -89,14 +82,6 @@ public class Project {
 
     public void setSeekingVolunteers(boolean seekingVolunteers) {
         this.seekingVolunteers = seekingVolunteers;
-    }
-
-    public List<ProjectPictureFile> getPictures() {
-        return pictures;
-    }
-
-    public void setPictures(List<ProjectPictureFile> pictures) {
-        this.pictures = pictures;
     }
 
     public String getDescription() {

@@ -5,6 +5,9 @@ import android.arch.lifecycle.ViewModel;
 
 import com.playgroundideas.playgroundideas.datasource.ProjectRepository;
 import com.playgroundideas.playgroundideas.model.Project;
+import com.playgroundideas.playgroundideas.model.ProjectPictureFileInfo;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -15,6 +18,7 @@ import javax.inject.Inject;
 public class ProjectViewModel extends ViewModel {
 
     private LiveData<Project> project;
+    private LiveData<List<ProjectPictureFileInfo>> pictures;
     private ProjectRepository projectRepository;
 
     @Inject
@@ -23,10 +27,11 @@ public class ProjectViewModel extends ViewModel {
     }
 
     public void init(Long projectId) {
-        if(project != null) {
+        if(project != null || pictures != null) {
             return;
         } else {
             project = projectRepository.getProject(projectId);
+            pictures = projectRepository.getPicturesOf(projectId);
         }
     }
 

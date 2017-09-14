@@ -8,11 +8,11 @@ import android.arch.persistence.room.ForeignKey;
  */
 
 @Entity(foreignKeys = {@ForeignKey(entity = Design.class, parentColumns = "id", childColumns = "designId") })
-public class DesignPictureFile extends File {
+public class DesignPictureFileInfo extends FileInfo {
 
     private Long designId;
 
-    public DesignPictureFile(byte[] md5Hash, Long designId) {
+    public DesignPictureFileInfo(byte[] md5Hash, Long designId) {
         super(designId.toString(), md5Hash);
         this.designId = designId;
     }

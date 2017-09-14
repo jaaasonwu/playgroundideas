@@ -27,9 +27,9 @@ public class Design {
     private String materials;
     private String tools;
     @Embedded(prefix = "picture_")
-    private DesignPictureFile picture;
+    private DesignPictureFileInfo picture;
 
-    public Design(Long id, String name, Long creatorId, DesignCategory category, String description, String materials, String tools, DesignPictureFile picture) {
+    public Design(Long id, String name, Long creatorId, DesignCategory category, String description, String materials, String tools, DesignPictureFileInfo picture) {
         this.id = id;
         this.name = name;
         this.creatorId = creatorId;
@@ -96,11 +96,11 @@ public class Design {
         this.tools = tools;
     }
 
-    public DesignPictureFile getPicture() {
+    public DesignPictureFileInfo getPicture() {
         return picture;
     }
 
-    public void setPicture(DesignPictureFile picture) {
+    public void setPicture(DesignPictureFileInfo picture) {
         this.picture = picture;
     }
 }

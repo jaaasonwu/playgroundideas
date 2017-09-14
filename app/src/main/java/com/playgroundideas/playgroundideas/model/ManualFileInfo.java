@@ -8,11 +8,11 @@ import android.arch.persistence.room.ForeignKey;
  */
 
 @Entity(foreignKeys = {@ForeignKey(entity = Manual.class, parentColumns = "id", childColumns = "manualId")})
-public class ManualFile extends File {
+public class ManualFileInfo extends FileInfo {
 
     private Long manualId;
 
-    public ManualFile(byte[] md5Hash, Long manualId) {
+    public ManualFileInfo(byte[] md5Hash, Long manualId) {
         super(manualId.toString(), md5Hash);
         this.manualId = manualId;
     }
