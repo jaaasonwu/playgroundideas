@@ -15,7 +15,8 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name">
-        </activity>       <activity
+        </activity>
+        <activity
             android:name=".login.LoginActivity"
             android:label="@string/title_activity_login">
             <intent-filter>
@@ -34,10 +35,10 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-        <activity android:name=".designs.DesignDetailsActivity"></activity>
+        <activity android:name=".designs.DesignDetailsActivity"/>
         <activity
             android:name=".projects.CreateProjectActivity"
-            android:label="@string/new_project"></activity>
-        <activity android:name=".projects.DetailProjectActivity"></activity>
+            android:label="@string/new_project"/>
+        <activity android:name=".projects.DetailProjectActivity"/>
     </application>
 </manifest>
