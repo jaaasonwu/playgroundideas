@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "50618fc2b2c417a9fc8cd8c34ba27580",
+    "identityHash": "cd666445a9673c7190d624531741affe",
     "entities": [
       {
         "tableName": "User",
@@ -126,7 +126,7 @@
             "columnNames": [
               "category"
             ],
-            "createSql": "CREATE  INDEX `index_Design_category`\nON `${TABLE_NAME}` (`category`)"
+            "createSql": "CREATE  INDEX `index_Design_category` ON `${TABLE_NAME}` (`category`)"
           },
           {
             "name": "index_Design_creatorId",
@@ -134,7 +134,7 @@
             "columnNames": [
               "creatorId"
             ],
-            "createSql": "CREATE  INDEX `index_Design_creatorId`\nON `${TABLE_NAME}` (`creatorId`)"
+            "createSql": "CREATE  INDEX `index_Design_creatorId` ON `${TABLE_NAME}` (`creatorId`)"
           }
         ],
         "foreignKeys": [
@@ -273,7 +273,7 @@
             "columnNames": [
               "creatorId"
             ],
-            "createSql": "CREATE  INDEX `index_Project_creatorId`\nON `${TABLE_NAME}` (`creatorId`)"
+            "createSql": "CREATE  INDEX `index_Project_creatorId` ON `${TABLE_NAME}` (`creatorId`)"
           }
         ],
         "foreignKeys": [
@@ -321,7 +321,7 @@
             "columnNames": [
               "userId"
             ],
-            "createSql": "CREATE  INDEX `index_FavouritedDesignsPerUser_userId`\nON `${TABLE_NAME}` (`userId`)"
+            "createSql": "CREATE  INDEX `index_FavouritedDesignsPerUser_userId` ON `${TABLE_NAME}` (`userId`)"
           },
           {
             "name": "index_FavouritedDesignsPerUser_designId",
@@ -329,7 +329,7 @@
             "columnNames": [
               "designId"
             ],
-            "createSql": "CREATE  INDEX `index_FavouritedDesignsPerUser_designId`\nON `${TABLE_NAME}` (`designId`)"
+            "createSql": "CREATE  INDEX `index_FavouritedDesignsPerUser_designId` ON `${TABLE_NAME}` (`designId`)"
           }
         ],
         "foreignKeys": [
@@ -405,7 +405,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"50618fc2b2c417a9fc8cd8c34ba27580\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"cd666445a9673c7190d624531741affe\")"
     ]
   }
 }
