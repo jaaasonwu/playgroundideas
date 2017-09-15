@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.playgroundideas.playgroundideas.R;
+import com.playgroundideas.playgroundideas.viewmodel.ManualsListViewModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,6 +22,7 @@ public class ManualsOfflineList extends Fragment {
     private ArrayList<String> mGroupHeader;
     private HashMap<String, Boolean> mDownloadStatus;
     private List<String> mDownloaded;
+    private ManualsListViewModel viewModel;
 
     @SuppressWarnings("unchecked")
     @Override

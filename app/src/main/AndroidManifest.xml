@@ -41,4 +41,5 @@
             android:label="@string/new_project"/>
         <activity android:name=".projects.DetailProjectActivity"/>
     </application>
+
 </manifest>
