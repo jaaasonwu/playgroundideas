@@ -1,10 +1,10 @@
 package com.playgroundideas.playgroundideas.manuals;
 
-import android.arch.lifecycle.LifecycleFragment;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class ManualsOfflineList extends LifecycleFragment {
+public class ManualsOfflineList extends Fragment {
     private ListView mListView;
     private ManualsOfflineLIstAdapter mAdapter;
     private ArrayList<String> mGroupHeader;
@@ -33,8 +33,7 @@ public class ManualsOfflineList extends LifecycleFragment {
         super.onCreate(savedInstanceState);
 
         viewModel = ViewModelProviders.of(this).get(ManualsListViewModel.class);
-        viewModel.init(true);
-        viewModel.getManualList().observe(this, new Observer<List<Manual>>() {
+        viewModel.getDownloadedManuals().observe(this, new Observer<List<Manual>>() {
             @Override
             public void onChanged(@Nullable List<Manual> manuals) {
                 // TODO update UI

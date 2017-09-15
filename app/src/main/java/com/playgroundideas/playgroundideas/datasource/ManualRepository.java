@@ -1,15 +1,11 @@
 package com.playgroundideas.playgroundideas.datasource;
 
-import android.arch.core.util.Function;
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Transformations;
 
-import com.playgroundideas.playgroundideas.datasource.local.FileStorage;
 import com.playgroundideas.playgroundideas.datasource.local.ManualDao;
 import com.playgroundideas.playgroundideas.datasource.remote.ManualWebservice;
 import com.playgroundideas.playgroundideas.model.Manual;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Executor;
 
@@ -38,22 +34,6 @@ public class ManualRepository {
 
     public LiveData<List<Manual>> getAll() {
         return manualDao.loadAll();
-    }
-
-    public LiveData<List<Manual>> getDownloaded() {
-        LiveData<List<Manual>> liveData = manualDao.loadAll();
-        return Transformations.map(liveData, new Function<List<Manual>, List<Manual>>() {
-            @Override
-            public List<Manual> apply(List<Manual> manuals) {
-                List<Manual> downloadedManuals = new LinkedList<>();
-                for(Manual m : manuals) {
-                    if(FileStorage.isDownloaded(m.getPdfInfo())) {
-                        downloadedManuals.add(m);
-                    }
-                }
-                return downloadedManuals;
-            }
-        });
     }
 
     public void downloadManual(Manual manual) {

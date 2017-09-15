@@ -36,18 +36,19 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:26.0.+'
-    compile 'com.android.support:design:26.0.+'
-    compile 'com.android.support:support-vector-drawable:26.0.+'
-    compile 'com.android.support:support-v4:26.0.+'
+    compile 'com.android.support:appcompat-v7:26.1.+'
+    compile 'com.android.support:design:26.1.+'
+    compile 'com.android.support:support-vector-drawable:26.1.+'
+    compile 'com.android.support:support-v4:26.1.+'
+    compile 'com.android.support:recyclerview-v7:26.1.+'
     compile 'com.github.bumptech.glide:glide:4.1.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.joanzapata.iconify:android-iconify-material:2.2.2'
-    compile 'android.arch.lifecycle:runtime:1.0.0-alpha9'
-    compile 'android.arch.lifecycle:extensions:1.0.0-alpha9'
-    annotationProcessor "android.arch.lifecycle:compiler:1.0.0-alpha9"
-    compile "android.arch.persistence.room:runtime:1.0.0-alpha9"
-    annotationProcessor "android.arch.persistence.room:compiler:1.0.0-alpha9"
+    compile 'android.arch.lifecycle:runtime:1.0.0-alpha9-1'
+    compile 'android.arch.lifecycle:extensions:1.0.0-alpha9-1'
+    compile "android.arch.persistence.room:runtime:1.0.0-alpha9-1"
+    annotationProcessor "android.arch.persistence.room:compiler:1.0.0-alpha9-1"
+    annotationProcessor "android.arch.lifecycle:compiler:1.0.0-alpha9-1"
     testCompile 'junit:junit:4.12'
     compile 'javax.inject:javax.inject:1'
     compile 'com.squareup.retrofit2:retrofit:2.3.0'

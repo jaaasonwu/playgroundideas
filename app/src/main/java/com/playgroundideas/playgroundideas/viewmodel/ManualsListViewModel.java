@@ -1,22 +1,34 @@
 package com.playgroundideas.playgroundideas.viewmodel;
 
+import android.arch.core.util.Function;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 
 import com.playgroundideas.playgroundideas.datasource.ManualRepository;
+import com.playgroundideas.playgroundideas.datasource.local.FileStorage;
 import com.playgroundideas.playgroundideas.model.Manual;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.inject.Inject;
 
-/**
- * Created by Ferdinand on 13/09/2017.
- */
-
 public class ManualsListViewModel extends ViewModel {
 
-    private LiveData<List<Manual>> manualList;
+    private LiveData<List<Manual>> allManuals;
+    private LiveData<List<Manual>> downloadedManuals = Transformations.map(allManuals, new Function<List<Manual>, List<Manual>>() {
+        @Override
+        public List<Manual> apply(List<Manual> manuals) {
+            List<Manual> downloadedManuals = new LinkedList<>();
+            for(Manual m : manuals) {
+                if(FileStorage.isDownloaded(m.getPdfInfo())) {
+                    downloadedManuals.add(m);
+                }
+            }
+            return downloadedManuals;
+        }
+    });
     private ManualRepository manualRepository;
 
     @Inject
@@ -24,15 +36,17 @@ public class ManualsListViewModel extends ViewModel {
         this.manualRepository = manualRepository;
     }
 
-    public void init(boolean downloaded) {
-        if (manualList != null) {
-            return;
-        } else {
-            manualList = (downloaded) ? manualRepository.getDownloaded() : manualRepository.getAll();
+    public LiveData<List<Manual>> getAllManuals() {
+        if (allManuals == null) {
+            allManuals = manualRepository.getAll();
         }
+        return allManuals;
     }
 
-    public LiveData<List<Manual>> getManualList() {
-        return manualList;
+    public LiveData<List<Manual>> getDownloadedManuals() {
+        if (allManuals == null) {
+            allManuals = manualRepository.getAll();
+        }
+        return downloadedManuals;
     }
 }
