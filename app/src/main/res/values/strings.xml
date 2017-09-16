@@ -40,7 +40,7 @@
     <string name="create_account_prompt">No account yet? Create one!</string>
     <string name="login_prompt">Already have an account? Log in!</string>
     <string name="prompt_sign_up">Enter the email to sign up</string>
-    <string name="prompt_email">Email</string>
+    <string name="prompt_email">Username</string>
     <string name="prompt_password">Password (optional)</string>
     <string name="action_log_in">Log In</string>
     <string name="action_sign_up">Sign Up</string>
