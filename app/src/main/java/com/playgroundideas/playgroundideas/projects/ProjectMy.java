@@ -1,20 +1,17 @@
 package com.playgroundideas.playgroundideas.projects;
 
 import android.content.Intent;
-
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.support.v4.app.Fragment;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.joanzapata.iconify.IconDrawable;
-import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.MaterialIcons;
-import com.joanzapata.iconify.fonts.MaterialModule;
 import com.joanzapata.iconify.widget.IconButton;
 import com.playgroundideas.playgroundideas.R;
 
@@ -38,7 +35,6 @@ public class ProjectMy extends Fragment {
         View rootView = inflater.inflate(
                 R.layout.project_my, container, false);
         //use icon button
-        Iconify.with(new MaterialModule());
 
         mCreateBtn = (FloatingActionButton) rootView.findViewById(R.id.create_project);
         mCreateBtn.setOnClickListener(new IconButton.OnClickListener() {

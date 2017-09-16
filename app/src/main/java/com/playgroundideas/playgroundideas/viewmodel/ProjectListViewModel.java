@@ -3,7 +3,7 @@ package com.playgroundideas.playgroundideas.viewmodel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
-import com.playgroundideas.playgroundideas.datasource.ProjectRepository;
+import com.playgroundideas.playgroundideas.datasource.repository.ProjectRepository;
 import com.playgroundideas.playgroundideas.model.Project;
 import com.playgroundideas.playgroundideas.model.ProjectPictureFileInfo;
 

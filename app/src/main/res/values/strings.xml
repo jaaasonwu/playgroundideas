@@ -63,4 +63,6 @@
     <string name="relative_pdf_manuals_directory_name">playgroundHandbooks</string>
     <string name="relative_design_pictures_directory_name">playgroundDesignPictures</string>
     <string name="relative_project_pictures_directory_name">playgroundProjectPictures</string>
+    <string name="preference_file_key">org.playgroundIdeas.app.android.preferenceFile</string>
+    <string name="saved_user">saved_user</string>
 </resources>

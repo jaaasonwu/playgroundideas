@@ -3,7 +3,8 @@ package com.playgroundideas.playgroundideas.viewmodel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
-import com.playgroundideas.playgroundideas.datasource.DesignRepository;
+import com.playgroundideas.playgroundideas.datasource.repository.DesignRepository;
+import com.playgroundideas.playgroundideas.datasource.repository.UserRepository;
 import com.playgroundideas.playgroundideas.model.Design;
 
 import java.util.List;
@@ -18,21 +19,19 @@ public class DesignListViewModel extends ViewModel {
 
     private LiveData<List<Design>> designList;
     private DesignRepository designRepository;
+    private UserRepository userRepository;
 
     @Inject
-    public DesignListViewModel(DesignRepository designRepository) {
+    public DesignListViewModel(DesignRepository designRepository, UserRepository userRepository) {
         this.designRepository = designRepository;
+        this.userRepository = userRepository;
     }
 
-    /*
-     * Setting userId to null will cause all designs to be loaded.
-     * Specifying an existing userId causes all designs favourited by that identified user to be loaded
-     */
-    public void init(Long userId) {
+    public void init(boolean favouritedOnly) {
         if (designList != null) {
             return;
         } else {
-            designList = (userId != null) ? designRepository.getFavouritesOf(userId) : designRepository.getAll();
+            designList = (favouritedOnly) ? designRepository.getFavouritesOf(userRepository.readCurrentUser()) : designRepository.getAll();
         }
     }
 

@@ -1,7 +1,10 @@
-package com.playgroundideas.playgroundideas.datasource;
+package com.playgroundideas.playgroundideas.datasource.repository;
 
 import android.arch.lifecycle.LiveData;
+import android.content.Context;
+import android.content.SharedPreferences;
 
+import com.playgroundideas.playgroundideas.R;
 import com.playgroundideas.playgroundideas.datasource.local.UserDao;
 import com.playgroundideas.playgroundideas.datasource.remote.UserWebservice;
 import com.playgroundideas.playgroundideas.model.User;
@@ -20,17 +23,31 @@ public class UserRepository {
     private final UserWebservice webservice;
     private final UserDao userDao;
     private final Executor executor;
+    private final Context context;
 
     @Inject
-    public UserRepository(UserWebservice webservice, UserDao userDao, Executor executor) {
+    public UserRepository(UserWebservice webservice, UserDao userDao, Executor executor, Context context) {
         this.webservice = webservice;
         this.userDao = userDao;
         this.executor = executor;
+        this.context = context;
     }
 
     public LiveData<User> getUser(Long id) {
         refreshUser(id);
         return userDao.load(id);
+    }
+
+    public void writeCurrentUser(Long userId) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(R.string.preference_file_key + "", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putLong(R.string.saved_user + "", userId);
+        editor.commit();
+    }
+
+    public Long readCurrentUser() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(R.string.preference_file_key + "", Context.MODE_PRIVATE);
+        return sharedPreferences.getLong(R.string.saved_user + "", 0);
     }
 
 

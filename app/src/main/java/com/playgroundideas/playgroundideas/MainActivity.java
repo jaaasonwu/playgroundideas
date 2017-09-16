@@ -18,8 +18,9 @@ import com.playgroundideas.playgroundideas.manuals.ManualsFragment;
 import com.playgroundideas.playgroundideas.plans.PlansFragment;
 import com.playgroundideas.playgroundideas.projects.ProjectsFragment;
 
-public class MainActivity extends AppCompatActivity {
+import dagger.android.AndroidInjection;
 
+public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 

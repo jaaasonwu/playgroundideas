@@ -1,4 +1,4 @@
-package com.playgroundideas.playgroundideas.datasource;
+package com.playgroundideas.playgroundideas.datasource.repository;
 
 import android.arch.core.util.Function;
 import android.arch.lifecycle.LiveData;
