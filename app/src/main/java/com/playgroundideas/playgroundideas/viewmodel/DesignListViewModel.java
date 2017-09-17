@@ -28,6 +28,7 @@ public class DesignListViewModel extends ViewModel {
     }
 
     public void init(boolean favouritedOnly) {
+
         if (designList != null) {
             return;
         } else {

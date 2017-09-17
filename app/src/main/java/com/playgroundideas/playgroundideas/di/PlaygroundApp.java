@@ -9,6 +9,11 @@ import dagger.android.support.DaggerApplication;
 public class PlaygroundApp extends DaggerApplication {
 
     @Override
+    public void onCreate() {
+        super.onCreate();
+    }
+
+    @Override
     protected AndroidInjector<? extends DaggerApplication> applicationInjector() {
         AppComponent appComponent = DaggerAppComponent.builder().application(this).build();
         appComponent.inject(this);
