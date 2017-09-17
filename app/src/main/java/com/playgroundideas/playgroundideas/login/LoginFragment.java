@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,18 +21,19 @@ import android.widget.TextView;
 
 import com.playgroundideas.playgroundideas.MainActivity;
 import com.playgroundideas.playgroundideas.R;
+import com.playgroundideas.playgroundideas.datasource.remote.LoginWebservice;
+
+import java.io.IOException;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 /**
  * A fragment to handle login
  */
 public class LoginFragment extends Fragment {
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "a@a.com:111111", "bar@example.com:world"
-    };
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -44,6 +46,10 @@ public class LoginFragment extends Fragment {
     private View mProgressView;
     private View mLoginFormView;
     private Button mLoginButton;
+    private String mWpUrl = "http://swen90014v-2017plp.cis.unimelb.edu.au/";
+
+    Retrofit.Builder builder = new Retrofit.Builder().baseUrl(mWpUrl);
+    Retrofit retrofit = builder.build();
 
     public LoginFragment() {
         // Required empty public constructor
@@ -154,8 +160,7 @@ public class LoginFragment extends Fragment {
     }
 
     private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        return email.contains("@");
+        return true;
     }
 
     private boolean isPasswordValid(String password) {
@@ -207,23 +212,23 @@ public class LoginFragment extends Fragment {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
+            LoginWebservice login = retrofit.create(LoginWebservice.class);
+            String info = mEmail + ":" + mPassword;
+
+            String authHeader = "Basic " + Base64.encodeToString(info.getBytes(), Base64.NO_WRAP);
+            Call<ResponseBody> call = login.authenticate(authHeader);
+
             try {
-                // Simulate network access.
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                return false;
-            }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
+                Response<ResponseBody> response = call.execute();
+                if (response.code() == 200) {
+                    return true;
+                } else {
+                    return false;
                 }
-            }
 
-            // TODO: register the new account here.
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             return true;
         }
 
@@ -235,10 +240,10 @@ public class LoginFragment extends Fragment {
             if (!success) {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
+            } else {
+                Intent intent = new Intent(mContext, MainActivity.class);
+                startActivity(intent);
             }
-
-            Intent intent = new Intent(mContext, MainActivity.class);
-            startActivity(intent);
         }
 
         @Override
