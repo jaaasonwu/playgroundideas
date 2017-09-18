@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.SearchView;
 
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.Iconify;
@@ -24,16 +25,29 @@ public class DesignFavoriteList extends Fragment {
     private DesignsFragment designsFragment;
     private FloatingActionButton designsAddFab;
     private GridView myFavoriteGrid;
+    private SearchView searchView;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view;
+        view = inflater.inflate(R.layout.fragment_design_favorite_list, container, false);
+        myFavoriteGrid = view.findViewById(R.id.my_favorite_grid);
+        searchView = (SearchView) view.findViewById(R.id.searchView1);
+        final GridViewAdapterFavorite gridViewAdapterFavorite = new GridViewAdapterFavorite(getActivity());
+        myFavoriteGrid.setAdapter(gridViewAdapterFavorite);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
 
-            view = inflater.inflate(R.layout.fragment_design_favorite_list, container, false);
-            myFavoriteGrid = view.findViewById(R.id.my_favorite_grid);
-            myFavoriteGrid.setAdapter(new GridViewAdapterFavorite(getActivity()));
-            return view;
+            @Override
+            public boolean onQueryTextChange(String query) {
+                gridViewAdapterFavorite.getFilter().filter(query);
+                return false;
+            }
+        });
+        return view;
 
 
     }

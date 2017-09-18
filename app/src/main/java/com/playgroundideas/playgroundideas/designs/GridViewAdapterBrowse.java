@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,7 +25,17 @@ import java.util.ArrayList;
 /**
  * Created by Peter Chen on 2017/8/29.
  */
-class GridViewAdapterBrowse extends BaseAdapter {
+class GridViewAdapterBrowse extends BaseAdapter implements Filterable {
+
+    CustomFilter filter;
+    ArrayList<DesignItem> filterList;
+    @Override
+    public Filter getFilter() {
+        if(filter == null){
+            filter = new CustomFilter();
+        }
+        return filter;
+    }
 
     class ViewHolder {
         private TextView desc;
@@ -53,6 +65,8 @@ class GridViewAdapterBrowse extends BaseAdapter {
         for(int i = 0; i < desc.length; i++){
             list.add(new DesignItem(desc[i], images[i]));
         }
+
+        this.filterList = list;
     }
 
     @Override
@@ -145,6 +159,39 @@ class GridViewAdapterBrowse extends BaseAdapter {
         holder.addButton.setOnClickListener(buttonHandler);
         return designItem;
 
+    }
+
+    protected class CustomFilter extends Filter {
+
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+           FilterResults results = new FilterResults();
+            if(constraint != null && constraint.length() > 0){
+                constraint = constraint.toString().toUpperCase();
+
+                ArrayList<DesignItem> filters = new ArrayList<>();
+
+                for(int i = 0; i < filterList.size(); i++){
+                    if (filterList.get(i).getDescription().toUpperCase().contains(constraint)) {
+                        DesignItem item = new DesignItem(filterList.get(i).getDescription(), filterList.get(i).getImage());
+                        filters.add(item);
+                    }
+                    results.count = filters.size();
+                    results.values =filters;
+                }
+            }
+            else{
+                results.count = filterList.size();
+                results.values = filterList;
+            }
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            list = (ArrayList<DesignItem>) results.values;
+            notifyDataSetChanged();
+        }
     }
 }
 

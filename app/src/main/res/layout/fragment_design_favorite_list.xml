@@ -7,7 +7,9 @@
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true">
         <android.support.design.widget.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -19,14 +21,24 @@
 
         <GridView
             android:id="@+id/my_favorite_grid"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_margin="30dp"
+            android:layout_below="@+id/searchView1"
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="30dp"
             android:horizontalSpacing="10dp"
             android:numColumns="auto_fit"
-            android:stretchMode="columnWidth" />
+            android:stretchMode="columnWidth"
+            />
+
+        <SearchView
+            android:id="@+id/searchView1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:queryHint="Search.." />
     </android.support.design.widget.CoordinatorLayout>
 
 </RelativeLayout>

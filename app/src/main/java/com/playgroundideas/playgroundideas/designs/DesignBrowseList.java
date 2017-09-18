@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.SearchView;
 
 import com.playgroundideas.playgroundideas.R;
 
@@ -17,6 +18,7 @@ public class DesignBrowseList extends Fragment {
 
     private ArrayList<DesignItem> favoriteList;
     private GridView myGrid;
+    private SearchView searchView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,7 +33,21 @@ public class DesignBrowseList extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_design_browse_list, container, false);
         myGrid = (GridView) view.findViewById(R.id.myGrid);
-        myGrid.setAdapter(new GridViewAdapterBrowse(getActivity(), favoriteList));
+        searchView = (SearchView) view.findViewById(R.id.searchView);
+        final GridViewAdapterBrowse gridViewAdapterBrowse = new GridViewAdapterBrowse(getActivity(), favoriteList);
+        myGrid.setAdapter(gridViewAdapterBrowse);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String query) {
+                gridViewAdapterBrowse.getFilter().filter(query);
+                return false;
+            }
+        });
         return view;
     }
 
