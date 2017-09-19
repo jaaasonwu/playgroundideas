@@ -2,7 +2,7 @@ package com.playgroundideas.playgroundideas.di;
 
 import android.app.Application;
 
-import com.playgroundideas.playgroundideas.viewmodel.DesignListViewModel;
+import com.playgroundideas.playgroundideas.di.screens.MainActivityModule;
 
 import javax.inject.Singleton;
 
@@ -18,13 +18,12 @@ import dagger.android.support.AndroidSupportInjectionModule;
 @Singleton
 @Component(modules = {
         AndroidSupportInjectionModule.class,
-        AppModule.class})
+        AppModule.class,
+        MainActivityModule.class})
 public interface AppComponent extends AndroidInjector<PlaygroundApp>{
 
     @Override
     void inject(PlaygroundApp playgroundApp);
-
-    void inject(DesignListViewModel designListViewModel);
 
     // Gives us syntactic sugar. we can then do DaggerAppComponent.builder().application(this).build().inject(this);
     // never having to instantiate any modules or say which module we are passing the application to.

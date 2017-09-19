@@ -42,4 +42,8 @@ public class ProjectListViewModel extends ViewModel {
     public LiveData<List<Project>> getProjectList() {
         return projectList;
     }
+
+    public LiveData<Map<Long, List<ProjectPictureFileInfo>>> getPicturesPerProject() {
+        return this.picturesPerProject;
+    }
 }

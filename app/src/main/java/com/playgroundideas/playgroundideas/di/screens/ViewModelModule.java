@@ -3,6 +3,7 @@ package com.playgroundideas.playgroundideas.di.screens;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 
+import com.playgroundideas.playgroundideas.viewmodel.DesignListViewModel;
 import com.playgroundideas.playgroundideas.viewmodel.UserViewModel;
 
 import dagger.Binds;
@@ -22,5 +23,10 @@ public abstract class ViewModelModule {
     abstract ViewModel bindUserViewModel(UserViewModel userViewModel);
 
     @Binds
-    abstract ViewModelProvider.Factory bindViewModelFactory(ViewModelFactory factory);
+    @IntoMap
+    @ViewModelKey(DesignListViewModel.class)
+    abstract ViewModel bindDesignListViewModel(DesignListViewModel designListViewModel);
+
+    @Binds
+    abstract ViewModelProvider.Factory bindViewModelFactory(PlaygroundViewModelFactory factory);
 }

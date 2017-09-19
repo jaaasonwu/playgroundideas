@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.playgroundideas.playgroundideas.di.screens.DatabaseModule;
+import com.playgroundideas.playgroundideas.di.screens.ViewModelModule;
 import com.playgroundideas.playgroundideas.di.screens.WebServiceModule;
 
 import java.util.concurrent.Executor;
@@ -18,7 +19,7 @@ import dagger.Provides;
  * Created by Ferdinand on 16/09/2017.
  */
 
-@Module(includes = {WebServiceModule.class, DatabaseModule.class})
+@Module(includes = {WebServiceModule.class, DatabaseModule.class, ViewModelModule.class})
 public class AppModule {
 
     @Provides Context provideApplicationContext(Application application) {

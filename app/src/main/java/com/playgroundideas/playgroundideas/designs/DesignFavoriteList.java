@@ -1,11 +1,11 @@
 package com.playgroundideas.playgroundideas.designs;
 
 import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,25 +19,27 @@ import com.playgroundideas.playgroundideas.viewmodel.DesignListViewModel;
 
 import java.util.List;
 
+import javax.inject.Inject;
 
-public class DesignFavoriteList extends Fragment {
+import dagger.android.support.DaggerFragment;
+
+
+public class DesignFavoriteList extends DaggerFragment {
 
     private DesignsFragment designsFragment;
     private FloatingActionButton designsAddFab;
     private GridView myFavoriteGrid;
     private DesignListViewModel viewModel;
+    @Inject
+    ViewModelProvider.Factory viewModelFactory;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view;
-
-            view = inflater.inflate(R.layout.fragment_design_favorite_list, container, false);
-            myFavoriteGrid = view.findViewById(R.id.my_favorite_grid);
-            myFavoriteGrid.setAdapter(new GridViewAdapterFavorite(getActivity()));
-            return view;
-
-
+        View view = inflater.inflate(R.layout.fragment_design_favorite_list, container, false);
+        myFavoriteGrid = view.findViewById(R.id.my_favorite_grid);
+        myFavoriteGrid.setAdapter(new GridViewAdapterFavorite(getActivity()));
+        return view;
     }
 
     @Override
@@ -54,7 +56,7 @@ public class DesignFavoriteList extends Fragment {
         designsAddFab.setImageDrawable(new IconDrawable(getContext(), MaterialIcons.md_add)
                 .colorRes(R.color.white).actionBarSize());
 
-        viewModel = ViewModelProviders.of(this).get(DesignListViewModel.class);
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(DesignListViewModel.class);
         viewModel.init(true);
         viewModel.getDesignList().observe(this, new Observer<List<Design>>() {
             @Override
