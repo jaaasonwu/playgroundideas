@@ -2,8 +2,11 @@ package com.playgroundideas.playgroundideas.di;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 
+import com.playgroundideas.playgroundideas.R;
 import com.playgroundideas.playgroundideas.di.screens.DatabaseModule;
+import com.playgroundideas.playgroundideas.di.screens.FragmentBuilderModule;
 import com.playgroundideas.playgroundideas.di.screens.ViewModelModule;
 import com.playgroundideas.playgroundideas.di.screens.WebServiceModule;
 
@@ -15,15 +18,18 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 
-/**
- * Created by Ferdinand on 16/09/2017.
- */
 
-@Module(includes = {WebServiceModule.class, DatabaseModule.class, ViewModelModule.class})
-public class AppModule {
+@Module(includes = {FragmentBuilderModule.class, WebServiceModule.class, DatabaseModule.class, ViewModelModule.class})
+class AppModule {
 
-    @Provides Context provideApplicationContext(Application application) {
+    @Provides
+    Context provideApplicationContext(Application application) {
         return application;
+    }
+
+    @Provides
+    SharedPreferences provideSharedPreferences(Application application) {
+        return application.getSharedPreferences(R.string.preference_file_key + "", Context.MODE_PRIVATE);
     }
 
     @Singleton

@@ -5,16 +5,14 @@ import android.arch.persistence.room.Room;
 
 import com.playgroundideas.playgroundideas.datasource.local.Database;
 import com.playgroundideas.playgroundideas.datasource.local.DesignDao;
+import com.playgroundideas.playgroundideas.datasource.local.ManualDao;
+import com.playgroundideas.playgroundideas.datasource.local.ProjectDao;
 import com.playgroundideas.playgroundideas.datasource.local.UserDao;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-
-/**
- * Created by Ferdinand on 16/09/2017.
- */
 
 @Module
 public class DatabaseModule {
@@ -32,5 +30,15 @@ public class DatabaseModule {
     @Singleton @Provides
     DesignDao provideDesignDao(Database db) {
         return db.designDao();
+    }
+
+    @Singleton @Provides
+    ProjectDao provideProjectDao(Database db) {
+        return db.projectDao();
+    }
+
+    @Singleton @Provides
+    ManualDao provideManualDao(Database db) {
+        return db.manualDao();
     }
 }

@@ -2,8 +2,6 @@ package com.playgroundideas.playgroundideas.di;
 
 import android.app.Application;
 
-import com.playgroundideas.playgroundideas.di.screens.MainActivityModule;
-
 import javax.inject.Singleton;
 
 import dagger.BindsInstance;
@@ -11,16 +9,11 @@ import dagger.Component;
 import dagger.android.AndroidInjector;
 import dagger.android.support.AndroidSupportInjectionModule;
 
-/**
- * Created by Ferdinand on 16/09/2017.
- */
-
 @Singleton
 @Component(modules = {
         AndroidSupportInjectionModule.class,
-        AppModule.class,
-        MainActivityModule.class})
-public interface AppComponent extends AndroidInjector<PlaygroundApp>{
+        AppModule.class})
+interface AppComponent extends AndroidInjector<PlaygroundApp>{
 
     @Override
     void inject(PlaygroundApp playgroundApp);

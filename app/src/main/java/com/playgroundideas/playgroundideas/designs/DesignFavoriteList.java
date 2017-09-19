@@ -56,6 +56,7 @@ public class DesignFavoriteList extends DaggerFragment {
         designsAddFab.setImageDrawable(new IconDrawable(getContext(), MaterialIcons.md_add)
                 .colorRes(R.color.white).actionBarSize());
 
+        // this integrates the design view model
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(DesignListViewModel.class);
         viewModel.init(true);
         viewModel.getDesignList().observe(this, new Observer<List<Design>>() {
