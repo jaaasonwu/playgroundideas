@@ -3,7 +3,7 @@ package com.playgroundideas.playgroundideas.viewmodel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
-import com.playgroundideas.playgroundideas.datasource.UserRepository;
+import com.playgroundideas.playgroundideas.datasource.repository.UserRepository;
 import com.playgroundideas.playgroundideas.model.User;
 
 import javax.inject.Inject;

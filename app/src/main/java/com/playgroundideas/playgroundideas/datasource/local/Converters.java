@@ -6,14 +6,13 @@ import com.playgroundideas.playgroundideas.model.DesignCategory;
 
 import java.util.Locale;
 
+import javax.inject.Singleton;
 import javax.money.MonetaryAmount;
 import javax.money.format.MonetaryAmountFormat;
 import javax.money.format.MonetaryFormats;
 
-/**
- * Created by Ferdinand on 12/09/2017.
- */
 
+@Singleton
 public class Converters {
 
     @TypeConverter
