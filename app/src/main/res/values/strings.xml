@@ -65,4 +65,13 @@
     <string name="relative_project_pictures_directory_name">playgroundProjectPictures</string>
     <string name="preference_file_key">org.playgroundIdeas.app.android.preferenceFile</string>
     <string name="saved_user">saved_user</string>
+
+    <string name="firstname">First Name</string>
+    <string name="lastname">Last Name</string>
+    <string name="email">Email</string>
+    <string name="save_settings">Save Settings</string>
+    <string name="details">Details</string>
+    <string name="donation">Donation Method</string>
+    <string name="account_info">Account Information</string>
+
 </resources>
