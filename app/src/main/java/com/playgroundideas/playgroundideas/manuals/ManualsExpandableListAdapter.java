@@ -1,6 +1,8 @@
 package com.playgroundideas.playgroundideas.manuals;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,7 @@ public class ManualsExpandableListAdapter extends BaseExpandableListAdapter {
     private List<String> mGroupHeader;
     private HashMap<String, List<String>> mItemHeader;
     private HashMap<String, Boolean> mDownloadStatus;
+    private final String baseUrl = "http://swen90014v-2017plp.cis.unimelb.edu.au:3000/";
 
     ManualsExpandableListAdapter(Context context, List<String> groupHeader,
                                         HashMap<String, List<String>> itemHeader,
@@ -97,11 +100,31 @@ public class ManualsExpandableListAdapter extends BaseExpandableListAdapter {
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.manuals_list_item, null);
-
         }
+        view.setOnClickListener(new onOpenManualClick((String) getGroup(i), i1));
         TextView itemText = view.findViewById(R.id.expandedListItem);
         itemText.setText(childText);
         return view;
+    }
+
+    private class onOpenManualClick implements View.OnClickListener {
+        private String mFilename;
+        private int mId;
+        public onOpenManualClick(String filename, int id) {
+            mFilename = filename;
+            mId = id;
+        }
+
+        @Override
+        public void onClick(View view) {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+
+            intent.setDataAndType(Uri.parse("http://docs.google.com/gview?embedded=true&url=" +
+                    baseUrl + "manuals/" + mFilename + '/' + Integer.toString(mId)), "text/html");
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+
+            mContext.startActivity(intent);
+        }
     }
 
     @Override

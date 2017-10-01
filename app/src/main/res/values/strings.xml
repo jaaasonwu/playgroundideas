@@ -65,4 +65,7 @@
     <string name="relative_project_pictures_directory_name">playgroundProjectPictures</string>
     <string name="preference_file_key">org.playgroundIdeas.app.android.preferenceFile</string>
     <string name="saved_user">saved_user</string>
+    <string name="download_failed">Download failed. Please check your Internet connection.</string>
+    <string name="download_start">Download started.</string>
+    <string name="download_finished">Download finished!</string>
 </resources>
