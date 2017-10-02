@@ -5,6 +5,8 @@ import android.arch.persistence.room.TypeConverter;
 import com.playgroundideas.playgroundideas.model.DesignCategory;
 import com.playgroundideas.playgroundideas.model.ProjectPostStatus;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Locale;
 
 import javax.inject.Singleton;
@@ -54,6 +56,16 @@ public class Converters {
     @TypeConverter
     public static String projectPostStatusToString(ProjectPostStatus projectPostStatus) {
         return projectPostStatus.name();
+    }
+
+    @TypeConverter
+    public static URL urlFromString(String value) throws MalformedURLException {
+        return new URL(value);
+    }
+
+    @TypeConverter
+    public static String urlToString(URL url) {
+        return url.toString();
     }
 
 }
