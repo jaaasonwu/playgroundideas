@@ -5,12 +5,14 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.SearchView;
 
+import com.daimajia.swipe.util.Attributes;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.MaterialIcons;
@@ -35,6 +37,7 @@ public class DesignFavoriteList extends Fragment {
         searchView = (SearchView) view.findViewById(R.id.searchView1);
         final GridViewAdapterFavorite gridViewAdapterFavorite = new GridViewAdapterFavorite(getActivity());
         myFavoriteGrid.setAdapter(gridViewAdapterFavorite);
+        gridViewAdapterFavorite.setMode(Attributes.Mode.Single);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -66,5 +69,7 @@ public class DesignFavoriteList extends Fragment {
         });
         designsAddFab.setImageDrawable(new IconDrawable(getContext(), MaterialIcons.md_add)
                 .colorRes(R.color.white).actionBarSize());
+
+
     }
 }

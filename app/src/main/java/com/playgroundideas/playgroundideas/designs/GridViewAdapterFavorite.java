@@ -3,9 +3,12 @@ package com.playgroundideas.playgroundideas.designs;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.Filter;
@@ -14,6 +17,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.daimajia.swipe.SwipeLayout;
+import com.daimajia.swipe.adapters.BaseSwipeAdapter;
+import com.joanzapata.iconify.IconDrawable;
+import com.joanzapata.iconify.Iconify;
+import com.joanzapata.iconify.fonts.MaterialIcons;
+import com.joanzapata.iconify.fonts.MaterialModule;
 import com.playgroundideas.playgroundideas.R;
 
 import java.util.ArrayList;
@@ -21,9 +30,12 @@ import java.util.ArrayList;
 /**
  * Created by Peter Chen on 2017/8/29.
  */
-class GridViewAdapterFavorite extends BaseAdapter implements Filterable{
+class GridViewAdapterFavorite extends BaseSwipeAdapter implements Filterable{
+
     CustomFilter1 filter;
     ArrayList<DesignItem> filterList;
+    private ArrayList<DesignItem> list;
+    private Context context;
 
     @Override
     public Filter getFilter() {
@@ -66,20 +78,6 @@ class GridViewAdapterFavorite extends BaseAdapter implements Filterable{
         }
     }
 
-    class ViewHolder {
-        private TextView desc;
-        private ImageView image;
-        private Button deleteButton;
-
-        ViewHolder(View v){
-            this.desc = (TextView) v.findViewById(R.id.textView);
-            this.image = (ImageView) v.findViewById(R.id.imageView);
-            this.deleteButton = (Button) v.findViewById(R.id.add_or_delete_button);
-        }
-    }
-
-    private ArrayList<DesignItem> list;
-    private Context context;
 
     GridViewAdapterFavorite(Context context){
         list = new ArrayList<DesignItem>();
@@ -147,6 +145,8 @@ class GridViewAdapterFavorite extends BaseAdapter implements Filterable{
                         toast = Toast.makeText(context, textItemNum +
                                 " favorite design was removed.", Toast.LENGTH_SHORT);
                         toast.show();
+                        filterList.remove(itemSeq);
+                        notifyDataSetChanged();
                     break;
 
             }
@@ -155,32 +155,86 @@ class GridViewAdapterFavorite extends BaseAdapter implements Filterable{
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-
-        View designItem = view;
-        ViewHolder holder = null;
-        if(designItem == null){
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            designItem = inflater.inflate(R.layout.design_item, viewGroup, false);
-            holder = new ViewHolder(designItem);
-            holder.deleteButton.setText("Delete");
-            designItem.setTag(holder);
-        }
-        else{
-            holder = (ViewHolder) designItem.getTag();
-        }
-
-        DesignItem temp_item = list.get(i);
-
-        holder.desc.setText(temp_item.getDescription());
-        holder.image.setImageResource(temp_item.getImage());
-        ButtonHandler buttonHandler = new ButtonHandler(i, temp_item);
-        holder.image.setOnClickListener(buttonHandler);
-        holder.deleteButton.setOnClickListener(buttonHandler);
-        return designItem;
-
+    public int getSwipeLayoutResourceId(int i) {
+        return R.id.sl_content;
     }
 
+    @Override
+    public View generateView(int i, ViewGroup viewGroup) {
+        View view = View.inflate(context, R.layout.design_item, null);
+        return view;
+    }
+
+    @Override
+    public void fillValues(int i, View view) {
+        TextView desc;
+        ImageView image;
+        Button deleteButton;
+        Button emailShare;
+        Button facebookShare;
+        final FloatingActionButton floatingActionPlus;
+        final FloatingActionButton floatingActionEmailShare;
+        final FloatingActionButton floatingActionFacebookShare;
+        final Animation fabOpenShare, fabCloseShare, fabRClockwise, fabRAnticlockwise;
+        final SwipeLayout sl_content;
+
+        desc = (TextView) view.findViewById(R.id.textView);
+        image = (ImageView) view.findViewById(R.id.imageView);
+        deleteButton = (Button) view.findViewById(R.id.add_or_delete_button);
+        deleteButton.setText("Delete");
+
+        Iconify.with(new MaterialModule());
+        floatingActionPlus = (FloatingActionButton) view.findViewById(R.id.fab_share);
+        floatingActionEmailShare = (FloatingActionButton) view.findViewById(R.id.fab_email_share);
+        floatingActionFacebookShare = (FloatingActionButton) view.findViewById(R.id.fab_facebook_share);
+        floatingActionPlus.setImageDrawable(new IconDrawable(context, MaterialIcons.md_add)
+                .colorRes(R.color.black).actionBarSize());
+        floatingActionEmailShare.setImageDrawable(new IconDrawable(context, MaterialIcons.md_email)
+                .colorRes(R.color.black).actionBarSize());
+        floatingActionFacebookShare.setImageDrawable(new IconDrawable(context, MaterialIcons.md_share)
+                .colorRes(R.color.black).actionBarSize());
+        fabOpenShare = AnimationUtils.loadAnimation(context, R.anim.fab_open_share);
+        fabRClockwise = AnimationUtils.loadAnimation(context, R.anim.rotate_clockwise);
+        fabCloseShare = AnimationUtils.loadAnimation(context, R.anim.fab_close_share);
+        fabRAnticlockwise = AnimationUtils.loadAnimation(context, R.anim.rotate_anticlockwise);
+
+
+        emailShare = (Button) view.findViewById(R.id.email_share);
+        facebookShare = (Button) view.findViewById(R.id.facebook_share);
+        sl_content = (SwipeLayout) view.findViewById(R.id.sl_content);
+        sl_content.setShowMode(SwipeLayout.ShowMode.PullOut);
+
+        DesignItem temp_item = list.get(i);
+        desc.setText(temp_item.getDescription());
+        image.setImageResource(temp_item.getImage());
+        ButtonHandler buttonHandler = new ButtonHandler(i, temp_item);
+        image.setOnClickListener(buttonHandler);
+        deleteButton.setOnClickListener(buttonHandler);
+        emailShare.setOnClickListener(buttonHandler);
+        facebookShare.setOnClickListener(buttonHandler);
+        floatingActionPlus.setOnClickListener(new View.OnClickListener() {
+            boolean isOpen = false;
+            @Override
+            public void onClick(View view) {
+                if(isOpen){
+                    floatingActionEmailShare.startAnimation(fabCloseShare);
+                    floatingActionFacebookShare.startAnimation(fabCloseShare);
+                    floatingActionPlus.startAnimation(fabRAnticlockwise);
+                    floatingActionEmailShare.setClickable(false);
+                    floatingActionFacebookShare.setClickable(false);
+                    isOpen = false;
+                }
+                else{
+                    floatingActionEmailShare.startAnimation(fabOpenShare);
+                    floatingActionFacebookShare.startAnimation(fabOpenShare);
+                    floatingActionPlus.startAnimation(fabRClockwise);
+                    floatingActionEmailShare.setClickable(true);
+                    floatingActionFacebookShare.setClickable(true);
+                    isOpen = true;
+                }
+            }
+        });
+    }
 }
 
 
