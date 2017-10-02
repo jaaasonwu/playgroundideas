@@ -3,6 +3,7 @@ package com.playgroundideas.playgroundideas.datasource.local;
 import android.arch.persistence.room.TypeConverter;
 
 import com.playgroundideas.playgroundideas.model.DesignCategory;
+import com.playgroundideas.playgroundideas.model.ProjectPostStatus;
 
 import java.util.Locale;
 
@@ -36,19 +37,23 @@ public class Converters {
     }
 
     @TypeConverter
-    public static DesignCategory designCategoryFromLong(Long value) {
-        for (DesignCategory d : DesignCategory.values()) {
-            if (value.equals(d.getId())) {
-                return d;
-            }
-        }
-        throw new IllegalArgumentException("Could not recognize design category");
+    public static DesignCategory designCategoryFromString(String value) {
+        return DesignCategory.valueOf(value);
     }
 
     @TypeConverter
-    public static Long designCategoryToLong(DesignCategory designCategory) {
-        return designCategory.getId();
+    public static String designCategoryToString(DesignCategory designCategory) {
+        return designCategory.name();
     }
 
+    @TypeConverter
+    public static ProjectPostStatus projectPostStatusFromString(String value) {
+        return ProjectPostStatus.valueOf(value);
+    }
+
+    @TypeConverter
+    public static String projectPostStatusToString(ProjectPostStatus projectPostStatus) {
+        return projectPostStatus.name();
+    }
 
 }
