@@ -58,7 +58,10 @@ public class UserRepository {
             @Override
             public void run() {
                 // running in a background thread
-                // check if user was fetched recently
+                // check if there is internet connection
+                // check if the user hasn't been loaded recently
+                // check if the user has changed on the server using a version number/timestamp
+                // -> retrieve user from server and update/insert it in the local database
                 boolean userExists = userDao.hasUser(id);
                 if (!userExists) {
                     // refresh the data

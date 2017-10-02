@@ -10,6 +10,7 @@ import android.arch.persistence.room.Update;
 
 import com.playgroundideas.playgroundideas.model.Design;
 import com.playgroundideas.playgroundideas.model.DesignPictureFileInfo;
+import com.playgroundideas.playgroundideas.model.FavouritedDesignsPerUser;
 
 import java.util.List;
 
@@ -40,6 +41,13 @@ public interface DesignDao {
 
     @Query("SELECT design.* FROM design INNER JOIN favouritedDesignsPerUser ON favouritedDesignsPerUser.userId =  :userId")
     LiveData<List<Design>> loadFavouritesOf(long userId);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    long addFavourite(FavouritedDesignsPerUser favourite);
+
+    @Query("DELETE FROM favouritedDesignsPerUser WHERE userId = :userId AND designId = :designId")
+    void removeFavourite(long designId, long userId);
+
 
     @Query("SELECT COUNT(1) FROM design WHERE id = :id")
     boolean hasDesign(long id);

@@ -8,6 +8,8 @@ import com.playgroundideas.playgroundideas.datasource.local.DesignDao;
 import com.playgroundideas.playgroundideas.datasource.remote.DesignWebservice;
 import com.playgroundideas.playgroundideas.model.Design;
 import com.playgroundideas.playgroundideas.model.DesignPictureFileInfo;
+import com.playgroundideas.playgroundideas.model.FavouritedDesignsPerUser;
+import com.playgroundideas.playgroundideas.model.User;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -39,6 +41,18 @@ public class DesignRepository {
     public LiveData<Design> get(Long id) {
         refreshDesign(id);
         return designDao.load(id);
+    }
+
+    public void createDesign(Design design) {
+        designDao.insert(design);
+    }
+
+    public void updateDesign(Design design) {
+        designDao.update(design);
+    }
+
+    public void deleteDesign(Design design) {
+        designDao.delete(design);
     }
 
     public LiveData<List<Design>> getAllCreatedBy(Long creatorId) {
@@ -77,6 +91,23 @@ public class DesignRepository {
             }
         });
         return picturesPerDesign;
+    }
+
+    public void addImage(DesignPictureFileInfo pictureFileInfo) {
+        designDao.insert(pictureFileInfo);
+    }
+
+    public void removeImage(DesignPictureFileInfo pictureFileInfo) {
+        designDao.delete(pictureFileInfo);
+    }
+
+    public void addFavourite(Design design, User user) {
+        FavouritedDesignsPerUser relation = new FavouritedDesignsPerUser(user.getId(), design.getId());
+        designDao.addFavourite(relation);
+    }
+
+    public void removeFavourite(Design design, User user) {
+        designDao.removeFavourite(design.getId(), user.getId());
     }
 
     private void refreshDesign(final Long id) {
