@@ -5,8 +5,8 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 
-import com.playgroundideas.playgroundideas.datasource.ManualRepository;
 import com.playgroundideas.playgroundideas.datasource.local.FileStorage;
+import com.playgroundideas.playgroundideas.datasource.repository.ManualRepository;
 import com.playgroundideas.playgroundideas.model.Manual;
 
 import java.util.LinkedList;

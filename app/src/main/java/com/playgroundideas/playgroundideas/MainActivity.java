@@ -20,7 +20,6 @@ import com.playgroundideas.playgroundideas.projects.ProjectsFragment;
 
 public class MainActivity extends AppCompatActivity {
 
-
     BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
         @Override
