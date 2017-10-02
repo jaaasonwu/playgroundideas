@@ -54,7 +54,7 @@
             android:id="@+id/email_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"/>
+            android:inputType="textEmailAddress"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -83,6 +83,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:id="@+id/save_button"
+            android:background="@color/green"
+            android:textColor="@color/white"
+            android:text="@string/save_settings"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:id="@+id/logout_button"
+            android:background="@color/green"
+            android:textColor="@color/white"
+            android:text="@string/logout"/>
 
     </LinearLayout>
 

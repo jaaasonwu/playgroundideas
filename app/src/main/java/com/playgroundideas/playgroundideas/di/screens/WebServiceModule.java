@@ -1,6 +1,7 @@
 package com.playgroundideas.playgroundideas.di.screens;
 
 import com.playgroundideas.playgroundideas.datasource.remote.DesignWebservice;
+import com.playgroundideas.playgroundideas.datasource.remote.LoginWebservice;
 import com.playgroundideas.playgroundideas.datasource.remote.ManualWebservice;
 import com.playgroundideas.playgroundideas.datasource.remote.ProjectWebservice;
 import com.playgroundideas.playgroundideas.datasource.remote.UserWebservice;
@@ -41,5 +42,12 @@ public class WebServiceModule {
     ManualWebservice provideManualWebService() {
         return new Retrofit.Builder()
                 .baseUrl("https://api.playgroundIdeas.org/user/").build().create(ManualWebservice.class);
+    }
+
+    @Singleton
+    @Provides
+    LoginWebservice provideLoginWebService() {
+        return new Retrofit.Builder()
+                .baseUrl("http://swen90014v-2017plp.cis.unimelb.edu.au/").build().create(LoginWebservice.class);
     }
 }
