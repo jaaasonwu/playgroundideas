@@ -9,6 +9,7 @@ import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
 import com.playgroundideas.playgroundideas.model.Manual;
+import com.playgroundideas.playgroundideas.model.ManualChapter;
 
 import java.util.List;
 
@@ -36,4 +37,17 @@ public interface ManualDao {
 
     @Query("SELECT COUNT(1) FROM manual WHERE id = :id")
     boolean hasManual(long id);
+
+    @Update
+    public void update(ManualChapter manualChapter);
+    @Delete
+    public void delete(ManualChapter manualChapter);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    public long insertManualChapter(ManualChapter manualChapter);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    public long[] insertManualChapters(ManualChapter... manualChapters);
+
+    @Query("SELECT * FROM manualChapter WHERE manualId = :manualId")
+    LiveData<List<ManualChapter>> loadAllOf(long manualId);
+
 }

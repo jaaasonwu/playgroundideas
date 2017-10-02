@@ -7,6 +7,7 @@ import com.playgroundideas.playgroundideas.model.ProjectPostStatus;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Date;
 import java.util.Locale;
 
 import javax.inject.Singleton;
@@ -59,13 +60,29 @@ public class Converters {
     }
 
     @TypeConverter
-    public static URL urlFromString(String value) throws MalformedURLException {
-        return new URL(value);
+    public static URL urlFromString(String value) {
+        URL result = null;
+        try {
+            result = new URL(value);
+        } catch (MalformedURLException e) {
+            result = null;
+        }
+        return result;
     }
 
     @TypeConverter
     public static String urlToString(URL url) {
         return url.toString();
+    }
+
+    @TypeConverter
+    public static Date toDate(Long timestamp) {
+        return timestamp == null ? null : new Date(timestamp);
+    }
+
+    @TypeConverter
+    public static Long toTimestamp(Date date) {
+        return date == null ? null : date.getTime();
     }
 
 }

@@ -10,7 +10,7 @@ import android.support.annotation.NonNull;
 import com.playgroundideas.playgroundideas.datasource.local.Converters;
 
 import java.net.URL;
-import java.sql.Date;
+import java.util.Date;
 
 import javax.money.MonetaryAmount;
 
@@ -33,7 +33,9 @@ public class Project {
     private String description;
     private Long creatorId;
     private int numberOfDonations;
+    @TypeConverters(Converters.class)
     private Date startDate;
+    @TypeConverters(Converters.class)
     private Date endDate;
     private boolean manuallyAddingFundsAllowed;
     @TypeConverters(Converters.class)
