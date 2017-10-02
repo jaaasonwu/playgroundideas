@@ -44,6 +44,18 @@ public interface DesignDao {
     @Query("SELECT COUNT(1) FROM design WHERE id = :id")
     boolean hasDesign(long id);
 
+    @Update
+    void update(DesignPictureFileInfo pictureFile);
+    @Delete
+    void delete(DesignPictureFileInfo pictureFile);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    long insert(DesignPictureFileInfo pictureFile);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    long[] insert(DesignPictureFileInfo... pictureFiles);
+
+    @Query("SELECT * FROM designPictureFileInfo WHERE designId = :designId AND name = :filename")
+    LiveData<DesignPictureFileInfo> load(Long designId, String filename);
+
     @Query("SELECT * FROM designPictureFileInfo WHERE designId = :designId")
     LiveData<List<DesignPictureFileInfo>> loadAllPicturesOf(Long designId);
 
