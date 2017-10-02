@@ -26,20 +26,28 @@ public class Design {
     @TypeConverters(value = Converters.class)
     private DesignCategory category;
     private String description;
-    private String materials;
-    private String tools;
     @Embedded(prefix = "picture_")
     private DesignPictureFileInfo picture;
+    private boolean published;
+    private boolean pickedByStaff;
+    private String safetyConsiderations;
+    private String buildingSteps;
+    private String buildingMaterials;
+    private String buildingTools;
 
-    public Design(Long id, String name, Long creatorId, DesignCategory category, String description, String materials, String tools, DesignPictureFileInfo picture) {
+    public Design(Long id, String name, Long creatorId, DesignCategory category, String description, String buildingMaterials, DesignPictureFileInfo picture, boolean published, boolean pickedByStaff, String safetyConsiderations, String buildingSteps, String buildingTools) {
         this.id = id;
         this.name = name;
         this.creatorId = creatorId;
         this.category = category;
         this.description = description;
-        this.materials = materials;
-        this.tools = tools;
+        this.buildingMaterials = buildingMaterials;
         this.picture = picture;
+        this.published = published;
+        this.pickedByStaff = pickedByStaff;
+        this.safetyConsiderations = safetyConsiderations;
+        this.buildingSteps = buildingSteps;
+        this.buildingTools = buildingTools;
     }
 
     public String getName() {
@@ -82,27 +90,59 @@ public class Design {
         this.description = description;
     }
 
-    public String getMaterials() {
-        return materials;
-    }
-
-    public void setMaterials(String materials) {
-        this.materials = materials;
-    }
-
-    public String getTools() {
-        return tools;
-    }
-
-    public void setTools(String tools) {
-        this.tools = tools;
-    }
-
     public DesignPictureFileInfo getPicture() {
         return picture;
     }
 
     public void setPicture(DesignPictureFileInfo picture) {
         this.picture = picture;
+    }
+
+    public boolean isPublished() {
+        return published;
+    }
+
+    public void setPublished(boolean published) {
+        this.published = published;
+    }
+
+    public boolean isPickedByStaff() {
+        return pickedByStaff;
+    }
+
+    public void setPickedByStaff(boolean pickedByStaff) {
+        this.pickedByStaff = pickedByStaff;
+    }
+
+    public String getSafetyConsiderations() {
+        return safetyConsiderations;
+    }
+
+    public void setSafetyConsiderations(String safetyConsiderations) {
+        this.safetyConsiderations = safetyConsiderations;
+    }
+
+    public String getBuildingSteps() {
+        return buildingSteps;
+    }
+
+    public void setBuildingSteps(String buildingSteps) {
+        this.buildingSteps = buildingSteps;
+    }
+
+    public String getBuildingMaterials() {
+        return buildingMaterials;
+    }
+
+    public void setBuildingMaterials(String buildingMaterials) {
+        this.buildingMaterials = buildingMaterials;
+    }
+
+    public String getBuildingTools() {
+        return buildingTools;
+    }
+
+    public void setBuildingTools(String buildingTools) {
+        this.buildingTools = buildingTools;
     }
 }
