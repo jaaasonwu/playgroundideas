@@ -33,13 +33,22 @@ public class UserRepository {
         return userDao.load(id);
     }
 
-    public void writeCurrentUser(Long userId) {
+    public void createUser(User user) {
+        userDao.insertUser(user);
+    }
+
+    public void updateUser(User user) {
+        userDao.update(user);
+    }
+
+    public void setCurrentUser(Long userId) {
+        refreshUser(userId);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putLong(R.string.saved_user + "", userId);
         editor.apply();
     }
 
-    public Long readCurrentUser() {
+    public Long getCurrentUser() {
         return sharedPreferences.getLong(R.string.saved_user + "", 0);
     }
 
