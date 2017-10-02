@@ -2,17 +2,17 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "cd666445a9673c7190d624531741affe",
+    "identityHash": "73669235d1e11f940809d9bd448f4411",
     "entities": [
       {
         "tableName": "User",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER, `firstName` TEXT, `surname` TEXT, `email` TEXT, `phoneNumber` TEXT, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `firstName` TEXT, `surname` TEXT, `email` TEXT, `phoneNumber` TEXT, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
             "columnName": "id",
             "affinity": "INTEGER",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "firstName",
@@ -50,13 +50,13 @@
       },
       {
         "tableName": "Design",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER, `name` TEXT, `creatorId` INTEGER, `category` INTEGER, `description` TEXT, `materials` TEXT, `tools` TEXT, `picture_designId` INTEGER, `picture_name` TEXT, `picture_md5Hash` BLOB, PRIMARY KEY(`id`), FOREIGN KEY(`creatorId`) REFERENCES `User`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT, `creatorId` INTEGER, `category` INTEGER, `description` TEXT, `materials` TEXT, `tools` TEXT, `picture_designId` INTEGER, `picture_name` TEXT, `picture_md5Hash` BLOB, PRIMARY KEY(`id`), FOREIGN KEY(`creatorId`) REFERENCES `User`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "id",
             "columnName": "id",
             "affinity": "INTEGER",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "name",
@@ -153,13 +153,13 @@
       },
       {
         "tableName": "Manual",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER, `name` TEXT, `pdf_manualId` INTEGER, `pdf_name` TEXT, `pdf_md5Hash` BLOB, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT, `pdf_manualId` INTEGER, `pdf_name` TEXT, `pdf_md5Hash` BLOB, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
             "columnName": "id",
             "affinity": "INTEGER",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "name",
@@ -197,13 +197,13 @@
       },
       {
         "tableName": "Project",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER, `location` TEXT, `requiresFunding` INTEGER NOT NULL, `seekingVolunteers` INTEGER NOT NULL, `description` TEXT, `creatorId` INTEGER, `numberOfDonations` INTEGER NOT NULL, `daysLeftUntilFundingEnd` INTEGER NOT NULL, `fundingSum` TEXT, `fundingGoal` TEXT, PRIMARY KEY(`id`), FOREIGN KEY(`creatorId`) REFERENCES `User`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `location` TEXT, `requiresFunding` INTEGER NOT NULL, `seekingVolunteers` INTEGER NOT NULL, `description` TEXT, `creatorId` INTEGER, `numberOfDonations` INTEGER NOT NULL, `daysLeftUntilFundingEnd` INTEGER NOT NULL, `fundingSum` TEXT, `fundingGoal` TEXT, PRIMARY KEY(`id`), FOREIGN KEY(`creatorId`) REFERENCES `User`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "id",
             "columnName": "id",
             "affinity": "INTEGER",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "location",
@@ -292,19 +292,19 @@
       },
       {
         "tableName": "FavouritedDesignsPerUser",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userId` INTEGER, `designId` INTEGER, PRIMARY KEY(`userId`, `designId`), FOREIGN KEY(`userId`) REFERENCES `User`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`designId`) REFERENCES `Design`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userId` INTEGER NOT NULL, `designId` INTEGER NOT NULL, PRIMARY KEY(`userId`, `designId`), FOREIGN KEY(`userId`) REFERENCES `User`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`designId`) REFERENCES `Design`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "userId",
             "columnName": "userId",
             "affinity": "INTEGER",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "designId",
             "columnName": "designId",
             "affinity": "INTEGER",
-            "notNull": false
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -359,19 +359,19 @@
       },
       {
         "tableName": "ProjectPictureFileInfo",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`projectId` INTEGER, `name` TEXT, `md5Hash` BLOB, PRIMARY KEY(`projectId`, `name`), FOREIGN KEY(`projectId`) REFERENCES `Project`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`projectId` INTEGER NOT NULL, `name` TEXT NOT NULL, `md5Hash` BLOB, PRIMARY KEY(`projectId`, `name`), FOREIGN KEY(`projectId`) REFERENCES `Project`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "projectId",
             "columnName": "projectId",
             "affinity": "INTEGER",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "name",
             "columnName": "name",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "md5Hash",
@@ -405,7 +405,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"cd666445a9673c7190d624531741affe\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"73669235d1e11f940809d9bd448f4411\")"
     ]
   }
 }

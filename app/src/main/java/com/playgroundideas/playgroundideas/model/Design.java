@@ -6,6 +6,7 @@ import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
+import android.support.annotation.NonNull;
 
 import com.playgroundideas.playgroundideas.datasource.local.Converters;
 
@@ -18,6 +19,7 @@ import com.playgroundideas.playgroundideas.datasource.local.Converters;
 public class Design {
 
     @PrimaryKey(autoGenerate = false)
+    @NonNull
     private Long id;
     private String name;
     private Long creatorId;

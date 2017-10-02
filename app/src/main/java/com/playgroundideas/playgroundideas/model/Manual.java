@@ -3,6 +3,7 @@ package com.playgroundideas.playgroundideas.model;
 import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
 /**
  * Created by Ferdinand on 9/09/2017.
@@ -12,6 +13,7 @@ import android.arch.persistence.room.PrimaryKey;
 public class Manual {
 
     @PrimaryKey(autoGenerate = false)
+    @NonNull
     private Long id;
     private String name;
     @Embedded(prefix = "pdf_")
