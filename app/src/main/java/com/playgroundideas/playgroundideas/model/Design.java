@@ -1,6 +1,5 @@
 package com.playgroundideas.playgroundideas.model;
 
-import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Index;
@@ -26,8 +25,6 @@ public class Design {
     @TypeConverters(value = Converters.class)
     private DesignCategory category;
     private String description;
-    @Embedded(prefix = "picture_")
-    private DesignPictureFileInfo picture;
     private boolean published;
     private boolean pickedByStaff;
     private String safetyConsiderations;
@@ -35,14 +32,13 @@ public class Design {
     private String buildingMaterials;
     private String buildingTools;
 
-    public Design(Long id, String name, Long creatorId, DesignCategory category, String description, String buildingMaterials, DesignPictureFileInfo picture, boolean published, boolean pickedByStaff, String safetyConsiderations, String buildingSteps, String buildingTools) {
+    public Design(Long id, String name, Long creatorId, DesignCategory category, String description, String buildingMaterials, boolean published, boolean pickedByStaff, String safetyConsiderations, String buildingSteps, String buildingTools) {
         this.id = id;
         this.name = name;
         this.creatorId = creatorId;
         this.category = category;
         this.description = description;
         this.buildingMaterials = buildingMaterials;
-        this.picture = picture;
         this.published = published;
         this.pickedByStaff = pickedByStaff;
         this.safetyConsiderations = safetyConsiderations;
@@ -88,14 +84,6 @@ public class Design {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public DesignPictureFileInfo getPicture() {
-        return picture;
-    }
-
-    public void setPicture(DesignPictureFileInfo picture) {
-        this.picture = picture;
     }
 
     public boolean isPublished() {
