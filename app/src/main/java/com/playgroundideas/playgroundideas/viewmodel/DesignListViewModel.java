@@ -32,7 +32,7 @@ public class DesignListViewModel extends ViewModel {
         if (designList != null) {
             return;
         } else {
-            designList = (favouritedOnly) ? designRepository.getFavouritesOf(userRepository.readCurrentUser()) : designRepository.getAll();
+            designList = (favouritedOnly) ? designRepository.getFavouritesOf(userRepository.getCurrentUser()) : designRepository.getAll();
         }
     }
 

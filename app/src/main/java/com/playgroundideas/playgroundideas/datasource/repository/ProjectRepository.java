@@ -42,6 +42,18 @@ public class ProjectRepository {
         return projectLiveData;
     }
 
+    public void createProject(Project project) {
+        projectDao.insertProject(project);
+    }
+
+    public void updateProject(Project project) {
+        projectDao.update(project);
+    }
+
+    public void deleteProject(Project project) {
+        projectDao.delete(project);
+    }
+
     public LiveData<List<Project>> getProjects() {
         LiveData<List<Project>> projectsLiveData = projectDao.loadAll();
         return projectsLiveData;
@@ -73,6 +85,14 @@ public class ProjectRepository {
             }
         });
         return picturesPerProject;
+    }
+
+    public void addImageToProject(ProjectPictureFileInfo pictureFileInfo) {
+        projectDao.insert(pictureFileInfo);
+    }
+
+    public void removeImageFromProject(ProjectPictureFileInfo pictureFileInfo) {
+        projectDao.delete(pictureFileInfo);
     }
 
     private void refreshProject(final Long id) {
