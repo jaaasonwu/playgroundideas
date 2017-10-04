@@ -10,24 +10,12 @@ import android.arch.persistence.room.Entity;
 public enum DesignCategory {
 
     //TODO remove
-    TEST(new Long(0), "test", "test");
+    TEST("test");
 
-    private Long id;
-    private String name;
     private String description;
 
-    DesignCategory(Long id, String name, String description) {
-        this.id = id;
-        this.name = name;
+    DesignCategory(String description) {
         this.description = description;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public String getDescription() {
@@ -39,11 +27,4 @@ public enum DesignCategory {
         this.description = description;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 }

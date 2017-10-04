@@ -3,6 +3,7 @@ package com.playgroundideas.playgroundideas.model;
 import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
 /**
  * Created by Ferdinand on 9/09/2017.
@@ -12,15 +13,19 @@ import android.arch.persistence.room.PrimaryKey;
 public class Manual {
 
     @PrimaryKey(autoGenerate = false)
+    @NonNull
     private Long id;
     private String name;
     @Embedded(prefix = "pdf_")
     private ManualFileInfo pdfInfo;
+    @Embedded(prefix = "html_")
+    private ManualFileInfo htmlInfo;
 
-    public Manual(Long id, String name, ManualFileInfo pdfInfo) {
+    public Manual(Long id, String name, ManualFileInfo pdfInfo, ManualFileInfo htmlInfo) {
         this.id = id;
         this.name = name;
         this.pdfInfo = pdfInfo;
+        this.htmlInfo = htmlInfo;
     }
 
     public Long getId() {
@@ -37,6 +42,14 @@ public class Manual {
 
     public void setPdfInfo(ManualFileInfo pdfInfo) {
         this.pdfInfo = pdfInfo;
+    }
+
+    public ManualFileInfo getHtmlInfo() {
+        return htmlInfo;
+    }
+
+    public void setHtmlInfo(ManualFileInfo htmlInfo) {
+        this.htmlInfo = htmlInfo;
     }
 
     public String getName() {

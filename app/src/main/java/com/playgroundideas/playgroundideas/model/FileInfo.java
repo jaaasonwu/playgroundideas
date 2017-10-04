@@ -1,5 +1,6 @@
 package com.playgroundideas.playgroundideas.model;
 
+import android.support.annotation.NonNull;
 import android.arch.persistence.room.Ignore;
 
 /**
@@ -8,6 +9,7 @@ import android.arch.persistence.room.Ignore;
 
 public class FileInfo {
 
+    @NonNull
     private String name;
     private byte[] md5Hash;
 

@@ -6,6 +6,7 @@ import com.playgroundideas.playgroundideas.datasource.local.ManualDao;
 import com.playgroundideas.playgroundideas.datasource.remote.ManualWebservice;
 import com.playgroundideas.playgroundideas.model.Manual;
 import com.playgroundideas.playgroundideas.model.ManualFileInfo;
+import com.playgroundideas.playgroundideas.model.ManualChapter;
 
 import org.json.JSONObject;
 
@@ -16,6 +17,8 @@ import java.util.concurrent.Executor;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+
+import static android.R.attr.id;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -48,7 +51,6 @@ public class ManualRepository {
 
     public void downloadManual(Manual manual) {
         // TODO download manual using webservice
-        webservice.getManual(manual.getName());
         //FileStorage.writeManualFile(manual.getPdfInfo(), tempFile);
     }
 
@@ -98,4 +100,9 @@ public class ManualRepository {
             }
         });
     }
+
+    public LiveData<List<ManualChapter>> getManualChaptersOf(Long manualId) {
+        return manualDao.loadAllOf(id);
+    }
+
 }

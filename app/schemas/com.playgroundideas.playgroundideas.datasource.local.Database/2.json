@@ -1,8 +1,8 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 1,
-    "identityHash": "73669235d1e11f940809d9bd448f4411",
+    "version": 2,
+    "identityHash": "dc94b6dba56d3ee17fb0efe505d9071b",
     "entities": [
       {
         "tableName": "User",
@@ -50,7 +50,7 @@
       },
       {
         "tableName": "Design",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT, `creatorId` INTEGER, `category` INTEGER, `description` TEXT, `materials` TEXT, `tools` TEXT, `picture_designId` INTEGER, `picture_name` TEXT, `picture_md5Hash` BLOB, PRIMARY KEY(`id`), FOREIGN KEY(`creatorId`) REFERENCES `User`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT, `creatorId` INTEGER, `category` TEXT, `description` TEXT, `published` INTEGER NOT NULL, `pickedByStaff` INTEGER NOT NULL, `safetyConsiderations` TEXT, `buildingSteps` TEXT, `buildingMaterials` TEXT, `buildingTools` TEXT, PRIMARY KEY(`id`), FOREIGN KEY(`creatorId`) REFERENCES `User`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "id",
@@ -73,7 +73,7 @@
           {
             "fieldPath": "category",
             "columnName": "category",
-            "affinity": "INTEGER",
+            "affinity": "TEXT",
             "notNull": false
           },
           {
@@ -83,33 +83,39 @@
             "notNull": false
           },
           {
-            "fieldPath": "materials",
-            "columnName": "materials",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "tools",
-            "columnName": "tools",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "picture.designId",
-            "columnName": "picture_designId",
+            "fieldPath": "published",
+            "columnName": "published",
             "affinity": "INTEGER",
-            "notNull": false
+            "notNull": true
           },
           {
-            "fieldPath": "picture.name",
-            "columnName": "picture_name",
+            "fieldPath": "pickedByStaff",
+            "columnName": "pickedByStaff",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "safetyConsiderations",
+            "columnName": "safetyConsiderations",
             "affinity": "TEXT",
             "notNull": false
           },
           {
-            "fieldPath": "picture.md5Hash",
-            "columnName": "picture_md5Hash",
-            "affinity": "BLOB",
+            "fieldPath": "buildingSteps",
+            "columnName": "buildingSteps",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "buildingMaterials",
+            "columnName": "buildingMaterials",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "buildingTools",
+            "columnName": "buildingTools",
+            "affinity": "TEXT",
             "notNull": false
           }
         ],
@@ -197,13 +203,25 @@
       },
       {
         "tableName": "Project",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `location` TEXT, `requiresFunding` INTEGER NOT NULL, `seekingVolunteers` INTEGER NOT NULL, `description` TEXT, `creatorId` INTEGER, `numberOfDonations` INTEGER NOT NULL, `daysLeftUntilFundingEnd` INTEGER NOT NULL, `fundingSum` TEXT, `fundingGoal` TEXT, PRIMARY KEY(`id`), FOREIGN KEY(`creatorId`) REFERENCES `User`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT, `projectPostStatus` TEXT, `location` TEXT, `requiresFunding` INTEGER NOT NULL, `seekingVolunteers` INTEGER NOT NULL, `description` TEXT, `creatorId` INTEGER, `numberOfDonations` INTEGER NOT NULL, `daysLeftUntilFundingEnd` INTEGER NOT NULL, `fundingSum` TEXT, `fundingGoal` TEXT, PRIMARY KEY(`id`), FOREIGN KEY(`creatorId`) REFERENCES `User`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "id",
             "columnName": "id",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "projectPostStatus",
+            "columnName": "projectPostStatus",
+            "affinity": "TEXT",
+            "notNull": false
           },
           {
             "fieldPath": "location",
@@ -401,11 +419,56 @@
             ]
           }
         ]
+      },
+      {
+        "tableName": "DesignPictureFileInfo",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`designId` INTEGER NOT NULL, `name` TEXT NOT NULL, `md5Hash` BLOB, PRIMARY KEY(`designId`, `name`), FOREIGN KEY(`designId`) REFERENCES `Design`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "designId",
+            "columnName": "designId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "md5Hash",
+            "columnName": "md5Hash",
+            "affinity": "BLOB",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "designId",
+            "name"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "Design",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "designId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"73669235d1e11f940809d9bd448f4411\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"dc94b6dba56d3ee17fb0efe505d9071b\")"
     ]
   }
 }
