@@ -1,8 +1,8 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 1,
-    "identityHash": "73669235d1e11f940809d9bd448f4411",
+    "version": 3,
+    "identityHash": "c16ed8eda54c63bed3ee0c5e22e6d681",
     "entities": [
       {
         "tableName": "User",
@@ -50,7 +50,7 @@
       },
       {
         "tableName": "Design",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT, `creatorId` INTEGER, `category` INTEGER, `description` TEXT, `materials` TEXT, `tools` TEXT, `picture_designId` INTEGER, `picture_name` TEXT, `picture_md5Hash` BLOB, PRIMARY KEY(`id`), FOREIGN KEY(`creatorId`) REFERENCES `User`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT, `creatorId` INTEGER, `category` TEXT, `description` TEXT, `published` INTEGER NOT NULL, `pickedByStaff` INTEGER NOT NULL, `safetyConsiderations` TEXT, `buildingSteps` TEXT, `buildingMaterials` TEXT, `buildingTools` TEXT, PRIMARY KEY(`id`), FOREIGN KEY(`creatorId`) REFERENCES `User`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "id",
@@ -73,7 +73,7 @@
           {
             "fieldPath": "category",
             "columnName": "category",
-            "affinity": "INTEGER",
+            "affinity": "TEXT",
             "notNull": false
           },
           {
@@ -83,33 +83,39 @@
             "notNull": false
           },
           {
-            "fieldPath": "materials",
-            "columnName": "materials",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "tools",
-            "columnName": "tools",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "picture.designId",
-            "columnName": "picture_designId",
+            "fieldPath": "published",
+            "columnName": "published",
             "affinity": "INTEGER",
-            "notNull": false
+            "notNull": true
           },
           {
-            "fieldPath": "picture.name",
-            "columnName": "picture_name",
+            "fieldPath": "pickedByStaff",
+            "columnName": "pickedByStaff",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "safetyConsiderations",
+            "columnName": "safetyConsiderations",
             "affinity": "TEXT",
             "notNull": false
           },
           {
-            "fieldPath": "picture.md5Hash",
-            "columnName": "picture_md5Hash",
-            "affinity": "BLOB",
+            "fieldPath": "buildingSteps",
+            "columnName": "buildingSteps",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "buildingMaterials",
+            "columnName": "buildingMaterials",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "buildingTools",
+            "columnName": "buildingTools",
+            "affinity": "TEXT",
             "notNull": false
           }
         ],
@@ -153,7 +159,7 @@
       },
       {
         "tableName": "Manual",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT, `pdf_manualId` INTEGER, `pdf_name` TEXT, `pdf_md5Hash` BLOB, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT, `pdf_manualId` INTEGER, `pdf_name` TEXT, `pdf_md5Hash` BLOB, `html_manualId` INTEGER, `html_name` TEXT, `html_md5Hash` BLOB, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -184,6 +190,24 @@
             "columnName": "pdf_md5Hash",
             "affinity": "BLOB",
             "notNull": false
+          },
+          {
+            "fieldPath": "htmlInfo.manualId",
+            "columnName": "html_manualId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "htmlInfo.name",
+            "columnName": "html_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "htmlInfo.md5Hash",
+            "columnName": "html_md5Hash",
+            "affinity": "BLOB",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -197,13 +221,25 @@
       },
       {
         "tableName": "Project",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `location` TEXT, `requiresFunding` INTEGER NOT NULL, `seekingVolunteers` INTEGER NOT NULL, `description` TEXT, `creatorId` INTEGER, `numberOfDonations` INTEGER NOT NULL, `daysLeftUntilFundingEnd` INTEGER NOT NULL, `fundingSum` TEXT, `fundingGoal` TEXT, PRIMARY KEY(`id`), FOREIGN KEY(`creatorId`) REFERENCES `User`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT, `projectPostStatus` TEXT, `location` TEXT, `requiresFunding` INTEGER NOT NULL, `seekingVolunteers` INTEGER NOT NULL, `description` TEXT, `creatorId` INTEGER, `numberOfDonations` INTEGER NOT NULL, `startDate` INTEGER, `endDate` INTEGER, `manuallyAddingFundsAllowed` INTEGER NOT NULL, `facebook_campaign_link` TEXT, `twitter__campaign_link` TEXT, `google_campaing_link` TEXT, `pinterest_campaign_link` TEXT, `linkedin_campaign_link` TEXT, `youtube_campaign_link` TEXT, `fundingSum` TEXT, `fundingGoal` TEXT, PRIMARY KEY(`id`), FOREIGN KEY(`creatorId`) REFERENCES `User`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "id",
             "columnName": "id",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "projectPostStatus",
+            "columnName": "projectPostStatus",
+            "affinity": "TEXT",
+            "notNull": false
           },
           {
             "fieldPath": "location",
@@ -242,10 +278,58 @@
             "notNull": true
           },
           {
-            "fieldPath": "daysLeftUntilFundingEnd",
-            "columnName": "daysLeftUntilFundingEnd",
+            "fieldPath": "startDate",
+            "columnName": "startDate",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "endDate",
+            "columnName": "endDate",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "manuallyAddingFundsAllowed",
+            "columnName": "manuallyAddingFundsAllowed",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "facebook_campaign_link",
+            "columnName": "facebook_campaign_link",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "twitter__campaign_link",
+            "columnName": "twitter__campaign_link",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "google_campaing_link",
+            "columnName": "google_campaing_link",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "pinterest_campaign_link",
+            "columnName": "pinterest_campaign_link",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "linkedin_campaign_link",
+            "columnName": "linkedin_campaign_link",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "youtube_campaign_link",
+            "columnName": "youtube_campaign_link",
+            "affinity": "TEXT",
+            "notNull": false
           },
           {
             "fieldPath": "fundingSum",
@@ -283,6 +367,87 @@
             "onUpdate": "NO ACTION",
             "columns": [
               "creatorId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "ManualChapter",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`position` INTEGER NOT NULL, `title` TEXT, `manualId` INTEGER NOT NULL, `pdf_manualId` INTEGER, `pdf_name` TEXT, `pdf_md5Hash` BLOB, `html_manualId` INTEGER, `html_name` TEXT, `html_md5Hash` BLOB, PRIMARY KEY(`manualId`, `position`), FOREIGN KEY(`manualId`) REFERENCES `Manual`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "position",
+            "columnName": "position",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "manualId",
+            "columnName": "manualId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pdfChapterInfo.manualId",
+            "columnName": "pdf_manualId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "pdfChapterInfo.name",
+            "columnName": "pdf_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "pdfChapterInfo.md5Hash",
+            "columnName": "pdf_md5Hash",
+            "affinity": "BLOB",
+            "notNull": false
+          },
+          {
+            "fieldPath": "htmlChapterInfo.manualId",
+            "columnName": "html_manualId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "htmlChapterInfo.name",
+            "columnName": "html_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "htmlChapterInfo.md5Hash",
+            "columnName": "html_md5Hash",
+            "affinity": "BLOB",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "manualId",
+            "position"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "Manual",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "manualId"
             ],
             "referencedColumns": [
               "id"
@@ -401,11 +566,56 @@
             ]
           }
         ]
+      },
+      {
+        "tableName": "DesignPictureFileInfo",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`designId` INTEGER NOT NULL, `name` TEXT NOT NULL, `md5Hash` BLOB, PRIMARY KEY(`designId`, `name`), FOREIGN KEY(`designId`) REFERENCES `Design`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "designId",
+            "columnName": "designId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "md5Hash",
+            "columnName": "md5Hash",
+            "affinity": "BLOB",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "designId",
+            "name"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "Design",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "designId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"73669235d1e11f940809d9bd448f4411\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"c16ed8eda54c63bed3ee0c5e22e6d681\")"
     ]
   }
 }

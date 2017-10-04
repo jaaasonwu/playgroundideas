@@ -1,12 +1,18 @@
 package com.playgroundideas.playgroundideas.datasource.repository;
 
+import android.arch.core.util.Function;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Transformations;
 
 import com.playgroundideas.playgroundideas.datasource.local.DesignDao;
 import com.playgroundideas.playgroundideas.datasource.remote.DesignWebservice;
 import com.playgroundideas.playgroundideas.model.Design;
+import com.playgroundideas.playgroundideas.model.DesignPictureFileInfo;
 
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Executor;
 
 import javax.inject.Inject;
@@ -48,6 +54,29 @@ public class DesignRepository {
     public LiveData<List<Design>> getFavouritesOf(Long userId) {
         LiveData<List<Design>> favouriteDesigns = designDao.loadFavouritesOf(userId);
         return favouriteDesigns;
+    }
+
+    public LiveData<List<DesignPictureFileInfo>> getPicturesOf(Long designId) {
+        LiveData<List<DesignPictureFileInfo>> pictures = designDao.loadAllPicturesOf(designId);
+        return pictures;
+    }
+
+    public LiveData<Map<Long, List<DesignPictureFileInfo>>> getAllPicturesPerDesign() {
+        LiveData<List<DesignPictureFileInfo>> allPictures = designDao.loadAllPictures();
+        LiveData<Map<Long, List<DesignPictureFileInfo>>> picturesPerDesign = Transformations.map(allPictures, new Function<List<DesignPictureFileInfo>, Map<Long, List<DesignPictureFileInfo>>>() {
+            @Override
+            public Map<Long, List<DesignPictureFileInfo>> apply(List<DesignPictureFileInfo> designPictureFileInfos) {
+                Map<Long, List<DesignPictureFileInfo>> map = new HashMap<Long, List<DesignPictureFileInfo>>();
+                for (DesignPictureFileInfo info : designPictureFileInfos) {
+                    if (!map.containsKey(info.getDesignId())) {
+                        map.put(info.getDesignId(), new LinkedList<DesignPictureFileInfo>());
+                    }
+                    map.get(info.getDesignId()).add(info);
+                }
+                return map;
+            }
+        });
+        return picturesPerDesign;
     }
 
     private void refreshDesign(final Long id) {
