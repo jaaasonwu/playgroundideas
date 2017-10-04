@@ -2,31 +2,40 @@ package com.playgroundideas.playgroundideas.manuals;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 
 import com.playgroundideas.playgroundideas.R;
+import com.playgroundideas.playgroundideas.datasource.repository.ManualRepository;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class ManualExpandableList extends Fragment {
+import javax.inject.Inject;
+
+import dagger.android.support.DaggerFragment;
+
+public class ManualExpandableList extends DaggerFragment {
 
     private ExpandableListView mManualsList;
     private ManualsExpandableListAdapter mManualsListAdapter;
     private ArrayList<String> mGroupHeader;
     private HashMap<String, Boolean> mDownloadStatus;
     private HashMap<String, List<String>> mItemHeader;
+    @Inject
+    ManualRepository repo;
 
     @SuppressWarnings("unchecked")
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        repo.updateManualInfo();
+
         Bundle bundle = getArguments();
         mGroupHeader =  bundle.getStringArrayList("groupHeader");
         mDownloadStatus = (HashMap<String, Boolean>)bundle.getSerializable("downloadStatus");
