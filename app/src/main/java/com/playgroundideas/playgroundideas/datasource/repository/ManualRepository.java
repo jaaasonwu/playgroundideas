@@ -60,6 +60,12 @@ public class ManualRepository {
     }
 
     public LiveData<List<Manual>> getAll() {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                updateManualInfo();
+            }
+        });
         return manualDao.loadAll();
     }
 

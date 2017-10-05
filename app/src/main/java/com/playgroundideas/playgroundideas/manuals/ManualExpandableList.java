@@ -51,13 +51,6 @@ public class ManualExpandableList extends DaggerFragment implements Handler.Call
         mDownloadStatus = new HashMap<>();
         mItemHeader = new HashMap<>();
 
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                repo.updateManualInfo();
-            }
-        });
-
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(ManualsListViewModel.class);
         manualLiveData = viewModel.getAllManuals();
         manualLiveData.observe(this, new Observer<List<Manual>>() {
