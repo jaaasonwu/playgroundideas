@@ -20,12 +20,22 @@ public class Manual {
     private ManualFileInfo pdfInfo;
     @Embedded(prefix = "html_")
     private ManualFileInfo htmlInfo;
+    private Boolean downloaded;
 
     public Manual(Long id, String name, ManualFileInfo pdfInfo, ManualFileInfo htmlInfo) {
         this.id = id;
         this.name = name;
         this.pdfInfo = pdfInfo;
         this.htmlInfo = htmlInfo;
+        this.downloaded = false;
+    }
+
+    public Boolean getDownloaded() {
+        return downloaded;
+    }
+
+    public void setDownloaded(Boolean downloaded) {
+        this.downloaded = downloaded;
     }
 
     public Long getId() {

@@ -1,5 +1,9 @@
 package com.playgroundideas.playgroundideas.manuals;
 
+import android.arch.lifecycle.MediatorLiveData;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -9,8 +13,10 @@ import android.widget.ExpandableListView;
 
 import com.playgroundideas.playgroundideas.R;
 import com.playgroundideas.playgroundideas.datasource.repository.ManualRepository;
+import com.playgroundideas.playgroundideas.model.Manual;
+import com.playgroundideas.playgroundideas.model.ManualChapter;
+import com.playgroundideas.playgroundideas.viewmodel.ManualsListViewModel;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,29 +32,64 @@ public class ManualExpandableList extends DaggerFragment {
     private ArrayList<String> mGroupHeader;
     private HashMap<String, Boolean> mDownloadStatus;
     private HashMap<String, List<String>> mItemHeader;
+    private ManualsListViewModel viewModel;
+    MediatorLiveData mediator;
     @Inject
     ManualRepository repo;
+    @Inject
+    ViewModelProvider.Factory viewModelFactory;
 
-    @SuppressWarnings("unchecked")
-    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         repo.updateManualInfo();
+
+        mediator = new MediatorLiveData();
+
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(ManualsListViewModel.class);
+        viewModel.getAllManuals().observe(this, new Observer<List<Manual>>() {
+            @Override
+            public void onChanged(@Nullable List<Manual> manuals) {
+                String name;
+                boolean downloaded;
+                for (int i = 0; i < manuals.size(); i++) {
+                    mGroupHeader.set(i, manuals.get(i).getName());
+                    name = manuals.get(i).getName();
+                    downloaded = manuals.get(i).getDownloaded();
+                    mDownloadStatus.put(name, downloaded);
+                }
+                mManualsListAdapter.setmGroupHeader(mGroupHeader);
+                mManualsListAdapter.setmDownloadStatus(mDownloadStatus);
+            }
+        });
 
         Bundle bundle = getArguments();
         mGroupHeader =  bundle.getStringArrayList("groupHeader");
         mDownloadStatus = (HashMap<String, Boolean>)bundle.getSerializable("downloadStatus");
         mItemHeader = (HashMap<String, List<String>>)bundle.getSerializable("itemHeader");
 
-        File folder = new File(String.valueOf(getContext().getExternalFilesDir(null)));
-        for (String s : mGroupHeader) {
-            File pdf = new File(folder.getAbsolutePath() + "/" + s + ".pdf");
-            if (pdf.exists()) {
-                mDownloadStatus.put(s, Boolean.TRUE);
+//        File folder = new File(String.valueOf(getContext().getExternalFilesDir(null)));
+//        for (String s : mGroupHeader) {
+//            File pdf = new File(folder.getAbsolutePath() + "/" + s + ".pdf");
+//            if (pdf.exists()) {
+//                mDownloadStatus.put(s, Boolean.TRUE);
+//            }
+//        }
+    }
+
+    private class onChapterChange implements Observer<List<ManualChapter>> {
+        @Override
+        public void onChanged(@Nullable List<ManualChapter> manualChapters) {
+            String name = mGroupHeader.get(Integer.getInteger(manualChapters.get(0).getManualId().toString()));
+            List<String> items = new ArrayList<>();
+            for (ManualChapter m : manualChapters) {
+                items.add(m.getTitle());
             }
+            mItemHeader.put(name, items);
+            mManualsListAdapter.setmItemHeader(mItemHeader);
         }
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater,

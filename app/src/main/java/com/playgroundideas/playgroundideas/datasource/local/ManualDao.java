@@ -27,7 +27,7 @@ public interface ManualDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public long insertManual(Manual manual);
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public long[] insertManuals(Manual... manuals);
+    public long[] insertManuals(List<Manual> manuals);
 
     @Query("SELECT * FROM manual WHERE id = :id")
     LiveData<Manual> load(long id);
@@ -45,7 +45,7 @@ public interface ManualDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public long insertManualChapter(ManualChapter manualChapter);
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public long[] insertManualChapters(ManualChapter... manualChapters);
+    public long[] insertManualChapters(List<ManualChapter> manualChapters);
 
     @Query("SELECT * FROM manualChapter WHERE manualId = :manualId")
     LiveData<List<ManualChapter>> loadAllOf(long manualId);

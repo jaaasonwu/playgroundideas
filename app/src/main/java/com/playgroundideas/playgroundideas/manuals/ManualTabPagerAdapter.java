@@ -69,7 +69,7 @@ class ManualTabPagerAdapter extends FragmentPagerAdapter {
         mDownloadStatus = new HashMap<>();
         List<String> starter = new ArrayList<>();
 
-        mGroupHeader.add("Playground Starter");
+        mGroupHeader.add("Playground Starter1");
         mGroupHeader.add("Builder's Handbook");
         mGroupHeader.add("Safety Handbook");
         mGroupHeader.add("Loose Parts Manual");
@@ -81,7 +81,7 @@ class ManualTabPagerAdapter extends FragmentPagerAdapter {
         List<List<String>> childLists = new ArrayList<>();
 
         List<String> childList = new ArrayList<>();
-        childList.add("Welcome");
+        childList.add("Welcome1");
         childList.add("Let's Build A Playground");
         childList.add("Site Plan");
         childList.add("Elements");

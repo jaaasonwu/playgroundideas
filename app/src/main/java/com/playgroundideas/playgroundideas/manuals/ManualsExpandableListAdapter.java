@@ -127,6 +127,18 @@ public class ManualsExpandableListAdapter extends BaseExpandableListAdapter {
         }
     }
 
+    public void setmItemHeader(HashMap<String, List<String>> mItemHeader) {
+        this.mItemHeader = mItemHeader;
+    }
+
+    public void setmGroupHeader(List<String> mGroupHeader) {
+        this.mGroupHeader = mGroupHeader;
+    }
+
+    public void setmDownloadStatus(HashMap<String, Boolean> mDownloadStatus) {
+        this.mDownloadStatus = mDownloadStatus;
+    }
+
     @Override
     public boolean hasStableIds() {
         return false;

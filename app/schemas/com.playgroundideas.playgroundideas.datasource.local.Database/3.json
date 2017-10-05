@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 3,
-    "identityHash": "c16ed8eda54c63bed3ee0c5e22e6d681",
+    "identityHash": "59677602c31b06af7b59b21d0cde2972",
     "entities": [
       {
         "tableName": "User",
@@ -159,7 +159,7 @@
       },
       {
         "tableName": "Manual",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT, `pdf_manualId` INTEGER, `pdf_name` TEXT, `pdf_md5Hash` BLOB, `html_manualId` INTEGER, `html_name` TEXT, `html_md5Hash` BLOB, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT, `downloaded` INTEGER, `pdf_manualId` INTEGER, `pdf_name` TEXT, `pdf_md5Hash` BLOB, `html_manualId` INTEGER, `html_name` TEXT, `html_md5Hash` BLOB, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -171,6 +171,12 @@
             "fieldPath": "name",
             "columnName": "name",
             "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "downloaded",
+            "columnName": "downloaded",
+            "affinity": "INTEGER",
             "notNull": false
           },
           {
@@ -615,7 +621,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"c16ed8eda54c63bed3ee0c5e22e6d681\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"59677602c31b06af7b59b21d0cde2972\")"
     ]
   }
 }

@@ -5,9 +5,9 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 
-import com.playgroundideas.playgroundideas.datasource.local.FileStorage;
 import com.playgroundideas.playgroundideas.datasource.repository.ManualRepository;
 import com.playgroundideas.playgroundideas.model.Manual;
+import com.playgroundideas.playgroundideas.model.ManualChapter;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -22,7 +22,7 @@ public class ManualsListViewModel extends ViewModel {
         public List<Manual> apply(List<Manual> manuals) {
             List<Manual> downloadedManuals = new LinkedList<>();
             for(Manual m : manuals) {
-                if(FileStorage.isDownloaded(m.getPdfInfo())) {
+                if(m.getDownloaded()) {
                     downloadedManuals.add(m);
                 }
             }
@@ -48,5 +48,9 @@ public class ManualsListViewModel extends ViewModel {
             allManuals = manualRepository.getAll();
         }
         return downloadedManuals;
+    }
+
+    public LiveData<List<ManualChapter>> getChapter(Long id) {
+        return manualRepository.getManualChaptersOf(id);
     }
 }

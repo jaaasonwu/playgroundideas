@@ -1,7 +1,6 @@
 package com.playgroundideas.playgroundideas.model;
 
 import android.support.annotation.NonNull;
-import android.arch.persistence.room.Ignore;
 
 /**
  * Created by Ferdinand on 12/09/2017.
@@ -16,11 +15,6 @@ public class FileInfo {
     public FileInfo(String name, byte[] md5Hash) {
         this.name = name;
         this.md5Hash = md5Hash;
-    }
-
-    @Ignore
-    public FileInfo(String name) {
-        this.name = name;
     }
 
     public String getName() {
