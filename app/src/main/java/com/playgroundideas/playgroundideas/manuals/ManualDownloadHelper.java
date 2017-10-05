@@ -12,8 +12,6 @@ import android.widget.Toast;
 
 import com.playgroundideas.playgroundideas.R;
 import com.playgroundideas.playgroundideas.datasource.remote.ManualWebservice;
-import com.playgroundideas.playgroundideas.di.screens.DaggerManualComponent;
-import com.playgroundideas.playgroundideas.di.screens.ManualComponent;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -33,7 +31,6 @@ public class ManualDownloadHelper extends AsyncTask<String, String, String> {
     private HashMap<String, Boolean> mDownloadStatus;
     private TextView mDownload;
     private long mLength;
-    private ManualComponent component;
     private Handler mHandler;
     @Inject
     ManualWebservice webservice;
@@ -55,8 +52,6 @@ public class ManualDownloadHelper extends AsyncTask<String, String, String> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        component = DaggerManualComponent.builder().build();
-        component.inject(this);
     }
 
     @Override

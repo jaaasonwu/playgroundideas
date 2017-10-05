@@ -35,6 +35,9 @@ public interface ManualDao {
     @Query("SELECT * FROM manual")
     LiveData<List<Manual>> loadAll();
 
+    @Query("SELECT * FROM manual WHERE id = :id")
+    Manual loadOne(Long id);
+
     @Query("SELECT COUNT(1) FROM manual WHERE id = :id")
     boolean hasManual(long id);
 

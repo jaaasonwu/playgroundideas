@@ -3,6 +3,7 @@ package com.playgroundideas.playgroundideas.manuals;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,16 +19,18 @@ import java.util.List;
 
 public class ManualsExpandableListAdapter extends BaseExpandableListAdapter {
     private Context mContext;
+    private ManualExpandableList mList;
     private List<String> mGroupHeader;
     private HashMap<String, List<String>> mItemHeader;
     private HashMap<String, Boolean> mDownloadStatus;
     private final String baseUrl = "http://swen90014v-2017plp.cis.unimelb.edu.au:3000/";
 
-    ManualsExpandableListAdapter(Context context) {
+    ManualsExpandableListAdapter(Context context, ManualExpandableList list) {
         this.mContext = context;
         this.mGroupHeader = new ArrayList<>();
         this.mItemHeader = new HashMap<>();
         this.mDownloadStatus = new HashMap<>();
+        this.mList = list;
     }
 
     @Override
@@ -60,12 +63,7 @@ public class ManualsExpandableListAdapter extends BaseExpandableListAdapter {
 
         final TextView download = view.findViewById(R.id.manual_download);
         if (mDownloadStatus.get(mGroupHeader.get(i)) == Boolean.FALSE) {
-            download.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View view) {
-                    new ManualDownloadHelper(mContext, mDownloadStatus, download)
-                            .execute(mGroupHeader.get(i));
-                }
-            });
+            download.setOnClickListener(new OnDownloadClickListener(mGroupHeader.get(i)));
             download.setVisibility(View.VISIBLE);
         } else {
             download.setVisibility(View.INVISIBLE);
@@ -76,8 +74,20 @@ public class ManualsExpandableListAdapter extends BaseExpandableListAdapter {
         return view;
     }
 
+    private class OnDownloadClickListener implements View.OnClickListener {
+        String name;
+        public OnDownloadClickListener(String name) {
+            this.name = name;
+        }
+        @Override
+        public void onClick(View view) {
+            Message msg = Message.obtain();
+            msg.arg1 = 0;
+            msg.obj = name;
+            mList.handleMessage(msg);
+        }
+    }
 
-    @Override
     public int getChildrenCount(int i) {
         return mItemHeader.get(mGroupHeader.get(i)).size();
     }
