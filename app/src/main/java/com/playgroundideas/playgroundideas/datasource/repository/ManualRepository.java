@@ -63,6 +63,17 @@ public class ManualRepository {
         return manualDao.loadAll();
     }
 
+    public void deletePdf(final long id) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                Manual delete = manualDao.loadOne(id);
+                delete.setDownloaded(false);
+                manualDao.update(delete);
+            }
+        });
+    }
+
     public void downloadManual(Manual manual) {
         final Manual downloadManual = manual;
         new DownloadTask().execute(manual);

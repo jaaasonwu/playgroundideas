@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
@@ -21,13 +22,15 @@ import java.util.List;
 public class ManualsOfflineListAdapter extends ArrayAdapter<String> {
     private Context mContext;
     private List<String> mDownloaded;
+    private ManualsOfflineList mList;
 
 
-    public ManualsOfflineListAdapter(Context context, int resource, List<String> mDownloaded) {
+    public ManualsOfflineListAdapter(Context context, int resource, List<String> mDownloaded,
+                                     ManualsOfflineList list) {
         super(context, resource, mDownloaded);
         this.mContext = context;
         this.mDownloaded = mDownloaded;
-
+        this.mList = list;
     }
 
     @Override
@@ -50,8 +53,8 @@ public class ManualsOfflineListAdapter extends ArrayAdapter<String> {
 
         String title = mDownloaded.get(position);
         holder.titleText.setText(title);
-        holder.titleText.setOnClickListener(new onOpenManualClick(title, mContext));
-        holder.deleteButton.setOnClickListener(new onDeleteButtonClick(this, position));
+        holder.titleText.setOnClickListener(new OnOpenManualClick(title, mContext));
+        holder.deleteButton.setOnClickListener(new OnDeleteButtonClick(this, position));
         return convertView;
     }
 
@@ -60,11 +63,11 @@ public class ManualsOfflineListAdapter extends ArrayAdapter<String> {
         mDownloaded = downloaded;
     }
 
-    private class onDeleteButtonClick implements View.OnClickListener {
+    private class OnDeleteButtonClick implements View.OnClickListener {
         private ManualsOfflineListAdapter mAdapter;
         private int position;
 
-        public onDeleteButtonClick(ManualsOfflineListAdapter adapter, int position) {
+        public OnDeleteButtonClick(ManualsOfflineListAdapter adapter, int position) {
             mAdapter = adapter;
             this.position = position;
         }
@@ -75,6 +78,9 @@ public class ManualsOfflineListAdapter extends ArrayAdapter<String> {
             File folder = new File(String.valueOf(mContext.getExternalFilesDir(null)));
             File manual = new File(folder.getAbsolutePath() + "/" + filename + ".pdf");
             boolean deleted = manual.delete();
+            Message msg = Message.obtain();
+            msg.obj = mDownloaded.get(position);
+            mList.handleMessage(msg);
             if (deleted) {
                 mDownloaded.remove(position);
                 mAdapter.notifyDataSetChanged();
@@ -82,10 +88,10 @@ public class ManualsOfflineListAdapter extends ArrayAdapter<String> {
         }
     }
 
-    private class onOpenManualClick implements View.OnClickListener {
+    private class OnOpenManualClick implements View.OnClickListener {
         private String mFilename;
         private Context mContext;
-        public onOpenManualClick(String filename, Context context) {
+        public OnOpenManualClick(String filename, Context context) {
             mFilename = filename;
             mContext = context;
         }
