@@ -9,6 +9,7 @@ import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
 import com.playgroundideas.playgroundideas.model.Design;
+import com.playgroundideas.playgroundideas.model.DesignPictureFileInfo;
 
 import java.util.List;
 
@@ -42,4 +43,13 @@ public interface DesignDao {
 
     @Query("SELECT COUNT(1) FROM design WHERE id = :id")
     boolean hasDesign(long id);
+
+    @Query("SELECT * FROM designPictureFileInfo WHERE designId = :designId")
+    LiveData<List<DesignPictureFileInfo>> loadAllPicturesOf(Long designId);
+
+    @Query("SELECT * FROM designPictureFileInfo")
+    LiveData<List<DesignPictureFileInfo>> loadAllPictures();
+
+    @Query("SELECT COUNT(1) FROM designPictureFileInfo WHERE designId = :designId AND name = :filename")
+    boolean hasPicture(Long designId, String filename);
 }

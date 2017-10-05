@@ -1,11 +1,14 @@
 package com.playgroundideas.playgroundideas.model;
 
+import android.support.annotation.NonNull;
+
 /**
  * Created by Ferdinand on 12/09/2017.
  */
 
 public class FileInfo {
 
+    @NonNull
     private String name;
     private byte[] md5Hash;
 

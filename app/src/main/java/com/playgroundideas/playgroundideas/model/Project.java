@@ -5,8 +5,12 @@ import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
+import android.support.annotation.NonNull;
 
 import com.playgroundideas.playgroundideas.datasource.local.Converters;
+
+import java.net.URL;
+import java.util.Date;
 
 import javax.money.MonetaryAmount;
 
@@ -18,20 +22,40 @@ import javax.money.MonetaryAmount;
 public class Project {
 
     @PrimaryKey(autoGenerate = false)
+    @NonNull
     private Long id;
+    private String name;
+    @TypeConverters(value = Converters.class)
+    private ProjectPostStatus projectPostStatus;
     private String location;
     private boolean requiresFunding;
     private boolean seekingVolunteers;
     private String description;
     private Long creatorId;
     private int numberOfDonations;
-    private int daysLeftUntilFundingEnd;
+    @TypeConverters(Converters.class)
+    private Date startDate;
+    @TypeConverters(Converters.class)
+    private Date endDate;
+    private boolean manuallyAddingFundsAllowed;
+    @TypeConverters(Converters.class)
+    private URL facebook_campaign_link;
+    @TypeConverters(Converters.class)
+    private URL twitter__campaign_link;
+    @TypeConverters(Converters.class)
+    private URL google_campaing_link;
+    @TypeConverters(Converters.class)
+    private URL pinterest_campaign_link;
+    @TypeConverters(Converters.class)
+    private URL linkedin_campaign_link;
+    @TypeConverters(Converters.class)
+    private URL youtube_campaign_link;
     @TypeConverters(Converters.class)
     private MonetaryAmount fundingSum;
     @TypeConverters(Converters.class)
     private MonetaryAmount fundingGoal;
 
-    public Project(Long id, String location, boolean requiresFunding, boolean seekingVolunteers, String description, Long creatorId, int numberOfDonations, int daysLeftUntilFundingEnd, MonetaryAmount fundingSum, MonetaryAmount fundingGoal) {
+    public Project(Long id, String location, boolean requiresFunding, boolean seekingVolunteers, String description, Long creatorId, int numberOfDonations, MonetaryAmount fundingSum, MonetaryAmount fundingGoal, boolean manuallyAddingFundsAllowed, URL facebook_campaign_link, URL pinterest_campaign_link, URL google_campaing_link, URL linkedin_campaign_link, URL youtube_campaign_link, URL twitter__campaign_link, Date startDate, Date endDate) {
         this.id = id;
         this.location = location;
         this.requiresFunding = requiresFunding;
@@ -39,9 +63,33 @@ public class Project {
         this.description = description;
         this.creatorId = creatorId;
         this.numberOfDonations = numberOfDonations;
-        this.daysLeftUntilFundingEnd = daysLeftUntilFundingEnd;
         this.fundingSum = fundingSum;
         this.fundingGoal = fundingGoal;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.manuallyAddingFundsAllowed = manuallyAddingFundsAllowed;
+        this.facebook_campaign_link = facebook_campaign_link;
+        this.google_campaing_link = google_campaing_link;
+        this.twitter__campaign_link = twitter__campaign_link;
+        this.linkedin_campaign_link = linkedin_campaign_link;
+        this.youtube_campaign_link = youtube_campaign_link;
+        this.pinterest_campaign_link = pinterest_campaign_link;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public ProjectPostStatus getProjectPostStatus() {
+        return projectPostStatus;
+    }
+
+    public void setProjectPostStatus(ProjectPostStatus projectPostStatus) {
+        this.projectPostStatus = projectPostStatus;
     }
 
     public Long getCreatorId() {
@@ -100,14 +148,6 @@ public class Project {
         this.numberOfDonations = numberOfDonations;
     }
 
-    public int getDaysLeftUntilFundingEnd() {
-        return daysLeftUntilFundingEnd;
-    }
-
-    public void setDaysLeftUntilFundingEnd(int daysLeftUntilFundingEnd) {
-        this.daysLeftUntilFundingEnd = daysLeftUntilFundingEnd;
-    }
-
     public MonetaryAmount getFundingSum() {
         return fundingSum;
     }
@@ -122,5 +162,77 @@ public class Project {
 
     public void setFundingGoal(MonetaryAmount fundingGoal) {
         this.fundingGoal = fundingGoal;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public boolean isManuallyAddingFundsAllowed() {
+        return manuallyAddingFundsAllowed;
+    }
+
+    public void setManuallyAddingFundsAllowed(boolean manuallyAddingFundsAllowed) {
+        this.manuallyAddingFundsAllowed = manuallyAddingFundsAllowed;
+    }
+
+    public URL getFacebook_campaign_link() {
+        return facebook_campaign_link;
+    }
+
+    public void setFacebook_campaign_link(URL facebook_campaign_link) {
+        this.facebook_campaign_link = facebook_campaign_link;
+    }
+
+    public URL getTwitter__campaign_link() {
+        return twitter__campaign_link;
+    }
+
+    public void setTwitter__campaign_link(URL twitter__campaign_link) {
+        this.twitter__campaign_link = twitter__campaign_link;
+    }
+
+    public URL getGoogle_campaing_link() {
+        return google_campaing_link;
+    }
+
+    public void setGoogle_campaing_link(URL google_campaing_link) {
+        this.google_campaing_link = google_campaing_link;
+    }
+
+    public URL getPinterest_campaign_link() {
+        return pinterest_campaign_link;
+    }
+
+    public void setPinterest_campaign_link(URL pinterest_campaign_link) {
+        this.pinterest_campaign_link = pinterest_campaign_link;
+    }
+
+    public URL getLinkedin_campaign_link() {
+        return linkedin_campaign_link;
+    }
+
+    public void setLinkedin_campaign_link(URL linkedin_campaign_link) {
+        this.linkedin_campaign_link = linkedin_campaign_link;
+    }
+
+    public URL getYoutube_campaign_link() {
+        return youtube_campaign_link;
+    }
+
+    public void setYoutube_campaign_link(URL youtube_campaign_link) {
+        this.youtube_campaign_link = youtube_campaign_link;
     }
 }

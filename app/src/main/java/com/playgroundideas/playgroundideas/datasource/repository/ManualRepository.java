@@ -5,12 +5,15 @@ import android.arch.lifecycle.LiveData;
 import com.playgroundideas.playgroundideas.datasource.local.ManualDao;
 import com.playgroundideas.playgroundideas.datasource.remote.ManualWebservice;
 import com.playgroundideas.playgroundideas.model.Manual;
+import com.playgroundideas.playgroundideas.model.ManualChapter;
 
 import java.util.List;
 import java.util.concurrent.Executor;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+
+import static android.R.attr.id;
 
 @Singleton
 public class ManualRepository {
@@ -54,4 +57,9 @@ public class ManualRepository {
             }
         });
     }
+
+    public LiveData<List<ManualChapter>> getManualChaptersOf(Long manualId) {
+        return manualDao.loadAllOf(id);
+    }
+
 }
