@@ -65,4 +65,5 @@
     <string name="relative_project_pictures_directory_name">playgroundProjectPictures</string>
     <string name="preference_file_key">org.playgroundIdeas.app.android.preferenceFile</string>
     <string name="saved_user">saved_user</string>
+    <string name="facebook_app_id">252116368644369</string>
 </resources>

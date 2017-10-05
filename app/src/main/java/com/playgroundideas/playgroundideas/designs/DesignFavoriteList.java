@@ -3,6 +3,7 @@ package com.playgroundideas.playgroundideas.designs;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -14,7 +15,8 @@ import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.SearchView;
 
-import com.daimajia.swipe.util.Attributes;
+import com.facebook.CallbackManager;
+import com.facebook.share.widget.ShareDialog;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.MaterialIcons;
 import com.playgroundideas.playgroundideas.R;
@@ -35,6 +37,8 @@ public class DesignFavoriteList extends DaggerFragment {
     private GridView myFavoriteGrid;
     private SearchView searchView;
     private DesignListViewModel viewModel;
+    private CallbackManager callbackManager;
+    private ShareDialog shareDialog;
     @Inject
     ViewModelProvider.Factory viewModelFactory;
 
@@ -42,11 +46,12 @@ public class DesignFavoriteList extends DaggerFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view;
         view = inflater.inflate(R.layout.fragment_design_favorite_list, container, false);
+        callbackManager = CallbackManager.Factory.create();
+        shareDialog = new ShareDialog(getActivity());
         myFavoriteGrid = view.findViewById(R.id.my_favorite_grid);
         searchView = (SearchView) view.findViewById(R.id.searchView1);
-        final GridViewAdapterFavorite gridViewAdapterFavorite = new GridViewAdapterFavorite(getActivity());
+        final GridViewAdapterFavorite gridViewAdapterFavorite = new GridViewAdapterFavorite(getActivity(),callbackManager,shareDialog);
         myFavoriteGrid.setAdapter(gridViewAdapterFavorite);
-        gridViewAdapterFavorite.setMode(Attributes.Mode.Single);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -60,15 +65,9 @@ public class DesignFavoriteList extends DaggerFragment {
             }
         });
         return view;
-
-
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_design_favorite_list, container, false);
-        myFavoriteGrid = view.findViewById(R.id.my_favorite_grid);
-        myFavoriteGrid.setAdapter(new GridViewAdapterFavorite(getActivity()));
-        return view;
     }
+
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -86,15 +85,21 @@ public class DesignFavoriteList extends DaggerFragment {
 
 
 
-        // this integrates the design view model
+        //this integrates the design view model
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(DesignListViewModel.class);
         viewModel.init(true);
         viewModel.getDesignList().observe(this, new Observer<List<Design>>() {
             @Override
             public void onChanged(@Nullable List<Design> designs) {
-                // TODO Update UI
+               //gridViewFavoriteAdpater.changeDesignItems(designs)
+
             }
         });
 
+    }
+
+    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 }
