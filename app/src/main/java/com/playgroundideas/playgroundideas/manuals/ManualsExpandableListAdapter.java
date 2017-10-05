@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.playgroundideas.playgroundideas.R;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -22,13 +23,11 @@ public class ManualsExpandableListAdapter extends BaseExpandableListAdapter {
     private HashMap<String, Boolean> mDownloadStatus;
     private final String baseUrl = "http://swen90014v-2017plp.cis.unimelb.edu.au:3000/";
 
-    ManualsExpandableListAdapter(Context context, List<String> groupHeader,
-                                        HashMap<String, List<String>> itemHeader,
-                                        HashMap<String, Boolean> mDownloadStatus) {
+    ManualsExpandableListAdapter(Context context) {
         this.mContext = context;
-        this.mGroupHeader = groupHeader;
-        this.mItemHeader = itemHeader;
-        this.mDownloadStatus = mDownloadStatus;
+        this.mGroupHeader = new ArrayList<>();
+        this.mItemHeader = new HashMap<>();
+        this.mDownloadStatus = new HashMap<>();
     }
 
     @Override

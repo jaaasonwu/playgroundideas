@@ -50,7 +50,7 @@ public class ManualsListViewModel extends ViewModel {
         return downloadedManuals;
     }
 
-    public LiveData<List<ManualChapter>> getChapter(Long id) {
-        return manualRepository.getManualChaptersOf(id);
+    public LiveData<List<ManualChapter>> getChapters() {
+        return manualRepository.getManualChapters();
     }
 }

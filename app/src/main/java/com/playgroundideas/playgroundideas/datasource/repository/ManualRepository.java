@@ -29,10 +29,9 @@ import javax.inject.Singleton;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
-import static android.R.attr.id;
+import static android.R.id.input;
 
 @Singleton
 public class ManualRepository {
@@ -150,45 +149,30 @@ public class ManualRepository {
 
     public void updateManualInfo() {
         Call<ResponseBody> call = webservice.getInfo();
-        call.enqueue(new GetManualInfoCallback(manualDao));
-    }
-
-    private class GetManualInfoCallback implements Callback<ResponseBody> {
-        private ManualDao mManualDao;
-        public GetManualInfoCallback(ManualDao manualDao) {
-            mManualDao = manualDao;
-        }
-        @Override
-        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-            try {
-                String json = response.body().string();
-                JSONObject jsonObject = new JSONObject(json);
-                Iterator<String> names = jsonObject.keys();
-                List<Manual> manuals = new ArrayList<>();
-                List<ManualChapter> chapters;
-                while (names.hasNext()) {
-                    String name = names.next();
-                    JSONObject child = jsonObject.getJSONObject(name);
-                    long id = child.getLong("id");
-                    manuals.add(new Manual(id, name, null, null));
-                    JSONArray chapterArray = child.getJSONArray("chapters");
-                    chapters = new ArrayList<>();
-                    for (int i = 0; i < chapterArray.length(); i++) {
-                        chapters.add(new ManualChapter(i, (String) chapterArray.get(i), id, null, null));
-                    }
-                    mManualDao.insertManualChapters(chapters);
+        try {
+            Response<ResponseBody> response = call.execute();
+            String json = response.body().string();
+            JSONObject jsonObject = new JSONObject(json);
+            Iterator<String> names = jsonObject.keys();
+            List<ManualChapter> chapters = new ArrayList<>();
+            List<Manual> manuals = new ArrayList<>();
+            while (names.hasNext()) {
+                String name = names.next();
+                JSONObject child = jsonObject.getJSONObject(name);
+                long id = child.getLong("id");
+                manuals.add(new Manual(id, name, null, null));
+                JSONArray chapterArray = child.getJSONArray("chapters");
+                for (int i = 0; i < chapterArray.length(); i++) {
+                    chapters.add(new ManualChapter(i, (String) chapterArray.get(i), id, null, null));
                 }
-                mManualDao.insertManuals(manuals);
-            } catch (Exception e) {
-                e.printStackTrace();
             }
-        }
-
-        @Override
-        public void onFailure(Call<ResponseBody> call, Throwable throwable) {
-            throwable.printStackTrace();
+            manualDao.insertManuals(manuals);
+            manualDao.insertManualChapters(chapters);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
+
     private void refreshManual(final Long id) {
         executor.execute(new Runnable() {
             @Override
@@ -203,8 +187,8 @@ public class ManualRepository {
         });
     }
 
-    public LiveData<List<ManualChapter>> getManualChaptersOf(Long manualId) {
-        return manualDao.loadAllOf(id);
+    public LiveData<List<ManualChapter>> getManualChapters() {
+        return manualDao.loadAllChapters();
     }
 
 }
