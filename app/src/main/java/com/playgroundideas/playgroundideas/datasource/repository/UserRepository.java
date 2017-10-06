@@ -1,7 +1,10 @@
 package com.playgroundideas.playgroundideas.datasource.repository;
 
 import android.arch.lifecycle.LiveData;
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 import com.playgroundideas.playgroundideas.R;
 import com.playgroundideas.playgroundideas.datasource.local.UserDao;
@@ -11,6 +14,8 @@ import com.playgroundideas.playgroundideas.model.User;
 import java.util.concurrent.Executor;
 
 import javax.inject.Inject;
+
+import retrofit2.Response;
 
 @javax.inject.Singleton
 public class UserRepository {
@@ -58,24 +63,40 @@ public class UserRepository {
             @Override
             public void run() {
                 // running in a background thread
-                // check if there is internet connection
-                // check if the user hasn't been loaded recently
-                // check if the user has changed on the server using a version number/timestamp
-                // -> retrieve user from server and update/insert it in the local database
-                boolean userExists = userDao.hasUser(id);
-                if (!userExists) {
-                    // refresh the data
-                    //Response response = webservice.getUser(id).execute();
-                    // TODO check for error etc.
+                // check if there is a network connection
+                if(isNetworkAvailable()) {
+                    // check if the date has changed on the server using a version number
+                    long remoteVersion = webservice.getVersion(id).execute().body().longValue();
+                    long localVersion = (userDao.load(id) == null) ? 0 : userDao.load(id).getValue().getVersion();
+                    if (remoteVersion > localVersion) {
+                        // refresh the local data
+                        // retrieve the data from the remote data source
+                        Response response = webservice.getUser(id).execute();
 
-                    //create user object from response.body
-                    //User refreshedUser = new User();
-                    // Update the database.The LiveData will automatically refresh so
-                    // we don't need to do anything else here besides updating the database
-                    //userDao.update(refreshedUser);
+                        //create new object from response.body
+                        User newUser = deserialiseUser(response.body());
+                        // Update the database. The LiveData will automatically refresh so
+                        // we don't need to do anything else here besides updating the database
+                        if(localVersion == 0) {
+                            userDao.insertUser(newUser);
+                        } else {
+                            userDao.update(newUser);
+                        }
+                    }
                 }
             }
         });
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    private User deserialiseUser(Object response) {
+        //TODO implement
     }
 
 }
