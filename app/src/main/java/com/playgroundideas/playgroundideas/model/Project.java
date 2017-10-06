@@ -19,7 +19,7 @@ import javax.money.MonetaryAmount;
  */
 
 @Entity(indices = {@Index("creatorId")}, foreignKeys = {@ForeignKey(entity = User.class, parentColumns = "id", childColumns = "creatorId")})
-public class Project {
+public class Project extends  VersionedEntity{
 
     @PrimaryKey(autoGenerate = false)
     @NonNull
@@ -55,7 +55,8 @@ public class Project {
     @TypeConverters(Converters.class)
     private MonetaryAmount fundingGoal;
 
-    public Project(Long id, String location, boolean requiresFunding, boolean seekingVolunteers, String description, Long creatorId, int numberOfDonations, MonetaryAmount fundingSum, MonetaryAmount fundingGoal, boolean manuallyAddingFundsAllowed, URL facebook_campaign_link, URL pinterest_campaign_link, URL google_campaing_link, URL linkedin_campaign_link, URL youtube_campaign_link, URL twitter__campaign_link, Date startDate, Date endDate) {
+    public Project(long version, Long id, String location, boolean requiresFunding, boolean seekingVolunteers, String description, Long creatorId, int numberOfDonations, MonetaryAmount fundingSum, MonetaryAmount fundingGoal, boolean manuallyAddingFundsAllowed, URL facebook_campaign_link, URL pinterest_campaign_link, URL google_campaing_link, URL linkedin_campaign_link, URL youtube_campaign_link, URL twitter__campaign_link, Date startDate, Date endDate) {
+        super(version);
         this.id = id;
         this.location = location;
         this.requiresFunding = requiresFunding;
