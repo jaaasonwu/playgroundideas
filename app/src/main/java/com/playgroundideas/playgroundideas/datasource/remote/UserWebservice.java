@@ -14,4 +14,7 @@ public interface UserWebservice {
 
     @GET("/user/{user}")
     Call<User> getUser(@Path("user") long id);
+
+    @GET("/user/{user}")
+    Call<Long> getVersion(@Path("user") long id);
 }
