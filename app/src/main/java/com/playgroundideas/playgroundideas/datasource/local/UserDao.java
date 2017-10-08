@@ -22,10 +22,8 @@ public interface UserDao {
     public void update(User user);
     @Delete
     public void delete(User user);
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public long insertUser(User user);
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public long[] insertUsers(User... users);
+    @Insert(onConflict = OnConflictStrategy.FAIL)
+    public long insert(User user);
 
     @Query("SELECT * FROM user WHERE id = :id")
     LiveData<User> load(long id);

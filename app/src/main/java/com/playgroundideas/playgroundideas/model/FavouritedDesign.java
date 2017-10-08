@@ -10,14 +10,14 @@ import android.support.annotation.NonNull;
  */
 
 @Entity(indices = {@Index("userId"), @Index("designId")}, foreignKeys = {@ForeignKey(entity = User.class, parentColumns = "id", childColumns = "userId"), @ForeignKey(entity = Design.class, parentColumns = "id", childColumns = "designId")}, primaryKeys = {"userId", "designId"})
-public class FavouritedDesignsPerUser {
+public class FavouritedDesign {
 
     @NonNull
     private Long userId;
     @NonNull
     private Long designId;
 
-    public FavouritedDesignsPerUser(Long userId, Long designId) {
+    public FavouritedDesign(Long userId, Long designId) {
         this.userId = userId;
         this.designId = designId;
     }
