@@ -74,4 +74,8 @@ dependencies {
     // backwards implementation of Java 8 money API
     compile group: 'javax.money', name: 'money-api-bp', version: '1.0.1'
 
+    // json serialisation and deserialisation
+    compile 'com.google.code.gson:gson:2.8.2'
+    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+
 }

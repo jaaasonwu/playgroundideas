@@ -1,23 +1,27 @@
 package com.playgroundideas.playgroundideas.datasource.repository;
 
 import android.arch.lifecycle.LiveData;
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 
 import com.playgroundideas.playgroundideas.R;
 import com.playgroundideas.playgroundideas.datasource.local.UserDao;
 import com.playgroundideas.playgroundideas.datasource.remote.UserWebservice;
 import com.playgroundideas.playgroundideas.model.User;
 
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Executor;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
+import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 
-@javax.inject.Singleton
+import static android.R.attr.id;
+
+@Singleton
 public class UserRepository {
 
     private final UserWebservice webservice;
@@ -36,6 +40,11 @@ public class UserRepository {
     public LiveData<User> getUser(Long id) {
         refreshUser(id);
         return userDao.load(id);
+    }
+
+    public LiveData<List<User>> getUsers() {
+        refreshAllUsers();
+        return userDao.loadAll();
     }
 
     public void createUser(User user) {
@@ -65,38 +74,87 @@ public class UserRepository {
                 // running in a background thread
                 // check if there is a network connection
                 if(isNetworkAvailable()) {
-                    // check if the date has changed on the server using a version number
-                    long remoteVersion = webservice.getVersion(id).execute().body().longValue();
-                    long localVersion = (userDao.load(id) == null) ? 0 : userDao.load(id).getValue().getVersion();
-                    if (remoteVersion > localVersion) {
-                        // refresh the local data
-                        // retrieve the data from the remote data source
-                        Response response = webservice.getUser(id).execute();
 
-                        //create new object from response.body
-                        User newUser = deserialiseUser(response.body());
-                        // Update the database. The LiveData will automatically refresh so
-                        // we don't need to do anything else here besides updating the database
-                        if(localVersion == 0) {
-                            userDao.insertUser(newUser);
-                        } else {
-                            userDao.update(newUser);
-                        }
-                    }
+                        webservice.getVersion(id).enqueue(new Callback<Long>() {
+                            @Override
+                            public void onResponse(Call<Long> call, Response<Long> response) {
+                                // check if the date has changed on the server using a version number
+                                final long remoteVersion = response.body();
+                                final long localVersion = userDao.getVersionOf(id);
+
+                                if (remoteVersion > localVersion) {
+                                    // refresh the local data
+                                    // retrieve the data from the remote data source
+                                    webservice.getUser(id).enqueue(new Callback<User>() {
+                                        @Override
+                                        public void onResponse(Call<User> call, Response<User> response) {
+                                            //create new object from response.body
+                                            User newUser = response.body();
+                                            // Update the database. The LiveData will automatically refresh so
+                                            // we don't need to do anything else here besides updating the database
+                                            if (localVersion == 0) {
+                                                userDao.insertUser(newUser);
+                                            } else {
+                                                userDao.update(newUser);
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<User> call, Throwable throwable) {
+                                            // do nothing
+                                        }
+                                    });
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<Long> call, Throwable throwable) {
+                                // do nothing
+                            }
+                        });
+                }
+            }
+        });
+    }
+
+    private void refreshAllUsers() {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                // running in a background thread
+                // check if there is a network connection
+                if(isNetworkAvailable()) {
+
+                        // check if any data has changed on the server
+                        webservice.getVersionOfAll().enqueue(new Callback<Map<Long, Long>>() {
+                            @Override
+                            public void onResponse(Call<Map<Long, Long>> call, Response<Map<Long, Long>> response) {
+                                for (Map.Entry<Long, Long> remote : response.body().entrySet()) {
+                                    final long localVersion = userDao.getVersionOf(id);
+                                    if (remote.getValue() > localVersion) {
+                                        // refresh if data has changed
+                                        refreshUser(remote.getKey());
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<Map<Long, Long>> call, Throwable throwable) {
+                                // do nothing
+                            }
+                        });
                 }
             }
         });
     }
 
     private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-    }
-
-    private User deserialiseUser(Object response) {
-        //TODO implement
+        // TODO implement internet connection check
+        //ConnectivityManager connectivityManager
+        //        = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        //NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        //return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+        return true;
     }
 
 }
