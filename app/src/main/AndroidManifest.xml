@@ -45,22 +45,6 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <provider
-            android:name="com.playgroundideas.playgroundideas.datasource.StubProvider"
-            android:authorities="com.playgroundideas.playgroundideas.authentication.provider"
-            android:exported="false"
-            android:syncable="true"/>
-
     </application>
-
-    <service
-        android:name="com.playgroundideas.playgroundideas.authentication..AuthenticatorService">
-        <intent-filter>
-            <action android:name="android.accounts.AccountAuthenticator"/>
-        </intent-filter>
-        <meta-data
-            android:name="android.accounts.AccountAuthenticator"
-            android:resource="@xml/authenticator" />
-    </service>
 
 </manifest>
