@@ -123,7 +123,6 @@ class GridViewAdapterFavorite extends BaseAdapter implements Filterable{
         private TextView name;
         private ImageView image;
         private Button deleteButton;
-        private ImageView emailShare;
         private FloatingActionButton floatingActionPlus;
         private FloatingActionButton floatingActionEmailShare;
         private FloatingActionButton floatingActionFacebookShare;

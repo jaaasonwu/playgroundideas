@@ -6,7 +6,7 @@
     android:layout_width="match_parent" android:layout_height="match_parent">
     <Spinner
         android:entries="@array/catergory"
-        android:id="@+id/spinner"
+        android:id="@+id/spinner_favorite"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <android.support.design.widget.CoordinatorLayout
@@ -14,7 +14,7 @@
         android:layout_height="match_parent"
         android:layout_centerVertical="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/spinner">
+        android:layout_below="@+id/spinner_favorite">
         <android.support.design.widget.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -25,7 +25,7 @@
             android:id="@+id/add_designs_fab"/>
 
         <SearchView
-            android:id="@+id/searchView1"
+            android:id="@+id/search_favorite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -37,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="368dp"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/spinner"
+            android:layout_below="@+id/search_favorite"
             android:layout_marginLeft="30dp"
             android:layout_marginTop="50dp"
             android:horizontalSpacing="10dp"

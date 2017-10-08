@@ -56,7 +56,7 @@ public class DesignFavoriteList extends DaggerFragment {
         callbackManager = CallbackManager.Factory.create();
         shareDialog = new ShareDialog(getActivity());
         myFavoriteGrid = view.findViewById(R.id.my_favorite_grid);
-        searchView = (SearchView) view.findViewById(R.id.searchView1);
+        searchView = (SearchView) view.findViewById(R.id.search_favorite);
         gridViewAdapterFavorite = new GridViewAdapterFavorite(getActivity(),callbackManager,shareDialog);
         myFavoriteGrid.setAdapter(gridViewAdapterFavorite);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -73,7 +73,7 @@ public class DesignFavoriteList extends DaggerFragment {
                 return false;
             }
         });
-        spinner = (Spinner) view.findViewById(R.id.spinner);
+        spinner = (Spinner) view.findViewById(R.id.spinner_favorite);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
