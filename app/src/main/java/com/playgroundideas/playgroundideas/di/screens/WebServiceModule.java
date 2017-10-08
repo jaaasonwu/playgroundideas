@@ -10,6 +10,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 @Module
@@ -19,27 +20,27 @@ public class WebServiceModule {
     @Provides
     UserWebservice provideUserWebService() {
         return new Retrofit.Builder()
-                .baseUrl("https://api.playgroundIdeas.org/user/").build().create(UserWebservice.class);
+                .baseUrl("https://api.playgroundIdeas.org/user/").addConverterFactory(GsonConverterFactory.create()).build().create(UserWebservice.class);
     }
 
     @Singleton
     @Provides
     DesignWebservice provideDesignWebService() {
         return new Retrofit.Builder()
-                .baseUrl("https://api.playgroundIdeas.org/user/").build().create(DesignWebservice.class);
+                .baseUrl("https://api.playgroundIdeas.org/user/").addConverterFactory(GsonConverterFactory.create()).build().create(DesignWebservice.class);
     }
 
     @Singleton
     @Provides
     ProjectWebservice provideProjectWebService() {
         return new Retrofit.Builder()
-                .baseUrl("https://api.playgroundIdeas.org/user/").build().create(ProjectWebservice.class);
+                .baseUrl("https://api.playgroundIdeas.org/user/").addConverterFactory(GsonConverterFactory.create()).build().create(ProjectWebservice.class);
     }
 
     @Singleton
     @Provides
     ManualWebservice provideManualWebService() {
         return new Retrofit.Builder()
-                .baseUrl("https://api.playgroundIdeas.org/user/").build().create(ManualWebservice.class);
+                .baseUrl("https://api.playgroundIdeas.org/user/").addConverterFactory(GsonConverterFactory.create()).build().create(ManualWebservice.class);
     }
 }
