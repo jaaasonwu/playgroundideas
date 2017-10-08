@@ -23,6 +23,7 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.share.Sharer;
+import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.model.SharePhoto;
 import com.facebook.share.model.SharePhotoContent;
 import com.facebook.share.widget.ShareDialog;
@@ -115,7 +116,6 @@ public class DesignDetailsActivity extends AppCompatActivity {
             }
         });
 
-        FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
         shareDialog = new ShareDialog(this);
         shareDialog.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() {
@@ -136,29 +136,15 @@ public class DesignDetailsActivity extends AppCompatActivity {
                 Log.e("Exception", e.getMessage());
             }
         });
+
         floatingActionFacebookShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bitmap image = null;
-                if (ShareDialog.canShow(SharePhotoContent.class)) {
-                    try {
-                        URL url = new URL(imgUrl);
-                        URLConnection conn =url.openConnection();
-                        conn.connect();
-                        InputStream in;
-                        in = conn.getInputStream();
-                        image = BitmapFactory.decodeStream(in);
-                    }
-                    catch (IOException e){
-                        e.printStackTrace();
-                    }
-                    SharePhoto photo = new SharePhoto.Builder()
-                            .setBitmap(image)
+                if (ShareDialog.canShow(ShareLinkContent.class)) {
+                    ShareLinkContent linkContent = new ShareLinkContent.Builder()
+                            .setContentUrl(Uri.parse(imgUrl))
                             .build();
-                    SharePhotoContent photoContent = new SharePhotoContent.Builder()
-                            .addPhoto(photo)
-                            .build();
-                    shareDialog.show(photoContent);
+                    shareDialog.show(linkContent);
                 }
 
             }
@@ -170,15 +156,5 @@ public class DesignDetailsActivity extends AppCompatActivity {
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        AppEventsLogger.activateApp(this);
-    }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        AppEventsLogger.deactivateApp(this);
-    }
 }
