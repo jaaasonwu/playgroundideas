@@ -22,4 +22,8 @@ public abstract class VersionedEntity {
     public void setVersion(long version) {
         this.version = version;
     }
+
+    public void increaseVersion() {
+        this.version++;
+    }
 }
