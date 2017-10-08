@@ -12,8 +12,13 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Filter;
 import android.widget.GridView;
 import android.widget.SearchView;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.CallbackManager;
 import com.facebook.share.widget.ShareDialog;
@@ -36,9 +41,11 @@ public class DesignFavoriteList extends DaggerFragment {
     private FloatingActionButton designsAddFab;
     private GridView myFavoriteGrid;
     private SearchView searchView;
+    private Spinner spinner;
     private DesignListViewModel viewModel;
     private CallbackManager callbackManager;
     private ShareDialog shareDialog;
+    private GridViewAdapterFavorite gridViewAdapterFavorite;
     @Inject
     ViewModelProvider.Factory viewModelFactory;
 
@@ -50,7 +57,7 @@ public class DesignFavoriteList extends DaggerFragment {
         shareDialog = new ShareDialog(getActivity());
         myFavoriteGrid = view.findViewById(R.id.my_favorite_grid);
         searchView = (SearchView) view.findViewById(R.id.searchView1);
-        final GridViewAdapterFavorite gridViewAdapterFavorite = new GridViewAdapterFavorite(getActivity(),callbackManager,shareDialog);
+        gridViewAdapterFavorite = new GridViewAdapterFavorite(getActivity(),callbackManager,shareDialog);
         myFavoriteGrid.setAdapter(gridViewAdapterFavorite);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -60,8 +67,29 @@ public class DesignFavoriteList extends DaggerFragment {
 
             @Override
             public boolean onQueryTextChange(String query) {
-                gridViewAdapterFavorite.getFilter().filter(query);
+                Filter filter = gridViewAdapterFavorite.getFilter();
+                gridViewAdapterFavorite.previousQuery = query;
+                filter.filter(query);
                 return false;
+            }
+        });
+        spinner = (Spinner) view.findViewById(R.id.spinner);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                TextView option = (TextView) view;
+                Toast.makeText(getContext(), option.getText() + " selected", Toast.LENGTH_SHORT).show();
+                Filter filter = gridViewAdapterFavorite.getFilter();
+                gridViewAdapterFavorite.catergory = option.getText().toString();
+                filter.filter(gridViewAdapterFavorite.previousQuery);
+
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
         return view;
@@ -91,7 +119,7 @@ public class DesignFavoriteList extends DaggerFragment {
         viewModel.getDesignList().observe(this, new Observer<List<Design>>() {
             @Override
             public void onChanged(@Nullable List<Design> designs) {
-               //gridViewFavoriteAdpater.changeDesignItems(designs)
+                //gridViewAdapterFavorite.designItemsChanged(designs);
 
             }
         });

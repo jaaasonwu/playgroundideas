@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -32,6 +33,11 @@ import com.joanzapata.iconify.fonts.MaterialModule;
 import com.playgroundideas.playgroundideas.MainActivity;
 import com.playgroundideas.playgroundideas.R;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
+
 public class DesignDetailsActivity extends AppCompatActivity {
     private FloatingActionButton floatingActionPlus;
     private FloatingActionButton floatingActionEmailShare;
@@ -39,17 +45,18 @@ public class DesignDetailsActivity extends AppCompatActivity {
     private Animation fabOpenShare, fabCloseShare, fabRClockwise, fabRAnticlockwise;
     private CallbackManager callbackManager;
     private ShareDialog shareDialog;
-
+    private String imgUrl;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_design_details);
         TextView textViewDesc = (TextView) findViewById(R.id.imageTitle);
-        final String desc = getIntent().getExtras().getString("designName");
-        textViewDesc.setText(desc);
+        final String name = getIntent().getExtras().getString("designName");
+        textViewDesc.setText(name);
         ImageView imageView = (ImageView) findViewById(R.id.imageDetails);
-        final int img = getIntent().getExtras().getInt("designDetail");
-        imageView.setImageResource(img);
+        imgUrl = getIntent().getExtras().getString("designDetail");
+        Glide.with(getApplicationContext()).load(imgUrl)
+                .into(imageView);
 
         floatingActionPlus = (FloatingActionButton) findViewById(R.id.fab_share_detail);
         floatingActionEmailShare = (FloatingActionButton) findViewById(R.id.fab_email_share_detail);
@@ -100,8 +107,8 @@ public class DesignDetailsActivity extends AppCompatActivity {
                 intent.setData(Uri.parse("mailto:"));
                 String[] to = {};
                 intent.putExtra(Intent.EXTRA_EMAIL, to);
-                intent.putExtra(Intent.EXTRA_SUBJECT, desc + " Sharing");
-                intent.putExtra(Intent.EXTRA_TEXT, desc);
+                intent.putExtra(Intent.EXTRA_SUBJECT, name + " Sharing");
+                intent.putExtra(Intent.EXTRA_TEXT, name);
                 intent.setType("message/rfc822");
                 chooser = Intent.createChooser(intent, "Send Email");
                 startActivity(chooser);
@@ -132,8 +139,19 @@ public class DesignDetailsActivity extends AppCompatActivity {
         floatingActionFacebookShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Bitmap image = null;
                 if (ShareDialog.canShow(SharePhotoContent.class)) {
-                    Bitmap image = BitmapFactory.decodeResource(getResources(),img);
+                    try {
+                        URL url = new URL(imgUrl);
+                        URLConnection conn =url.openConnection();
+                        conn.connect();
+                        InputStream in;
+                        in = conn.getInputStream();
+                        image = BitmapFactory.decodeStream(in);
+                    }
+                    catch (IOException e){
+                        e.printStackTrace();
+                    }
                     SharePhoto photo = new SharePhoto.Builder()
                             .setBitmap(image)
                             .build();

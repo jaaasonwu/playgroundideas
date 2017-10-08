@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.playgroundideas.playgroundideas.R;
 
 import java.util.ArrayList;
@@ -38,12 +39,12 @@ class GridViewAdapterBrowse extends BaseAdapter implements Filterable {
     }
 
     class ViewHolder {
-        private TextView desc;
+        private TextView name;
         private ImageView image;
         private Button addButton;
 
         ViewHolder(View v){
-            this.desc = (TextView) v.findViewById(R.id.textView);
+            this.name = (TextView) v.findViewById(R.id.textView);
             this.image = (ImageView) v.findViewById(R.id.imageView);
             this.addButton = (Button) v.findViewById(R.id.add_or_delete_button);
         }
@@ -58,12 +59,21 @@ class GridViewAdapterBrowse extends BaseAdapter implements Filterable {
         this.context = context;
         this.favoriteList = favoriteList;
         Resources resources = context.getResources();
-        String[] desc = resources.getStringArray(R.array.description);
-        int[] images = {R.drawable.sample1, R.drawable.sample1, R.drawable.sample1, R.drawable.sample1, R.drawable.sample1,
-                R.drawable.sample1, R.drawable.sample1, R.drawable.sample1};
+        String[] name = resources.getStringArray(R.array.description);
+        String[] imageUrls = {"https://playgroundideas.org/wp-content/uploads/design_gallery/Scoop and Shaft.jpg",
+                "https://playgroundideas.org/wp-content/uploads/design_gallery/Mayan Pyramid.jpg",
+                "https://playgroundideas.org/wp-content/uploads/design_gallery/tire hurdle.jpg",
+                "https://playgroundideas.org/wp-content/uploads/design_gallery/wide slide .jpg",
+                "https://playgroundideas.org/wp-content/uploads/design_gallery/Twister_colour.jpg",
+                "https://playgroundideas.org/wp-content/uploads/design_gallery/stage_playgroundideas_colour.org_.jpg",
+                "https://playgroundideas.org/wp-content/uploads/design_gallery/slide tile.jpg",
+                "https://playgroundideas.org/wp-content/uploads/design_gallery/Scorpion.jpg"
+        };
+        String[] catergory = {"Bridges", "Climbing", "Cubbies/Platforms/", "Groundlevel", "Musical", "Seating", "Seesaws", "Slides",
+                "Swings", "Tunnels", "Tyre Elements"};
 
-        for(int i = 0; i < desc.length; i++){
-            list.add(new DesignItem(desc[i], images[i]));
+        for(int i = 0; i < name.length; i++){
+            list.add(new DesignItem(name[i], imageUrls[i], catergory[i]));
         }
 
         this.filterList = list;
@@ -113,8 +123,8 @@ class GridViewAdapterBrowse extends BaseAdapter implements Filterable {
                     toast = Toast.makeText(context, "The " + textItemNum + " design detail.", Toast.LENGTH_SHORT);
                     toast.show();
                     Intent intent = new Intent(context, DesignDetailsActivity.class);
-                    intent.putExtra("designName", this.designItem.getDescription());
-                    intent.putExtra("designDetail", this.designItem.getImage());
+                    intent.putExtra("designName", this.designItem.getName());
+                    intent.putExtra("designDetail", this.designItem.getImageUrl());
                     context.startActivity(intent);
                     break;
                 case R.id.add_or_delete_button:
@@ -152,8 +162,9 @@ class GridViewAdapterBrowse extends BaseAdapter implements Filterable {
 
         DesignItem temp_item = list.get(i);
 
-        holder.desc.setText(temp_item.getDescription());
-        holder.image.setImageResource(temp_item.getImage());
+        holder.name.setText(temp_item.getName());
+        Glide.with(context).load(temp_item.getImageUrl())
+                .into(holder.image);
         ButtonHandler buttonHandler = new ButtonHandler(i, temp_item, favoriteList);
         holder.image.setOnClickListener(buttonHandler);
         holder.addButton.setOnClickListener(buttonHandler);
@@ -172,8 +183,8 @@ class GridViewAdapterBrowse extends BaseAdapter implements Filterable {
                 ArrayList<DesignItem> filters = new ArrayList<>();
 
                 for(int i = 0; i < filterList.size(); i++){
-                    if (filterList.get(i).getDescription().toUpperCase().contains(constraint)) {
-                        DesignItem item = new DesignItem(filterList.get(i).getDescription(), filterList.get(i).getImage());
+                    if (filterList.get(i).getName().toUpperCase().contains(constraint)) {
+                        DesignItem item = new DesignItem(filterList.get(i));
                         filters.add(item);
                     }
                     results.count = filters.size();

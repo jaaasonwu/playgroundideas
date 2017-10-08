@@ -15,12 +15,27 @@
     <string-array name="description">
         <item>Scoope and Shaft</item>
         <item>Mayan Pyramid</item>
-        <item>Tire Swing</item>
-        <item>Tire Seat</item>
-        <item>Wall</item>
-        <item>DragonFly</item>
+        <item>Tire Hurdle</item>
+        <item>Wide Slide</item>
+        <item>Twister</item>
+        <item>Stage</item>
+        <item>Slide Tile</item>
         <item>Scorpion</item>
-        <item>Tire Sphere</item>
+    </string-array>
+    <string-array name="catergory">
+        <item>All</item>
+        <item>Bridges</item>
+        <item>Climbing</item>
+        <item>Cubbies/Platforms/</item>
+        <item>Groundlevel</item>
+        <item>Musical</item>
+        <item>Seating</item>
+        <item>Seesaws</item>
+        <item>Slides</item>
+        <item>Swings</item>
+        <item>Tunnels</item>
+        <item>Tyre Elements</item>
+        <item>Others</item>
     </string-array>
     <string name="add_button"> + Add to Favourites</string>
 
