@@ -24,10 +24,8 @@ public interface ProjectDao {
     public void update(Project project);
     @Delete
     public void delete(Project project);
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public long insertProject(Project project);
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public long[] insertProjects(Project... projects);
+    @Insert(onConflict = OnConflictStrategy.FAIL)
+    public long insert(Project project);
 
     @Query("SELECT * FROM project WHERE id = :id")
     LiveData<Project> load(long id);
@@ -40,6 +38,9 @@ public interface ProjectDao {
 
     @Query("SELECT COUNT(1) FROM project WHERE id = :id")
     boolean hasProject(long id);
+
+    @Query("SELECT project.version FROM project WHERE id = :id")
+    long getVersionOf(long id);
 
     @Update
     void update(ProjectPictureFileInfo pictureFile);

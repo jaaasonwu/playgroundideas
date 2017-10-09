@@ -116,13 +116,10 @@ public class DesignRepository {
         return picturesPerDesign;
     }
 
-    public void addImage(Long designId, String imageId, InputStream image) {
+    private void storeImage(Long designId, String imageId, InputStream image) {
         DesignPictureFileInfo info = new DesignPictureFileInfo(imageId, designId);
         try {
             FileStorage.writeDesignPictureFile(info, image);
-            Design design = get(designId).getValue();
-            design.increaseVersion();
-            updateDesign(design);
             designDao.insert(info);
         } catch (IOException ioe) {
 
@@ -185,7 +182,7 @@ public class DesignRepository {
                                                             @Override
                                                             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                                                                 if(response.isSuccessful()) {
-                                                                    addImage(designId, imageId, response.body().byteStream());
+                                                                    storeImage(designId, imageId, response.body().byteStream());
                                                                 }
                                                             }
 
