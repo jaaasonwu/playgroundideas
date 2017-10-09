@@ -10,6 +10,7 @@ import android.arch.persistence.room.Update;
 
 import com.playgroundideas.playgroundideas.model.Manual;
 import com.playgroundideas.playgroundideas.model.ManualChapter;
+import com.playgroundideas.playgroundideas.model.ManualFileInfo;
 
 import java.util.List;
 
@@ -24,10 +25,8 @@ public interface ManualDao {
     public void update(Manual manual);
     @Delete
     public void delete(Manual manual);
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public long insertManual(Manual manual);
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public long[] insertManuals(Manual... manuals);
+    @Insert(onConflict = OnConflictStrategy.FAIL)
+    public long insert(Manual manual);
 
     @Query("SELECT * FROM manual WHERE id = :id")
     LiveData<Manual> load(long id);
@@ -37,6 +36,9 @@ public interface ManualDao {
 
     @Query("SELECT COUNT(1) FROM manual WHERE id = :id")
     boolean hasManual(long id);
+
+    @Query("SELECT manual.version FROM manual WHERE id = :id")
+    long getVersionOf(long id);
 
     @Update
     public void update(ManualChapter manualChapter);
@@ -49,5 +51,15 @@ public interface ManualDao {
 
     @Query("SELECT * FROM manualChapter WHERE manualId = :manualId")
     LiveData<List<ManualChapter>> loadAllOf(long manualId);
+
+    @Update
+    void update(ManualFileInfo manualFileInfo);
+    @Delete
+    void delete(ManualFileInfo manualFileInfo);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    long insert(ManualFileInfo manualFileInfo);
+
+    @Query("SELECT * FROM manualFileInfo WHERE manualId = :manualId")
+    LiveData<ManualFileInfo> loadFileInfo(long manualId);
 
 }

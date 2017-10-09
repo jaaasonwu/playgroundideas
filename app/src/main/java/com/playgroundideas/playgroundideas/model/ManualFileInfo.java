@@ -12,8 +12,8 @@ public class ManualFileInfo extends FileInfo {
 
     private Long manualId;
 
-    public ManualFileInfo(byte[] md5Hash, Long manualId) {
-        super(manualId.toString(), md5Hash);
+    public ManualFileInfo(Long manualId) {
+        super(manualId.toString());
         this.manualId = manualId;
     }
 
