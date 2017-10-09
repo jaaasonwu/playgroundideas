@@ -8,10 +8,10 @@ import com.playgroundideas.playgroundideas.model.ManualFileInfo;
 import com.playgroundideas.playgroundideas.model.ProjectPictureFileInfo;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.channels.FileChannel;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import javax.inject.Singleton;
 
@@ -31,14 +31,14 @@ public class FileStorage {
                 Environment.MEDIA_MOUNTED_READ_ONLY.equals(state));
     }
 
-    public static void writeManualFile(ManualFileInfo manualFile, File downloaded) throws IOException{
+    public static void writeManualFile(ManualFileInfo manualFile, InputStream downloaded) throws IOException{
         if(isExternalStorageWritable()) {
             // Create new file in the manuals directory in the user's public documents directory.
             File file = new File(Environment.getExternalStoragePublicDirectory(
                     Environment.DIRECTORY_DOCUMENTS), R.string.relative_pdf_manuals_directory_name + "/" + manualFile.getName());
 
             file.createNewFile();
-            copyFile(downloaded, file);
+            writeStreamToFile(downloaded, file);
         } else {
             throw new UnsupportedOperationException("FileInfo cannot be written because external storage is not mounted");
         }
@@ -66,14 +66,15 @@ public class FileStorage {
         }
     }
 
-    public static void writeDesignPictureFile(DesignPictureFileInfo designPictureFile, File downloaded) throws IOException{
+    public static DesignPictureFileInfo writeDesignPictureFile(DesignPictureFileInfo info, InputStream downloaded) throws IOException{
         if(isExternalStorageWritable()) {
             // Create new file in the design pictures directory in the app's private directory.
             File file = new File(Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_PICTURES), R.string.relative_design_pictures_directory_name + "/" + designPictureFile.getName());
+                    Environment.DIRECTORY_PICTURES), R.string.relative_design_pictures_directory_name + "/" + info.getName());
 
             file.createNewFile();
-            copyFile(downloaded, file);
+            writeStreamToFile(downloaded, file);
+            return info;
         } else {
             throw new UnsupportedOperationException("FileInfo cannot be written because external storage is not mounted");
         }
@@ -90,14 +91,14 @@ public class FileStorage {
         }
     }
 
-    public static void writeProjectPictureFile(ProjectPictureFileInfo projectPictureFile, File downloaded) throws IOException{
+    public static void writeProjectPictureFile(ProjectPictureFileInfo projectPictureFile, InputStream downloaded) throws IOException{
         if(isExternalStorageWritable()) {
             // Create new file in the project pictures directory in the app's private directory.
             File file = new File(Environment.getExternalStoragePublicDirectory(
                     Environment.DIRECTORY_PICTURES), R.string.relative_project_pictures_directory_name + "/" + projectPictureFile.getName());
 
             file.createNewFile();
-            copyFile(downloaded, file);
+            writeStreamToFile(downloaded, file);
         } else {
             throw new UnsupportedOperationException("FileInfo cannot be written because external storage is not mounted");
         }
@@ -114,19 +115,43 @@ public class FileStorage {
         }
     }
 
-    private static void copyFile(File src, File dst) throws IOException {
-        FileChannel inChannel = new FileInputStream(src).getChannel();
-        FileChannel outChannel = new FileOutputStream(dst).getChannel();
-        try
-        {
-            inChannel.transferTo(0, inChannel.size(), outChannel);
-        }
-        finally
-        {
-            if (inChannel != null)
-                inChannel.close();
-            if (outChannel != null)
-                outChannel.close();
+    private static boolean writeStreamToFile(InputStream inputStream, File file) {
+        try {
+
+            OutputStream outputStream = null;
+
+            try {
+                byte[] fileReader = new byte[4096];
+
+                outputStream = new FileOutputStream(file);
+
+                while (true) {
+                    int read = inputStream.read(fileReader);
+
+                    if (read == -1) {
+                        break;
+                    }
+
+                    outputStream.write(fileReader, 0, read);
+                }
+
+                outputStream.flush();
+
+                return true;
+            } catch (IOException e) {
+                return false;
+            } finally {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+
+                if (outputStream != null) {
+                    outputStream.close();
+                }
+            }
+        } catch (IOException e) {
+            return false;
         }
     }
+
 }
