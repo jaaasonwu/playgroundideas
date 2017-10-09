@@ -10,11 +10,9 @@ public class FileInfo {
 
     @NonNull
     private String name;
-    private byte[] md5Hash;
 
-    public FileInfo(String name, byte[] md5Hash) {
+    public FileInfo(String name) {
         this.name = name;
-        this.md5Hash = md5Hash;
     }
 
     public String getName() {
@@ -23,13 +21,5 @@ public class FileInfo {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public byte[] getMd5Hash() {
-        return md5Hash;
-    }
-
-    public void setMd5Hash(byte[] md5Hash) {
-        this.md5Hash = md5Hash;
     }
 }
