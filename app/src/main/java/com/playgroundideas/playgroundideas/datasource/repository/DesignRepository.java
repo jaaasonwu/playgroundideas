@@ -5,6 +5,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Transformations;
 
 import com.playgroundideas.playgroundideas.datasource.local.DesignDao;
+import com.playgroundideas.playgroundideas.datasource.local.FileStorage;
 import com.playgroundideas.playgroundideas.datasource.local.UserDao;
 import com.playgroundideas.playgroundideas.datasource.remote.DesignWebservice;
 import com.playgroundideas.playgroundideas.datasource.remote.NetworkAccess;
@@ -13,6 +14,8 @@ import com.playgroundideas.playgroundideas.model.DesignPictureFileInfo;
 import com.playgroundideas.playgroundideas.model.FavouritedDesign;
 import com.playgroundideas.playgroundideas.model.User;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -22,6 +25,7 @@ import java.util.concurrent.Executor;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -112,26 +116,30 @@ public class DesignRepository {
         return picturesPerDesign;
     }
 
-    public void addImage(DesignPictureFileInfo pictureFileInfo) {
-        Design design = get(pictureFileInfo.getDesignId()).getValue();
-        design.increaseVersion();
-        designDao.insert(pictureFileInfo);
-    }
+    public void addImage(Long designId, String imageId, InputStream image) {
+        DesignPictureFileInfo info = new DesignPictureFileInfo(imageId, designId);
+        try {
+            FileStorage.writeDesignPictureFile(info, image);
+            Design design = get(designId).getValue();
+            design.increaseVersion();
+            updateDesign(design);
+            designDao.insert(info);
+        } catch (IOException ioe) {
 
-    public void removeImage(DesignPictureFileInfo pictureFileInfo) {
-        Design design = get(pictureFileInfo.getDesignId()).getValue();
-        design.increaseVersion();
-        designDao.delete(pictureFileInfo);
+        }
     }
 
     public void addFavourite(Design design, User user) {
         FavouritedDesign relation = new FavouritedDesign(user.getId(), design.getId());
         user.increaseVersion();
+        userDao.update(user);
         designDao.addFavourite(relation);
     }
 
     public void removeFavourite(FavouritedDesign favouritedDesign) {
-        userDao.load(favouritedDesign.getUserId()).getValue().increaseVersion();
+        User user = userDao.load(favouritedDesign.getUserId()).getValue();
+        user.increaseVersion();
+        userDao.update(user);
         designDao.removeFavourite(favouritedDesign);
     }
 
@@ -165,6 +173,36 @@ public class DesignRepository {
                                         } else {
                                             designDao.update(design);
                                         }
+                                        final long designId = design.getId();
+
+                                        // load images of the design
+                                        webservice.getImageIdsOf(designId).enqueue(new Callback<List<String>>() {
+                                            @Override
+                                            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                                                if(response.isSuccessful()) {
+                                                    for(final String imageId : response.body()) {
+                                                        webservice.getImage(designId, imageId).enqueue(new Callback<ResponseBody>() {
+                                                            @Override
+                                                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                                                if(response.isSuccessful()) {
+                                                                    addImage(designId, imageId, response.body().byteStream());
+                                                                }
+                                                            }
+
+                                                            @Override
+                                                            public void onFailure(Call<ResponseBody> call, Throwable throwable) {
+
+                                                            }
+                                                        });
+                                                    }
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onFailure(Call<List<String>> call, Throwable throwable) {
+
+                                            }
+                                        });
                                     }
 
                                     @Override

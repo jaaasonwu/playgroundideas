@@ -14,8 +14,8 @@ public class DesignPictureFileInfo extends FileInfo {
     @NonNull
     private Long designId;
 
-    public DesignPictureFileInfo(String name, byte[] md5Hash, Long designId) {
-        super(name, md5Hash);
+    public DesignPictureFileInfo(String name, Long designId) {
+        super(name);
         this.designId = designId;
     }
 

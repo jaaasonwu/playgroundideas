@@ -5,6 +5,7 @@ import com.playgroundideas.playgroundideas.model.Design;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -26,4 +27,10 @@ public interface DesignWebservice {
 
     @GET("/design/all/version")
     Call<Map<Long, Long>> getVersionOfAll();
+
+    @GET("/design/{design}/image/all")
+    Call<List<String>> getImageIdsOf(@Path("design") long id);
+
+    @GET("/design/{designId}/image/{imageId}")
+    Call<ResponseBody> getImage(@Path("designId") long designId, @Path("imageId") String imageId);
 }
