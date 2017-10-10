@@ -15,7 +15,7 @@ import com.playgroundideas.playgroundideas.datasource.local.Converters;
 
 @Entity(indices = {@Index("category"), @Index("creatorId")},
         foreignKeys = {@ForeignKey(entity = User.class, parentColumns = "id", childColumns = "creatorId")})
-public class Design {
+public class Design extends VersionedEntity {
 
     @PrimaryKey(autoGenerate = false)
     @NonNull
@@ -32,7 +32,8 @@ public class Design {
     private String buildingMaterials;
     private String buildingTools;
 
-    public Design(Long id, String name, Long creatorId, DesignCategory category, String description, String buildingMaterials, boolean published, boolean pickedByStaff, String safetyConsiderations, String buildingSteps, String buildingTools) {
+    public Design(long version, Long id, String name, Long creatorId, DesignCategory category, String description, String buildingMaterials, boolean published, boolean pickedByStaff, String safetyConsiderations, String buildingSteps, String buildingTools) {
+        super(version);
         this.id = id;
         this.name = name;
         this.creatorId = creatorId;

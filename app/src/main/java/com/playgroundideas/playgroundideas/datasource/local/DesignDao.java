@@ -10,6 +10,7 @@ import android.arch.persistence.room.Update;
 
 import com.playgroundideas.playgroundideas.model.Design;
 import com.playgroundideas.playgroundideas.model.DesignPictureFileInfo;
+import com.playgroundideas.playgroundideas.model.FavouritedDesign;
 
 import java.util.List;
 
@@ -24,10 +25,8 @@ public interface DesignDao {
     public void update(Design design);
     @Delete
     public void delete(Design design);
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.FAIL)
     public long insert(Design design);
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public long[] insert(Design... designs);
 
     @Query("SELECT * FROM design WHERE id = :id")
     LiveData<Design> load(long id);
@@ -38,11 +37,35 @@ public interface DesignDao {
     @Query("SELECT * FROM design WHERE creatorId = :creatorId")
     LiveData<List<Design>> loadAllOf(long creatorId);
 
-    @Query("SELECT design.* FROM design INNER JOIN favouritedDesignsPerUser ON favouritedDesignsPerUser.userId =  :userId")
+    @Query("SELECT design.* FROM design INNER JOIN favouritedDesign ON favouritedDesign.userId =  :userId")
     LiveData<List<Design>> loadFavouritesOf(long userId);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    long addFavourite(FavouritedDesign favourite);
+
+    @Delete
+    void removeFavourite(FavouritedDesign favourite);
+
+    @Query("DELETE FROM favouritedDesign WHERE userId = :id")
+    void removeAllFavouritesOf(long id);
 
     @Query("SELECT COUNT(1) FROM design WHERE id = :id")
     boolean hasDesign(long id);
+
+    @Query("SELECT design.version FROM design WHERE id = :id")
+    long getVersionOf(long id);
+
+    @Update
+    void update(DesignPictureFileInfo pictureFile);
+    @Delete
+    void delete(DesignPictureFileInfo pictureFile);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    long insert(DesignPictureFileInfo pictureFile);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    long[] insert(DesignPictureFileInfo... pictureFiles);
+
+    @Query("SELECT * FROM designPictureFileInfo WHERE designId = :designId AND name = :filename")
+    LiveData<DesignPictureFileInfo> load(Long designId, String filename);
 
     @Query("SELECT * FROM designPictureFileInfo WHERE designId = :designId")
     LiveData<List<DesignPictureFileInfo>> loadAllPicturesOf(Long designId);
