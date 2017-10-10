@@ -20,7 +20,6 @@ public class SignUpFragment extends DaggerFragment {
     // UI references.
     private View mRootView;
     private TextView mEmailView;
-    private View mSignupFormView;
     private Button mSignupButton;
     @Inject
     LoginWebservice mLoginWebservice;
@@ -36,9 +35,8 @@ public class SignUpFragment extends DaggerFragment {
         // Inflate the layout for this fragment
         mRootView = inflater.inflate(R.layout.fragment_signup, container, false);
         mEmailView = mRootView.findViewById(R.id.signup_email);
-        mSignupButton = mRootView.findViewById(R.id.email_sign_in_button);
+        mSignupButton = mRootView.findViewById(R.id.email_sign_up_button);
         mSignupButton.setOnClickListener(new OnSignupClick());
-        mSignupFormView = mRootView.findViewById(R.id.signup_form);
 
         getActivity().setTitle(R.string.action_sign_up);
         setSwitchLoginListener();
