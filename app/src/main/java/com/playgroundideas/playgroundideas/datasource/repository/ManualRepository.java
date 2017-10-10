@@ -12,7 +12,6 @@ import android.widget.Toast;
 import com.playgroundideas.playgroundideas.R;
 import com.playgroundideas.playgroundideas.datasource.local.ManualDao;
 import com.playgroundideas.playgroundideas.datasource.remote.ManualWebservice;
-import com.playgroundideas.playgroundideas.manuals.ManualExpandableList;
 import com.playgroundideas.playgroundideas.model.Manual;
 import com.playgroundideas.playgroundideas.model.ManualChapter;
 
@@ -81,13 +80,11 @@ public class ManualRepository {
     }
 
     public void downloadManual(Manual manual) {
-        final Manual downloadManual = manual;
         new DownloadTask().execute(manual);
     }
 
     private class DownloadTask extends AsyncTask<Manual, String, Boolean> {
         private Handler handler;
-        ManualExpandableList list;
 
         public DownloadTask() {
             handler = new Handler(Looper.getMainLooper()) {
@@ -114,7 +111,7 @@ public class ManualRepository {
                 e.printStackTrace();
             }
             if (res.isSuccessful()) {
-//                sendToast(context.getString(R.string.download_start), list);
+                sendToastMessage(context.getString(R.string.download_start));
                 ResponseBody body = (ResponseBody) res.body();
                 InputStream input = body.byteStream();
                 try {

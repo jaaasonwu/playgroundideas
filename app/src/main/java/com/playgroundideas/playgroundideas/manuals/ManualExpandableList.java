@@ -51,24 +51,30 @@ public class ManualExpandableList extends DaggerFragment implements Handler.Call
         mDownloadStatus = new HashMap<>();
         mItemHeader = new HashMap<>();
 
+        // Get the view model and get the LiveData for manuals to update the UI
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(ManualsListViewModel.class);
         manualLiveData = viewModel.getAllManuals();
+        // Add an observer to the LiveData to update UI when there's a change in DB
         manualLiveData.observe(this, new Observer<List<Manual>>() {
             @Override
             public void onChanged(@Nullable List<Manual> manuals) {
                 String name;
                 boolean downloaded;
 
+                // Make sure the DB is not empty (the startup)
                 if (manuals == null || manuals.size() == 0) {
                     return;
                 }
 
+                // Update the download status
                 for (int i = 0; i < manuals.size(); i++) {
                     mGroupHeader.add(manuals.get(i).getName());
                     name = manuals.get(i).getName();
                     downloaded = manuals.get(i).getDownloaded();
                     mDownloadStatus.put(name, downloaded);
                 }
+
+                //Notify the adapter of the change to update the UI
                 mManualsListAdapter.setmGroupHeader(mGroupHeader);
                 mManualsListAdapter.setmDownloadStatus(mDownloadStatus);
                 mManualsListAdapter.notifyDataSetChanged();
