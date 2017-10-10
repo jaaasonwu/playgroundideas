@@ -1,5 +1,6 @@
 package com.playgroundideas.playgroundideas.di.screens;
 
+import com.playgroundideas.playgroundideas.AccountInfoActivity;
 import com.playgroundideas.playgroundideas.designs.DesignBrowseList;
 import com.playgroundideas.playgroundideas.designs.DesignFavoriteList;
 import com.playgroundideas.playgroundideas.login.LoginFragment;
@@ -38,4 +39,7 @@ public abstract class FragmentBuilderModule {
 
     @ContributesAndroidInjector
     abstract SignUpFragment contributeSignUpFragment();
+
+    @ContributesAndroidInjector
+    abstract AccountInfoActivity contributesAccountInfoActivity();
 }
