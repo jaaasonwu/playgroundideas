@@ -77,4 +77,9 @@
     <string name="forget_pass">Forget Password?</string>
     <string name="or">Or</string>
 
+    <string name="database_file_name">playgroundIdeas.db</string>
+    <string name="project_post_status_publish_description">The Project has been approved and published on the site.</string>
+    <string name="project_post_status_draft_description">The project is currently saved but not submitted for approval or displayed on the website.</string>
+    <string name="project_post_status_pending_approval_description">The project is currently saved and has been submitted for approval.</string>
+    <string name="project_post_status_paused_description">The project was paused. (everything is saved, but not available on the site)</string>
 </resources>

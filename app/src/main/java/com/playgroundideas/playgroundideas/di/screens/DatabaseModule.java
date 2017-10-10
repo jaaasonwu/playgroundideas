@@ -3,6 +3,7 @@ package com.playgroundideas.playgroundideas.di.screens;
 import android.app.Application;
 import android.arch.persistence.room.Room;
 
+import com.playgroundideas.playgroundideas.R;
 import com.playgroundideas.playgroundideas.datasource.local.Database;
 import com.playgroundideas.playgroundideas.datasource.local.DesignDao;
 import com.playgroundideas.playgroundideas.datasource.local.ManualDao;
@@ -19,7 +20,7 @@ public class DatabaseModule {
 
     @Singleton @Provides
     Database provideDb(Application application) {
-        return Room.databaseBuilder(application, Database.class, "playgroundIdeas.db").build();
+        return Room.databaseBuilder(application, Database.class, R.string.database_file_name+"").fallbackToDestructiveMigration().build();
     }
 
     @Singleton @Provides
