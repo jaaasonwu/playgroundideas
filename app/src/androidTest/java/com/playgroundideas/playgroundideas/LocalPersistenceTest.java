@@ -51,7 +51,7 @@ public class LocalPersistenceTest {
     @Test
     public void writeUserAndReadInList() throws Exception {
         User user = TestUtil.createUser(1);
-        userDao.insertUser(user);
+        userDao.insert(user);
         User u = userDao.load(1).getValue();
         Assert.assertEquals(u.getId(), user.getId());
     }

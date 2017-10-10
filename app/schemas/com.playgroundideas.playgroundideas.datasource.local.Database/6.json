@@ -1,8 +1,8 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 3,
-    "identityHash": "eaeb77671246f1972c3640f27275b21e",
+    "version": 6,
+    "identityHash": "c9409e4850accc8ad08b84cd43a1dee6",
     "entities": [
       {
         "tableName": "User",
@@ -171,7 +171,7 @@
       },
       {
         "tableName": "Manual",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT, `version` INTEGER NOT NULL, `pdf_manualId` INTEGER, `pdf_name` TEXT, `pdf_md5Hash` BLOB, `html_manualId` INTEGER, `html_name` TEXT, `html_md5Hash` BLOB, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT, `version` INTEGER NOT NULL, `pdf_manualId` INTEGER, `pdf_name` TEXT, `html_manualId` INTEGER, `html_name` TEXT, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -204,12 +204,6 @@
             "notNull": false
           },
           {
-            "fieldPath": "pdfInfo.md5Hash",
-            "columnName": "pdf_md5Hash",
-            "affinity": "BLOB",
-            "notNull": false
-          },
-          {
             "fieldPath": "htmlInfo.manualId",
             "columnName": "html_manualId",
             "affinity": "INTEGER",
@@ -219,12 +213,6 @@
             "fieldPath": "htmlInfo.name",
             "columnName": "html_name",
             "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "htmlInfo.md5Hash",
-            "columnName": "html_md5Hash",
-            "affinity": "BLOB",
             "notNull": false
           }
         ],
@@ -400,7 +388,7 @@
       },
       {
         "tableName": "ManualChapter",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`position` INTEGER NOT NULL, `title` TEXT, `manualId` INTEGER NOT NULL, `pdf_manualId` INTEGER, `pdf_name` TEXT, `pdf_md5Hash` BLOB, `html_manualId` INTEGER, `html_name` TEXT, `html_md5Hash` BLOB, PRIMARY KEY(`manualId`, `position`), FOREIGN KEY(`manualId`) REFERENCES `Manual`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`position` INTEGER NOT NULL, `title` TEXT, `manualId` INTEGER NOT NULL, `pdf_manualId` INTEGER, `pdf_name` TEXT, `html_manualId` INTEGER, `html_name` TEXT, PRIMARY KEY(`manualId`, `position`), FOREIGN KEY(`manualId`) REFERENCES `Manual`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "position",
@@ -433,12 +421,6 @@
             "notNull": false
           },
           {
-            "fieldPath": "pdfChapterInfo.md5Hash",
-            "columnName": "pdf_md5Hash",
-            "affinity": "BLOB",
-            "notNull": false
-          },
-          {
             "fieldPath": "htmlChapterInfo.manualId",
             "columnName": "html_manualId",
             "affinity": "INTEGER",
@@ -448,12 +430,6 @@
             "fieldPath": "htmlChapterInfo.name",
             "columnName": "html_name",
             "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "htmlChapterInfo.md5Hash",
-            "columnName": "html_md5Hash",
-            "affinity": "BLOB",
             "notNull": false
           }
         ],
@@ -480,7 +456,7 @@
         ]
       },
       {
-        "tableName": "FavouritedDesignsPerUser",
+        "tableName": "FavouritedDesign",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userId` INTEGER NOT NULL, `designId` INTEGER NOT NULL, PRIMARY KEY(`userId`, `designId`), FOREIGN KEY(`userId`) REFERENCES `User`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`designId`) REFERENCES `Design`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
@@ -505,20 +481,20 @@
         },
         "indices": [
           {
-            "name": "index_FavouritedDesignsPerUser_userId",
+            "name": "index_FavouritedDesign_userId",
             "unique": false,
             "columnNames": [
               "userId"
             ],
-            "createSql": "CREATE  INDEX `index_FavouritedDesignsPerUser_userId` ON `${TABLE_NAME}` (`userId`)"
+            "createSql": "CREATE  INDEX `index_FavouritedDesign_userId` ON `${TABLE_NAME}` (`userId`)"
           },
           {
-            "name": "index_FavouritedDesignsPerUser_designId",
+            "name": "index_FavouritedDesign_designId",
             "unique": false,
             "columnNames": [
               "designId"
             ],
-            "createSql": "CREATE  INDEX `index_FavouritedDesignsPerUser_designId` ON `${TABLE_NAME}` (`designId`)"
+            "createSql": "CREATE  INDEX `index_FavouritedDesign_designId` ON `${TABLE_NAME}` (`designId`)"
           }
         ],
         "foreignKeys": [
@@ -547,8 +523,46 @@
         ]
       },
       {
+        "tableName": "ManualFileInfo",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`manualId` INTEGER NOT NULL, `name` TEXT NOT NULL, PRIMARY KEY(`manualId`), FOREIGN KEY(`manualId`) REFERENCES `Manual`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "manualId",
+            "columnName": "manualId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "manualId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "Manual",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "manualId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
         "tableName": "ProjectPictureFileInfo",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`projectId` INTEGER NOT NULL, `name` TEXT NOT NULL, `md5Hash` BLOB, PRIMARY KEY(`projectId`, `name`), FOREIGN KEY(`projectId`) REFERENCES `Project`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`projectId` INTEGER NOT NULL, `name` TEXT NOT NULL, PRIMARY KEY(`projectId`, `name`), FOREIGN KEY(`projectId`) REFERENCES `Project`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "projectId",
@@ -561,12 +575,6 @@
             "columnName": "name",
             "affinity": "TEXT",
             "notNull": true
-          },
-          {
-            "fieldPath": "md5Hash",
-            "columnName": "md5Hash",
-            "affinity": "BLOB",
-            "notNull": false
           }
         ],
         "primaryKey": {
@@ -593,7 +601,7 @@
       },
       {
         "tableName": "DesignPictureFileInfo",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`designId` INTEGER NOT NULL, `name` TEXT NOT NULL, `md5Hash` BLOB, PRIMARY KEY(`designId`, `name`), FOREIGN KEY(`designId`) REFERENCES `Design`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`designId` INTEGER NOT NULL, `name` TEXT NOT NULL, PRIMARY KEY(`designId`, `name`), FOREIGN KEY(`designId`) REFERENCES `Design`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "designId",
@@ -606,12 +614,6 @@
             "columnName": "name",
             "affinity": "TEXT",
             "notNull": true
-          },
-          {
-            "fieldPath": "md5Hash",
-            "columnName": "md5Hash",
-            "affinity": "BLOB",
-            "notNull": false
           }
         ],
         "primaryKey": {
@@ -639,7 +641,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"eaeb77671246f1972c3640f27275b21e\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"c9409e4850accc8ad08b84cd43a1dee6\")"
     ]
   }
 }
