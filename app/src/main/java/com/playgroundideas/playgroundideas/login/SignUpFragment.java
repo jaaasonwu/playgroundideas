@@ -11,26 +11,23 @@ import android.widget.TextView;
 
 import com.playgroundideas.playgroundideas.R;
 import com.playgroundideas.playgroundideas.datasource.remote.LoginWebservice;
-import com.playgroundideas.playgroundideas.di.screens.DaggerLoginComponent;
-import com.playgroundideas.playgroundideas.di.screens.LoginComponent;
 
 import javax.inject.Inject;
 
-public class SignUpFragment extends Fragment {
+import dagger.android.support.DaggerFragment;
+
+public class SignUpFragment extends DaggerFragment {
     // UI references.
     private View mRootView;
     private TextView mEmailView;
     private View mSignupFormView;
     private Button mSignupButton;
-    private LoginComponent mLoginComponent;
     @Inject
     LoginWebservice mLoginWebservice;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mLoginComponent = DaggerLoginComponent.builder().build();
-        mLoginComponent.inject(this);
     }
 
     @Override

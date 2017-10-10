@@ -22,13 +22,12 @@ import android.widget.TextView;
 import com.playgroundideas.playgroundideas.MainActivity;
 import com.playgroundideas.playgroundideas.R;
 import com.playgroundideas.playgroundideas.datasource.remote.LoginWebservice;
-import com.playgroundideas.playgroundideas.di.screens.DaggerLoginComponent;
-import com.playgroundideas.playgroundideas.di.screens.LoginComponent;
 
 import java.io.IOException;
 
 import javax.inject.Inject;
 
+import dagger.android.support.DaggerFragment;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -36,7 +35,7 @@ import retrofit2.Response;
 /**
  * A fragment to handle login
  */
-public class LoginFragment extends Fragment {
+public class LoginFragment extends DaggerFragment {
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -50,7 +49,6 @@ public class LoginFragment extends Fragment {
     private View mLoginFormView;
     private Button mLoginButton;
     private TextView mForget;
-    private LoginComponent mLoginComponent;
     @Inject
     LoginWebservice mLoginWebservice;
 
@@ -61,8 +59,6 @@ public class LoginFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mLoginComponent = DaggerLoginComponent.builder().build();
-        mLoginComponent.inject(this);
     }
 
     @Override
