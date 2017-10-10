@@ -73,9 +73,6 @@ public class DesignBrowseList extends Fragment {
                 Filter filter = gridViewAdapterBrowse.getFilter();
                 gridViewAdapterBrowse.catergory = option.getText().toString();
                 filter.filter(gridViewAdapterBrowse.previousQuery);
-
-
-
             }
 
             @Override

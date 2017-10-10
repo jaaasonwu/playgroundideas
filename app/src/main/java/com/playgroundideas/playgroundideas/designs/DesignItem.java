@@ -6,6 +6,7 @@ import android.os.Parcelable;
 /**
  * Created by Peter Chen on 2017/9/5.
  */
+//fake data
 class DesignItem implements Parcelable {
     private String name;
     private String imageUrl;
