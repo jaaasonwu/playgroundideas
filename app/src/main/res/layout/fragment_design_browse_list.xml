@@ -23,7 +23,7 @@
         <GridView
             android:id="@+id/my_browse_grid"
             android:layout_width="wrap_content"
-            android:layout_height="368dp"
+            android:layout_height="match_parent"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/search_browse"
             android:layout_marginLeft="30dp"
