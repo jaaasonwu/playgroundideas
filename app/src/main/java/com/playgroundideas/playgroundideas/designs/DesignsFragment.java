@@ -35,7 +35,7 @@ public class DesignsFragment extends Fragment {
         tabLayout.setupWithViewPager(viewPager);
         return rootView;
     }
-
+    
     public void respond() {
         viewPager.setAdapter(designTabPagerAdapter);
         viewPager.setCurrentItem(1);
