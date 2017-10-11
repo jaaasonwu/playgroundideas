@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.MaterialIcons;
@@ -28,6 +30,7 @@ public class ProjectMy extends Fragment {
     private List<ProjectItem> mProject;
     private static final int PROJECT_COUNTER = 10;
     private FloatingActionButton mCreateBtn;
+    private SearchView mSearchView;
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -55,6 +58,8 @@ public class ProjectMy extends Fragment {
         });
         mCreateBtn.setImageDrawable(new IconDrawable(getContext(), MaterialIcons.md_add)
                 .colorRes(R.color.white).actionBarSize());
+        mSearchView = (SearchView)rootView.findViewById(R.id.projectSearch);
+        setupSearchView();
         return rootView;
     }
 
@@ -86,5 +91,25 @@ public class ProjectMy extends Fragment {
                     ,sampleCountry,sampleCurrency,sampleDescription,sampleImageUrl);
             mProject.add(newProject);
         }
+    }
+
+    private void setupSearchView() {
+        mSearchView.setQueryHint("search title");
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                if(TextUtils.isEmpty(s)) {
+                    mProjectSampleList.clearTextFilter();
+                } else {
+                    mProjectListAdapter.getFilter().filter(s);
+                }
+                return true;
+            }
+        });
     }
 }
