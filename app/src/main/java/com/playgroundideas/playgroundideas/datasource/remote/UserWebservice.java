@@ -27,6 +27,6 @@ public interface UserWebservice {
     @GET("/user/all/version")
     Call<Map<Long, Long>> getVersionOfAll();
 
-    @GET("/user/{user}/favourite-designs")
+    @GET("/user/{user}/favourites")
     Call<List<Long>> getFavouriteDesignsOf(@Path("user") long id);
 }

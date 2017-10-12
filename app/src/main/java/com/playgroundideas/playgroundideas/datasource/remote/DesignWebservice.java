@@ -28,9 +28,9 @@ public interface DesignWebservice {
     @GET("/design/all/version")
     Call<Map<Long, Long>> getVersionOfAll();
 
-    @GET("/design/{design}/image/all")
-    Call<List<String>> getImageIdsOf(@Path("design") long id);
+    @GET("/design/{designId}/pdf")
+    Call<ResponseBody> getPdfOf(@Path("designId") long designId);
 
-    @GET("/design/{designId}/image/{imageId}")
-    Call<ResponseBody> getImage(@Path("designId") long designId, @Path("imageId") String imageId);
+    @GET("/design/{designId}/image")
+    Call<ResponseBody> getImageOf(@Path("designId") long designId);
 }

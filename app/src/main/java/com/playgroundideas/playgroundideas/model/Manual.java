@@ -17,26 +17,16 @@ public class Manual extends VersionedEntity{
     private Long id;
     private String name;
     @Embedded(prefix = "pdf_")
-    private ManualFileInfo pdfInfo;
+    private FileInfo pdfInfo;
     @Embedded(prefix = "html_")
-    private ManualFileInfo htmlInfo;
-    private Boolean downloaded;
+    private FileInfo htmlInfo;
 
-    public Manual(long version, Long id, String name, ManualFileInfo pdfInfo, ManualFileInfo htmlInfo) {
+    public Manual(long version, Long id, String name, FileInfo pdfInfo, FileInfo htmlInfo) {
         super(version);
         this.id = id;
         this.name = name;
         this.pdfInfo = pdfInfo;
         this.htmlInfo = htmlInfo;
-        this.downloaded = false;
-    }
-
-    public Boolean getDownloaded() {
-        return downloaded;
-    }
-
-    public void setDownloaded(Boolean downloaded) {
-        this.downloaded = downloaded;
     }
 
     public Long getId() {
@@ -47,19 +37,19 @@ public class Manual extends VersionedEntity{
         this.id = id;
     }
 
-    public ManualFileInfo getPdfInfo() {
+    public FileInfo getPdfInfo() {
         return pdfInfo;
     }
 
-    public void setPdfInfo(ManualFileInfo pdfInfo) {
+    public void setPdfInfo(FileInfo pdfInfo) {
         this.pdfInfo = pdfInfo;
     }
 
-    public ManualFileInfo getHtmlInfo() {
+    public FileInfo getHtmlInfo() {
         return htmlInfo;
     }
 
-    public void setHtmlInfo(ManualFileInfo htmlInfo) {
+    public void setHtmlInfo(FileInfo htmlInfo) {
         this.htmlInfo = htmlInfo;
     }
 

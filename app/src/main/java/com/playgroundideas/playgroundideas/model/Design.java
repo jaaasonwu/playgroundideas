@@ -1,5 +1,6 @@
 package com.playgroundideas.playgroundideas.model;
 
+import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Index;
@@ -31,8 +32,12 @@ public class Design extends VersionedEntity {
     private String buildingSteps;
     private String buildingMaterials;
     private String buildingTools;
+    @Embedded(prefix = "image_")
+    private FileInfo imageInfo;
+    @Embedded(prefix = "guide_")
+    private FileInfo guideInfo;
 
-    public Design(long version, Long id, String name, Long creatorId, DesignCategory category, String description, String buildingMaterials, boolean published, boolean pickedByStaff, String safetyConsiderations, String buildingSteps, String buildingTools) {
+    public Design(long version, Long id, String name, Long creatorId, DesignCategory category, String description, String buildingMaterials, boolean published, boolean pickedByStaff, String safetyConsiderations, String buildingSteps, String buildingTools, FileInfo imageInfo, FileInfo guideInfo) {
         super(version);
         this.id = id;
         this.name = name;
@@ -45,6 +50,8 @@ public class Design extends VersionedEntity {
         this.safetyConsiderations = safetyConsiderations;
         this.buildingSteps = buildingSteps;
         this.buildingTools = buildingTools;
+        this.imageInfo = imageInfo;
+        this.guideInfo = guideInfo;
     }
 
     public String getName() {
@@ -133,5 +140,21 @@ public class Design extends VersionedEntity {
 
     public void setBuildingTools(String buildingTools) {
         this.buildingTools = buildingTools;
+    }
+
+    public FileInfo getImageInfo() {
+        return imageInfo;
+    }
+
+    public void setImageInfo(FileInfo imageInfo) {
+        this.imageInfo = imageInfo;
+    }
+
+    public FileInfo getGuideInfo() {
+        return guideInfo;
+    }
+
+    public void setGuideInfo(FileInfo guideInfo) {
+        this.guideInfo = guideInfo;
     }
 }

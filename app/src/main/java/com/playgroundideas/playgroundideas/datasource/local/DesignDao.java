@@ -9,7 +9,6 @@ import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
 import com.playgroundideas.playgroundideas.model.Design;
-import com.playgroundideas.playgroundideas.model.DesignPictureFileInfo;
 import com.playgroundideas.playgroundideas.model.FavouritedDesign;
 
 import java.util.List;
@@ -54,25 +53,4 @@ public interface DesignDao {
 
     @Query("SELECT design.version FROM design WHERE id = :id")
     long getVersionOf(long id);
-
-    @Update
-    void update(DesignPictureFileInfo pictureFile);
-    @Delete
-    void delete(DesignPictureFileInfo pictureFile);
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    long insert(DesignPictureFileInfo pictureFile);
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    long[] insert(DesignPictureFileInfo... pictureFiles);
-
-    @Query("SELECT * FROM designPictureFileInfo WHERE designId = :designId AND name = :filename")
-    LiveData<DesignPictureFileInfo> load(Long designId, String filename);
-
-    @Query("SELECT * FROM designPictureFileInfo WHERE designId = :designId")
-    LiveData<List<DesignPictureFileInfo>> loadAllPicturesOf(Long designId);
-
-    @Query("SELECT * FROM designPictureFileInfo")
-    LiveData<List<DesignPictureFileInfo>> loadAllPictures();
-
-    @Query("SELECT COUNT(1) FROM designPictureFileInfo WHERE designId = :designId AND name = :filename")
-    boolean hasPicture(Long designId, String filename);
 }
