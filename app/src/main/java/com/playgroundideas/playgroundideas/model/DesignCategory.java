@@ -9,8 +9,7 @@ import android.arch.persistence.room.Entity;
 @Entity
 public enum DesignCategory {
 
-    //TODO remove
-    TEST("test");
+    GROUNDLEVEL("Groundlevel"), BRIDGE("Bridge"), CLIMBING("Climbing"), MUSICAL("Musical");
 
     private String description;
 

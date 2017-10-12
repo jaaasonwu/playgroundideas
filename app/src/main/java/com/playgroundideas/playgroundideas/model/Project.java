@@ -43,7 +43,7 @@ public class Project extends  VersionedEntity{
     @TypeConverters(Converters.class)
     private URL twitter__campaign_link;
     @TypeConverters(Converters.class)
-    private URL google_campaing_link;
+    private URL google_campaign_link;
     @TypeConverters(Converters.class)
     private URL pinterest_campaign_link;
     @TypeConverters(Converters.class)
@@ -55,7 +55,7 @@ public class Project extends  VersionedEntity{
     @TypeConverters(Converters.class)
     private MonetaryAmount fundingGoal;
 
-    public Project(long version, Long id, String location, boolean requiresFunding, boolean seekingVolunteers, String description, Long creatorId, int numberOfDonations, MonetaryAmount fundingSum, MonetaryAmount fundingGoal, boolean manuallyAddingFundsAllowed, URL facebook_campaign_link, URL pinterest_campaign_link, URL google_campaing_link, URL linkedin_campaign_link, URL youtube_campaign_link, URL twitter__campaign_link, Date startDate, Date endDate) {
+    public Project(long version, Long id, String location, boolean requiresFunding, boolean seekingVolunteers, String description, Long creatorId, int numberOfDonations, MonetaryAmount fundingSum, MonetaryAmount fundingGoal, boolean manuallyAddingFundsAllowed, URL facebook_campaign_link, URL pinterest_campaign_link, URL google_campaign_link, URL linkedin_campaign_link, URL youtube_campaign_link, URL twitter__campaign_link, Date startDate, Date endDate) {
         super(version);
         this.id = id;
         this.location = location;
@@ -70,7 +70,7 @@ public class Project extends  VersionedEntity{
         this.endDate = endDate;
         this.manuallyAddingFundsAllowed = manuallyAddingFundsAllowed;
         this.facebook_campaign_link = facebook_campaign_link;
-        this.google_campaing_link = google_campaing_link;
+        this.google_campaign_link = google_campaign_link;
         this.twitter__campaign_link = twitter__campaign_link;
         this.linkedin_campaign_link = linkedin_campaign_link;
         this.youtube_campaign_link = youtube_campaign_link;
@@ -205,12 +205,12 @@ public class Project extends  VersionedEntity{
         this.twitter__campaign_link = twitter__campaign_link;
     }
 
-    public URL getGoogle_campaing_link() {
-        return google_campaing_link;
+    public URL getGoogle_campaign_link() {
+        return google_campaign_link;
     }
 
-    public void setGoogle_campaing_link(URL google_campaing_link) {
-        this.google_campaing_link = google_campaing_link;
+    public void setGoogle_campaign_link(URL google_campaign_link) {
+        this.google_campaign_link = google_campaign_link;
     }
 
     public URL getPinterest_campaign_link() {
