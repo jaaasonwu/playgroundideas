@@ -90,7 +90,7 @@ public class DesignRepository {
     private void storeImage(Design design, InputStream image) {
         FileInfo info = new FileInfo(design.getId().toString());
         try {
-            FileStorage.writeDesignPictureFile(info, image);
+            FileStorage.writeDesignImageFile(info, image);
             design.setImageInfo(info);
             designDao.insert(design);
         } catch (IOException ioe) {
@@ -101,7 +101,7 @@ public class DesignRepository {
     private void storeGuide(Design design, InputStream guide) {
         FileInfo info = new FileInfo(design.getId().toString());
         try {
-            FileStorage.writeDesignPictureFile(info, guide);
+            FileStorage.writeDesignImageFile(info, guide);
             design.setImageInfo(info);
             designDao.insert(design);
         } catch (IOException ioe) {

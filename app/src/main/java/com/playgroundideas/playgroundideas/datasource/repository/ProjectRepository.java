@@ -105,7 +105,7 @@ public class ProjectRepository {
     private void storeImage(long projectId, String imageId, InputStream image) {
         ProjectPictureFileInfo info = new ProjectPictureFileInfo(imageId, projectId);
         try {
-            FileStorage.writeProjectPictureFile(info, image);
+            FileStorage.writeProjectImageFile(info, image);
             projectDao.insert(info);
         } catch (IOException ioe) {
 

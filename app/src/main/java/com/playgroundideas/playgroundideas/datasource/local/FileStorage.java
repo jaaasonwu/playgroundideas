@@ -30,30 +30,6 @@ public class FileStorage {
                 Environment.MEDIA_MOUNTED_READ_ONLY.equals(state));
     }
 
-    public static void writeManualFile(FileInfo manualFile, InputStream downloaded) throws IOException{
-        if(isExternalStorageWritable()) {
-            // Create new file in the manuals directory in the user's public documents directory.
-            File file = new File(Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_DOCUMENTS), R.string.relative_pdf_manuals_directory_name + "/" + manualFile.getName());
-
-            file.createNewFile();
-            writeStreamToFile(downloaded, file);
-        } else {
-            throw new UnsupportedOperationException("FileInfo cannot be written because external storage is not mounted");
-        }
-    }
-
-    public static File readManualFile(FileInfo manualFile) throws UnsupportedOperationException{
-        if(isExternalStorageReadable()) {
-            // Get the file in the manuals directory in the user's public documents directory.
-            File file = new File(Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_DOCUMENTS), R.string.relative_pdf_manuals_directory_name + "/" + manualFile.getName());
-            return file;
-        } else {
-            throw new UnsupportedOperationException("FileInfo cannot be read because external storage is not mounted");
-        }
-    }
-
     public static boolean isDownloaded(FileInfo FileInfo) {
         if(isExternalStorageReadable()) {
             // Get the manuals directory in the user's public documents directory.
@@ -65,11 +41,43 @@ public class FileStorage {
         }
     }
 
-    public static FileInfo writeDesignPictureFile(FileInfo info, InputStream downloaded) throws IOException{
+    public static FileInfo writeManualFile(FileInfo manualFile, InputStream downloaded) throws IOException{
+        return writeFile(manualFile, downloaded, Environment.DIRECTORY_DOCUMENTS, R.string.relative_pdf_manuals_directory_name+"");
+    }
+
+    public static File readManualFile(FileInfo manualFile) throws UnsupportedOperationException{
+        return readFile(manualFile, Environment.DIRECTORY_DOCUMENTS, R.string.relative_pdf_manuals_directory_name+"");
+    }
+
+    public static FileInfo writeDesignImageFile(FileInfo designImageInfo, InputStream downloaded) throws IOException{
+        return writeFile(designImageInfo, downloaded, Environment.DIRECTORY_PICTURES, R.string.relative_design_pictures_directory_name+"");
+    }
+
+    public static File readDesignImageFile(FileInfo designImageInfo) throws UnsupportedOperationException{
+        return readFile(designImageInfo, Environment.DIRECTORY_PICTURES, R.string.relative_design_pictures_directory_name+"");
+    }
+
+    public static FileInfo writeDesignGuideFile(FileInfo designGuideInfo, InputStream downloaded) throws IOException{
+        return writeFile(designGuideInfo, downloaded, Environment.DIRECTORY_DOCUMENTS, R.string.relative_design_pictures_directory_name+"");
+    }
+
+    public static File readDesignGuideFile(FileInfo designGuideInfo) throws UnsupportedOperationException{
+        return readFile(designGuideInfo, Environment.DIRECTORY_DOCUMENTS, R.string.relative_design_pictures_directory_name+"");
+    }
+
+    public static FileInfo writeProjectImageFile(ProjectPictureFileInfo projectPictureFile, InputStream downloaded) throws IOException{
+        return writeFile(projectPictureFile, downloaded, Environment.DIRECTORY_PICTURES, R.string.relative_project_pictures_directory_name+"");
+    }
+
+    public static File readProjectImageFile(ProjectPictureFileInfo projectPictureFile) {
+        return readFile(projectPictureFile, Environment.DIRECTORY_PICTURES, R.string.relative_project_pictures_directory_name+"");
+    }
+
+    private static FileInfo writeFile(FileInfo info, InputStream downloaded, String environment, String subdirectory) throws IOException{
         if(isExternalStorageWritable()) {
             // Create new file in the design pictures directory in the app's private directory.
             File file = new File(Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_PICTURES), R.string.relative_design_pictures_directory_name + "/" + info.getName());
+                    environment), subdirectory + "/" + info.getName());
 
             file.createNewFile();
             writeStreamToFile(downloaded, file);
@@ -79,35 +87,10 @@ public class FileStorage {
         }
     }
 
-    public static File readDesignPictureFile(FileInfo designPictureFile) throws UnsupportedOperationException{
+    private static File readFile(FileInfo fileInfo, String environment, String subdirectory) throws UnsupportedOperationException{
         if(isExternalStorageReadable()) {
             // Get the file in the design pictures directory in the app's private directory.
-            File file = new File(Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_PICTURES), R.string.relative_design_pictures_directory_name + "/" + designPictureFile.getName());
-            return file;
-        } else {
-            throw new UnsupportedOperationException("FileInfo cannot be read because external storage is not mounted");
-        }
-    }
-
-    public static void writeProjectPictureFile(ProjectPictureFileInfo projectPictureFile, InputStream downloaded) throws IOException{
-        if(isExternalStorageWritable()) {
-            // Create new file in the project pictures directory in the app's private directory.
-            File file = new File(Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_PICTURES), R.string.relative_project_pictures_directory_name + "/" + projectPictureFile.getName());
-
-            file.createNewFile();
-            writeStreamToFile(downloaded, file);
-        } else {
-            throw new UnsupportedOperationException("FileInfo cannot be written because external storage is not mounted");
-        }
-    }
-
-    public static File readProjectPictureFile(ProjectPictureFileInfo projectPictureFile) {
-        if(isExternalStorageReadable()) {
-            // Get the file in the project pictures directory in the app's private directory.
-            File file = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), R.string.relative_project_pictures_directory_name + "/" + projectPictureFile.getName());
+            File file = new File(Environment.getExternalStoragePublicDirectory(environment), subdirectory + "/" + fileInfo.getName());
             return file;
         } else {
             throw new UnsupportedOperationException("FileInfo cannot be read because external storage is not mounted");
