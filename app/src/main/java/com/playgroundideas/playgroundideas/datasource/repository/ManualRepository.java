@@ -6,9 +6,9 @@ import com.playgroundideas.playgroundideas.datasource.local.FileStorage;
 import com.playgroundideas.playgroundideas.datasource.local.ManualDao;
 import com.playgroundideas.playgroundideas.datasource.remote.ManualWebservice;
 import com.playgroundideas.playgroundideas.datasource.remote.NetworkAccess;
+import com.playgroundideas.playgroundideas.model.FileInfo;
 import com.playgroundideas.playgroundideas.model.Manual;
 import com.playgroundideas.playgroundideas.model.ManualChapter;
-import com.playgroundideas.playgroundideas.model.ManualFileInfo;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -58,11 +58,12 @@ public class ManualRepository {
         return manualDao.loadAllOf(id);
     }
 
-    private void storeManualFile(Manual manual, InputStream manualFile) {
-        ManualFileInfo info = new ManualFileInfo(manual.getId());
+    private void storePDFManualFile(Manual manual, InputStream manualFile) {
+        FileInfo info = new FileInfo(manual.getId().toString());
         try {
             FileStorage.writeManualFile(info, manualFile);
-            manualDao.insert(info);
+            manual.setPdfInfo(info);
+            manualDao.update(manual);
         } catch (IOException ioe) {
 
         }
@@ -106,7 +107,7 @@ public class ManualRepository {
                                                     @Override
                                                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                                                         if(response.isSuccessful()) {
-                                                            storeManualFile(newManual, response.body().byteStream());
+                                                            storePDFManualFile(newManual, response.body().byteStream());
                                                         }
                                                     }
 

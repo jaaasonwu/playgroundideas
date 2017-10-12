@@ -1,8 +1,6 @@
 package com.playgroundideas.playgroundideas.datasource.repository;
 
-import android.arch.core.util.Function;
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Transformations;
 
 import com.playgroundideas.playgroundideas.datasource.local.DesignDao;
 import com.playgroundideas.playgroundideas.datasource.local.FileStorage;
@@ -10,14 +8,12 @@ import com.playgroundideas.playgroundideas.datasource.local.UserDao;
 import com.playgroundideas.playgroundideas.datasource.remote.DesignWebservice;
 import com.playgroundideas.playgroundideas.datasource.remote.NetworkAccess;
 import com.playgroundideas.playgroundideas.model.Design;
-import com.playgroundideas.playgroundideas.model.DesignPictureFileInfo;
 import com.playgroundideas.playgroundideas.model.FavouritedDesign;
+import com.playgroundideas.playgroundideas.model.FileInfo;
 import com.playgroundideas.playgroundideas.model.User;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executor;
@@ -91,36 +87,23 @@ public class DesignRepository {
         return favouriteDesigns;
     }
 
-    public LiveData<List<DesignPictureFileInfo>> getPicturesOf(Long designId) {
-        refreshAllDesigns();
-        LiveData<List<DesignPictureFileInfo>> pictures = designDao.loadAllPicturesOf(designId);
-        return pictures;
-    }
-
-    public LiveData<Map<Long, List<DesignPictureFileInfo>>> getAllPicturesPerDesign() {
-        refreshAllDesigns();
-        LiveData<List<DesignPictureFileInfo>> allPictures = designDao.loadAllPictures();
-        LiveData<Map<Long, List<DesignPictureFileInfo>>> picturesPerDesign = Transformations.map(allPictures, new Function<List<DesignPictureFileInfo>, Map<Long, List<DesignPictureFileInfo>>>() {
-            @Override
-            public Map<Long, List<DesignPictureFileInfo>> apply(List<DesignPictureFileInfo> designPictureFileInfos) {
-                Map<Long, List<DesignPictureFileInfo>> map = new HashMap<Long, List<DesignPictureFileInfo>>();
-                for (DesignPictureFileInfo info : designPictureFileInfos) {
-                    if (!map.containsKey(info.getDesignId())) {
-                        map.put(info.getDesignId(), new LinkedList<DesignPictureFileInfo>());
-                    }
-                    map.get(info.getDesignId()).add(info);
-                }
-                return map;
-            }
-        });
-        return picturesPerDesign;
-    }
-
-    private void storeImage(Long designId, String imageId, InputStream image) {
-        DesignPictureFileInfo info = new DesignPictureFileInfo(imageId, designId);
+    private void storeImage(Design design, InputStream image) {
+        FileInfo info = new FileInfo(design.getId().toString());
         try {
             FileStorage.writeDesignPictureFile(info, image);
-            designDao.insert(info);
+            design.setImageInfo(info);
+            designDao.insert(design);
+        } catch (IOException ioe) {
+
+        }
+    }
+
+    private void storeGuide(Design design, InputStream guide) {
+        FileInfo info = new FileInfo(design.getId().toString());
+        try {
+            FileStorage.writeDesignPictureFile(info, guide);
+            design.setImageInfo(info);
+            designDao.insert(design);
         } catch (IOException ioe) {
 
         }
@@ -162,7 +145,7 @@ public class DesignRepository {
                                     @Override
                                     public void onResponse(Call<Design> call, Response<Design> response) {
                                         //create new object from response.body
-                                        Design design = response.body();
+                                        final Design design = response.body();
                                         // Update the database. The LiveData will automatically refresh so
                                         // we don't need to do anything else here besides updating the database
                                         if (localVersion == 0) {
@@ -172,31 +155,32 @@ public class DesignRepository {
                                         }
                                         final long designId = design.getId();
 
-                                        // load images of the design
-                                        webservice.getImageIdsOf(designId).enqueue(new Callback<List<String>>() {
+                                        // load image of the design
+                                        webservice.getImageOf(designId).enqueue(new Callback<ResponseBody>() {
                                             @Override
-                                            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                                                 if(response.isSuccessful()) {
-                                                    for(final String imageId : response.body()) {
-                                                        webservice.getImage(designId, imageId).enqueue(new Callback<ResponseBody>() {
-                                                            @Override
-                                                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                                                if(response.isSuccessful()) {
-                                                                    storeImage(designId, imageId, response.body().byteStream());
-                                                                }
-                                                            }
-
-                                                            @Override
-                                                            public void onFailure(Call<ResponseBody> call, Throwable throwable) {
-
-                                                            }
-                                                        });
-                                                    }
+                                                    storeImage(design, response.body().byteStream());
                                                 }
                                             }
 
                                             @Override
-                                            public void onFailure(Call<List<String>> call, Throwable throwable) {
+                                            public void onFailure(Call<ResponseBody> call, Throwable throwable) {
+
+                                            }
+                                        });
+
+                                        // load pdf guide of the design
+                                        webservice.getPdfOf(designId).enqueue(new Callback<ResponseBody>() {
+                                            @Override
+                                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                                if(response.isSuccessful()) {
+                                                    storeGuide(design, response.body().byteStream());
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onFailure(Call<ResponseBody> call, Throwable throwable) {
 
                                             }
                                         });

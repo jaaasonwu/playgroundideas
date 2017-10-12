@@ -3,8 +3,7 @@ package com.playgroundideas.playgroundideas.datasource.local;
 import android.os.Environment;
 
 import com.playgroundideas.playgroundideas.R;
-import com.playgroundideas.playgroundideas.model.DesignPictureFileInfo;
-import com.playgroundideas.playgroundideas.model.ManualFileInfo;
+import com.playgroundideas.playgroundideas.model.FileInfo;
 import com.playgroundideas.playgroundideas.model.ProjectPictureFileInfo;
 
 import java.io.File;
@@ -31,7 +30,7 @@ public class FileStorage {
                 Environment.MEDIA_MOUNTED_READ_ONLY.equals(state));
     }
 
-    public static void writeManualFile(ManualFileInfo manualFile, InputStream downloaded) throws IOException{
+    public static void writeManualFile(FileInfo manualFile, InputStream downloaded) throws IOException{
         if(isExternalStorageWritable()) {
             // Create new file in the manuals directory in the user's public documents directory.
             File file = new File(Environment.getExternalStoragePublicDirectory(
@@ -44,7 +43,7 @@ public class FileStorage {
         }
     }
 
-    public static File readManualFile(ManualFileInfo manualFile) throws UnsupportedOperationException{
+    public static File readManualFile(FileInfo manualFile) throws UnsupportedOperationException{
         if(isExternalStorageReadable()) {
             // Get the file in the manuals directory in the user's public documents directory.
             File file = new File(Environment.getExternalStoragePublicDirectory(
@@ -55,18 +54,18 @@ public class FileStorage {
         }
     }
 
-    public static boolean isDownloaded(ManualFileInfo manualFileInfo) {
+    public static boolean isDownloaded(FileInfo FileInfo) {
         if(isExternalStorageReadable()) {
             // Get the manuals directory in the user's public documents directory.
             File file = new File(Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_DOCUMENTS), R.string.relative_pdf_manuals_directory_name + "/" + manualFileInfo.getName());
+                    Environment.DIRECTORY_DOCUMENTS), R.string.relative_pdf_manuals_directory_name + "/" + FileInfo.getName());
             return file.exists();
         } else {
             throw new UnsupportedOperationException("FileInfo cannot be read because external storage is not mounted");
         }
     }
 
-    public static DesignPictureFileInfo writeDesignPictureFile(DesignPictureFileInfo info, InputStream downloaded) throws IOException{
+    public static FileInfo writeDesignPictureFile(FileInfo info, InputStream downloaded) throws IOException{
         if(isExternalStorageWritable()) {
             // Create new file in the design pictures directory in the app's private directory.
             File file = new File(Environment.getExternalStoragePublicDirectory(
@@ -80,7 +79,7 @@ public class FileStorage {
         }
     }
 
-    public static File readDesignPictureFile(DesignPictureFileInfo designPictureFile) throws UnsupportedOperationException{
+    public static File readDesignPictureFile(FileInfo designPictureFile) throws UnsupportedOperationException{
         if(isExternalStorageReadable()) {
             // Get the file in the design pictures directory in the app's private directory.
             File file = new File(Environment.getExternalStoragePublicDirectory(

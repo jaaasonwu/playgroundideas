@@ -18,11 +18,11 @@ public class ManualChapter {
     @NonNull
     private Long manualId;
     @Embedded(prefix = "pdf_")
-    private ManualFileInfo pdfChapterInfo;
+    private FileInfo pdfChapterInfo;
     @Embedded(prefix = "html_")
-    private ManualFileInfo htmlChapterInfo;
+    private FileInfo htmlChapterInfo;
 
-    public ManualChapter(int position, String title, Long manualId, ManualFileInfo pdfChapterInfo, ManualFileInfo htmlChapterInfo) {
+    public ManualChapter(int position, String title, Long manualId, FileInfo pdfChapterInfo, FileInfo htmlChapterInfo) {
         this.position = position;
         this.title = title;
         this.manualId = manualId;
@@ -56,19 +56,19 @@ public class ManualChapter {
         this.manualId = manualId;
     }
 
-    public ManualFileInfo getPdfChapterInfo() {
+    public FileInfo getPdfChapterInfo() {
         return pdfChapterInfo;
     }
 
-    public void setPdfChapterInfo(ManualFileInfo pdfChapterInfo) {
+    public void setPdfChapterInfo(FileInfo pdfChapterInfo) {
         this.pdfChapterInfo = pdfChapterInfo;
     }
 
-    public ManualFileInfo getHtmlChapterInfo() {
+    public FileInfo getHtmlChapterInfo() {
         return htmlChapterInfo;
     }
 
-    public void setHtmlChapterInfo(ManualFileInfo htmlChapterInfo) {
+    public void setHtmlChapterInfo(FileInfo htmlChapterInfo) {
         this.htmlChapterInfo = htmlChapterInfo;
     }
 }
