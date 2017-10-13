@@ -1,6 +1,9 @@
 package com.playgroundideas.playgroundideas.datasource.repository;
 
+import android.arch.core.util.Function;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Transformations;
+import android.support.v4.util.Pair;
 
 import com.playgroundideas.playgroundideas.datasource.local.DesignDao;
 import com.playgroundideas.playgroundideas.datasource.local.FileStorage;
@@ -14,6 +17,7 @@ import com.playgroundideas.playgroundideas.model.User;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executor;
@@ -75,16 +79,40 @@ public class DesignRepository {
         return designsLiveData;
     }
 
-    public LiveData<List<Design>> getAll() {
+    public LiveData<List<Pair<Design, Boolean>>> getAllOf(final User user) {
         refreshAllDesigns();
         LiveData<List<Design>> designsLiveData = designDao.loadAll();
-        return designsLiveData;
+        LiveData<List<Pair<Design, Boolean>>> enrichedDesignsLiveData = Transformations.map(designsLiveData, new Function<List<Design>, List<Pair<Design, Boolean>>>() {
+            @Override
+            public List<Pair<Design, Boolean>> apply(List<Design> designs) {
+                List<Pair<Design, Boolean>> list = new LinkedList<Pair<Design, Boolean>>();
+                for(Design design : designs) {
+                    list.add(new Pair<Design, Boolean>(design, isFavouriteOf(design, user)));
+                }
+                return list;
+            }
+        });
+        return enrichedDesignsLiveData;
     }
 
-    public LiveData<List<Design>> getFavouritesOf(Long userId) {
+    public LiveData<List<Pair<Design, Boolean>>> getFavouritesOf(final User user) {
         refreshAllDesigns();
-        LiveData<List<Design>> favouriteDesigns = designDao.loadFavouritesOf(userId);
-        return favouriteDesigns;
+        LiveData<List<Design>> favouriteDesigns = designDao.loadFavouritesOf(user.getId());
+        LiveData<List<Pair<Design, Boolean>>> enrichedDesignsLiveData = Transformations.map(favouriteDesigns, new Function<List<Design>, List<Pair<Design, Boolean>>>() {
+            @Override
+            public List<Pair<Design, Boolean>> apply(List<Design> designs) {
+                List<Pair<Design, Boolean>> list = new LinkedList<Pair<Design, Boolean>>();
+                for(Design design : designs) {
+                    list.add(new Pair<Design, Boolean>(design, isFavouriteOf(design, user)));
+                }
+                return list;
+            }
+        });
+        return enrichedDesignsLiveData;
+    }
+
+    public boolean isFavouriteOf(Design design, User user) {
+        return designDao.isFavouriteOf(design.getId(), user.getId());
     }
 
     private void storeImage(Design design, InputStream image) {
@@ -116,11 +144,10 @@ public class DesignRepository {
         designDao.addFavourite(relation);
     }
 
-    public void removeFavourite(FavouritedDesign favouritedDesign) {
-        User user = userDao.load(favouritedDesign.getUserId()).getValue();
+    public void removeFavourite(Design design, User user) {
         user.increaseVersion();
         userDao.update(user);
-        designDao.removeFavourite(favouritedDesign);
+        designDao.removeFavourite(user.getId(), design.getId());
     }
 
     private void refreshDesign(final Long id) {

@@ -90,4 +90,5 @@
     <string name="facebook_share1">{md-share}</string>
     <string name="facebook_app_id">705598346299936</string>
     <string name="plan_open_button">Open Plan Tool</string>
+    <string name="design_details_view_pdf_guide_button">View guide</string>
 </resources>

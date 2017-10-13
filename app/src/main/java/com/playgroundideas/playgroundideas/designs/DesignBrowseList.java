@@ -1,42 +1,57 @@
 package com.playgroundideas.playgroundideas.designs;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.support.v4.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
 import com.playgroundideas.playgroundideas.R;
+import com.playgroundideas.playgroundideas.model.Design;
+import com.playgroundideas.playgroundideas.viewmodel.DesignListViewModel;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public class DesignBrowseList extends Fragment {
+import javax.inject.Inject;
 
-    private ArrayList<DesignItem> favoriteList;
-    private GridView myGrid;
+import dagger.android.support.DaggerFragment;
+
+public class DesignBrowseList extends DaggerFragment {
+
+    private GridView gridView;
+    private DesignListViewModel viewModel;
+    @Inject
+    ViewModelProvider.Factory viewModelFactory;
+    private DesignGridViewAdapter gridViewAdapter;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        favoriteList = new ArrayList<DesignItem>();
-    }
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
+        // this integrates the design view model
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(DesignListViewModel.class);
+        viewModel.init(false);
+        viewModel.getDesignList().observe(this, new Observer<List<Pair<Design, Boolean>>>() {
+            @Override
+            public void onChanged(@Nullable List<Pair<Design, Boolean>> designs) {
+                gridViewAdapter.updateDesigns(designs);
+            }
+        });
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_design_browse_list, container, false);
-        myGrid = (GridView) view.findViewById(R.id.myGrid);
-        myGrid.setAdapter(new GridViewAdapterBrowse(getActivity(), favoriteList));
-        return view;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+        super.onCreateView(inflater, container, savedInstanceState);
+        View rootView = inflater.inflate(R.layout.fragment_design_browse_list, container, false);
+        gridView = rootView.findViewById(R.id.designs_grid);
+        gridViewAdapter = new DesignGridViewAdapter(getContext(), viewModel.getDesignList().getValue(), viewModel);
+        gridView.setAdapter(gridViewAdapter);
+        return rootView;
     }
 }
