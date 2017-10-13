@@ -42,14 +42,17 @@ public interface DesignDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long addFavourite(FavouritedDesign favourite);
 
-    @Delete
-    void removeFavourite(FavouritedDesign favourite);
+    @Query("DELETE FROM favouritedDesign WHERE userId = :userId AND designId = :designId")
+    void removeFavourite(long userId, long designId);
 
     @Query("DELETE FROM favouritedDesign WHERE userId = :id")
     void removeAllFavouritesOf(long id);
 
     @Query("SELECT COUNT(1) FROM design WHERE id = :id")
     boolean hasDesign(long id);
+
+    @Query("SELECT COUNT(1) FROM favouritedDesign WHERE userId = :userId AND designId = :designId")
+    boolean isFavouriteOf(long designId, long userId);
 
     @Query("SELECT design.version FROM design WHERE id = :id")
     long getVersionOf(long id);

@@ -1,7 +1,6 @@
 package com.playgroundideas.playgroundideas.designs;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -19,13 +18,10 @@ public class DesignsFragment extends Fragment {
     private ViewPager viewPager;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_designs, container, false);
+
+        // create the swipe views
         designTabPagerAdapter = new DesignTabPagerAdapter(getChildFragmentManager(), getContext());
         viewPager = rootView.findViewById(R.id.designPager);
         viewPager.setAdapter(designTabPagerAdapter);
@@ -35,9 +31,7 @@ public class DesignsFragment extends Fragment {
         return rootView;
     }
 
-    public void respond() {
-        viewPager.setAdapter(designTabPagerAdapter);
-        viewPager.setCurrentItem(1);
+    public void setFocusToAll() {
+        this.viewPager.setCurrentItem(1);
     }
-
 }
