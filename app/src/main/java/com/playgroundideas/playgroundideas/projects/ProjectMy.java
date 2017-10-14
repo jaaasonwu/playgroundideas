@@ -1,5 +1,6 @@
 package com.playgroundideas.playgroundideas.projects;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -9,8 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.MaterialIcons;
@@ -31,6 +35,10 @@ public class ProjectMy extends Fragment {
     private static final int PROJECT_COUNTER = 10;
     private FloatingActionButton mCreateBtn;
     private SearchView mSearchView;
+    private Spinner mSorts = null;
+    public static final String[] mSortSelections = {"None","Country"};
+    public static final String defaultText = "Filter By";
+
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -47,6 +55,8 @@ public class ProjectMy extends Fragment {
             }
         });
         initial_list();
+        mSorts = (Spinner) rootView.findViewById(R.id.spinner_sort);
+       mSorts.setAdapter(new SortSpinnerAdapter(getContext(),R.layout.support_simple_spinner_dropdown_item,mSortSelections,defaultText));
         mProjectListAdapter = new ProjectsListAdapter(getContext(),mProject);
         mProjectSampleList =  rootView.findViewById(R.id.project_my);
         mProjectSampleList.setAdapter(mProjectListAdapter);
@@ -112,4 +122,49 @@ public class ProjectMy extends Fragment {
             }
         });
     }
+
+    public class SortSpinnerAdapter extends ArrayAdapter<String> {
+        Context mContext;
+        String[] objects;
+        String firstElement;
+        boolean isFirstTime;
+
+        public SortSpinnerAdapter(Context mContext,int textViewResourceId, String[] objects, String defaultText) {
+            super(mContext,textViewResourceId,objects);
+            this.mContext = mContext;
+            this.objects = objects;
+            this.isFirstTime = true;
+            setDefaultText(defaultText);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            notifyDataSetChanged();
+            return  getCustomView(position, convertView, parent);
+        }
+
+        @Override
+        public View getDropDownView(int position, View convertView, ViewGroup parent) {
+            if(isFirstTime) {
+                objects[0] = firstElement;
+                isFirstTime = false;
+            }
+            return  getCustomView(position, convertView, parent);
+        }
+
+        public void setDefaultText(String defaultText) {
+            this.firstElement = objects[0];
+            objects[0] = defaultText;
+        }
+
+        public View getCustomView(int position, View convertView, ViewGroup parent) {
+            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View row = inflater.inflate(R.layout.support_simple_spinner_dropdown_item, parent, false);
+            TextView label = (TextView) row.findViewById(android.R.id.text1);
+            label.setText(objects[position]);
+            return row;
+        }
+    }
+
+
 }
