@@ -24,6 +24,7 @@ public class ProjectsListAdapter extends BaseAdapter implements Filterable{
 
     private List<ProjectItem> mProject;
     private List<ProjectItem> mSearchList;
+    private String filterByCountry;
     private Context mContext;
 
 
@@ -93,14 +94,27 @@ public class ProjectsListAdapter extends BaseAdapter implements Filterable{
                     mSearchList = mProject;
                 }
                 if (charSequence != null) {
-                    if (mSearchList != null && mSearchList.size() > 0) {
-                        for (ProjectItem pro : mSearchList) {
-                            if (pro.getProjectTtile().toLowerCase().contains(charSequence.toString().toLowerCase())) {
-                                results.add(pro);
+                    if(filterByCountry.equalsIgnoreCase("All")) {
+                        if (mSearchList != null && mSearchList.size() > 0) {
+                            for (ProjectItem pro : mSearchList) {
+                                if (pro.getProjectTtile().toLowerCase().contains(charSequence.toString().toLowerCase())) {
+                                    results.add(pro);
+                                }
+                            }
+                        }
+                    } else {
+                        if (mSearchList != null && mSearchList.size() > 0) {
+                            for (ProjectItem pro : mSearchList) {
+                                if (pro.getProjectTtile().toLowerCase().contains(charSequence.toString().toLowerCase()) && pro.getCountry().equalsIgnoreCase(filterByCountry)) {
+                                    results.add(pro);
+                                }
                             }
                         }
                     }
+
                 }
+
+
                 oReturn.values = results;
                 return oReturn;
             }
@@ -110,5 +124,9 @@ public class ProjectsListAdapter extends BaseAdapter implements Filterable{
                 mProject = (ArrayList<ProjectItem>) filterResults.values;
             }
         };
+    }
+
+    public void setFilterByCountry(String filterByCountry) {
+        this.filterByCountry = filterByCountry;
     }
 }

@@ -11,10 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.MaterialIcons;
@@ -35,15 +38,17 @@ public class ProjectMy extends Fragment {
     private static final int PROJECT_COUNTER = 10;
     private FloatingActionButton mCreateBtn;
     private SearchView mSearchView;
-    private Spinner mSorts = null;
-    public static final String[] mSortSelections = {"None","Country"};
-    public static final String defaultText = "Filter By";
+    private Button mFilter;
+    private PopupWindow mPopWindow;
+    private Spinner mFilterByCountry = null;
+    public static final String[] mSortSelections = {"-","Australia","American","South Africa","China","All"};
+    public static final String defaultText = "Location";
 
 
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(
+        final View rootView = inflater.inflate(
                 R.layout.project_my, container, false);
         //use icon button
 
@@ -54,9 +59,14 @@ public class ProjectMy extends Fragment {
                 createProject();
             }
         });
+        mFilter = (Button) rootView.findViewById(R.id.button_Filter);
+        mFilter.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                filterProjectBy();
+            }
+        });
         initial_list();
-        mSorts = (Spinner) rootView.findViewById(R.id.spinner_sort);
-       mSorts.setAdapter(new SortSpinnerAdapter(getContext(),R.layout.support_simple_spinner_dropdown_item,mSortSelections,defaultText));
         mProjectListAdapter = new ProjectsListAdapter(getContext(),mProject);
         mProjectSampleList =  rootView.findViewById(R.id.project_my);
         mProjectSampleList.setAdapter(mProjectListAdapter);
@@ -96,9 +106,17 @@ public class ProjectMy extends Fragment {
         String sampleDescription = "It is my first project";
         String sampleImageUrl = "https://playgroundideas.org/wp-content/uploads/2017/02/IMGP0204-1024x768.jpg";
         ProjectItem newProject;
-        for(int i = 0; i< PROJECT_COUNTER; i++) {
-            newProject = new ProjectItem(sampleTitle+ " " + i,sampleDate,sampleDate,sampleEmailAddress
-                    ,sampleCountry,sampleCurrency,sampleDescription,sampleImageUrl);
+        for(int i = 0; i< PROJECT_COUNTER ; i++) {
+            if(i >= 5) {
+                sampleCountry = "China";
+                newProject = new ProjectItem(sampleTitle+ " " + i,sampleDate,sampleDate,sampleEmailAddress
+                        ,sampleCountry,sampleCurrency,sampleDescription,sampleImageUrl);
+            } else {
+                sampleCountry = "Australia";
+                newProject = new ProjectItem(sampleTitle+ " " + i,sampleDate,sampleDate,sampleEmailAddress
+                        ,sampleCountry,sampleCurrency,sampleDescription,sampleImageUrl);
+            }
+
             mProject.add(newProject);
         }
     }
@@ -122,6 +140,20 @@ public class ProjectMy extends Fragment {
             }
         });
     }
+
+
+    public void filterProjectBy() {
+        View conternView = LayoutInflater.from(getContext()).inflate(R.layout.project_filter_popupview,null);
+        mPopWindow = new PopupWindow(conternView);
+        mPopWindow.setContentView(conternView);
+        mPopWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+        mPopWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+        mFilterByCountry = (Spinner) conternView.findViewById(R.id.spinner_filter_country);
+        mFilterByCountry.setAdapter(new SortSpinnerAdapter(getContext(),R.layout.support_simple_spinner_dropdown_item,mSortSelections,defaultText));
+        mPopWindow.showAsDropDown(mFilter);
+        filterProject();
+    }
+
 
     public class SortSpinnerAdapter extends ArrayAdapter<String> {
         Context mContext;
@@ -167,4 +199,25 @@ public class ProjectMy extends Fragment {
     }
 
 
+    public void filterProject() {
+        mFilterByCountry.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            int a = 1,b = 0;
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if(b<a) {
+                    b++;
+                }
+                else {
+                    mProjectListAdapter.setFilterByCountry(mFilterByCountry.getSelectedItem().toString());
+                    Toast.makeText(getContext(), "Project in " + mFilterByCountry.getSelectedItem().toString(), Toast.LENGTH_LONG).show();
+                    mPopWindow.dismiss();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
 }
