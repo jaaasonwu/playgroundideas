@@ -90,8 +90,8 @@ public class ProjectsListAdapter extends BaseAdapter implements Filterable{
             @Override
             protected FilterResults performFiltering(CharSequence charSequence) {
                 final FilterResults oReturn = new FilterResults();
-                ArrayList<ProjectItem> temp = new ArrayList<ProjectItem>();
                 ArrayList<ProjectItem> results = new ArrayList<ProjectItem>();
+                ArrayList<ProjectItem> temp = new ArrayList<ProjectItem>();
                 if (mSearchList == null) {
                     mSearchList = mProject;
                 }
@@ -103,16 +103,22 @@ public class ProjectsListAdapter extends BaseAdapter implements Filterable{
                             }
                         }
                     }
-                }
-
-                if(!filterByCountry.equalsIgnoreCase("All")) {
-                    for(ProjectItem pro : temp) {
-                        if(pro.getCountry().equalsIgnoreCase(filterByCountry)) {
-                            results.add(pro);
-                        }
+                } else {
+                    for (ProjectItem pro : mSearchList) {
+                        temp.add(pro);
                     }
                 }
 
+                if(!filterByCountry.equalsIgnoreCase("all")) {
+                    for (ProjectItem pro : temp) {
+                        if (pro.getCountry().equalsIgnoreCase(filterByCountry)) {
+                            results.add(pro);
+                        }
+                    }
+                } else {
+                    results = temp;
+                }
+                oReturn.count = results.size();
                 oReturn.values = results;
                 return oReturn;
             }
@@ -120,6 +126,7 @@ public class ProjectsListAdapter extends BaseAdapter implements Filterable{
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
                 mProject = (ArrayList<ProjectItem>) filterResults.values;
+                notifyDataSetChanged();
             }
         };
     }

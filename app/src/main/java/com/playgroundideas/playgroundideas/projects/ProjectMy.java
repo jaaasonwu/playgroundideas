@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,12 +59,6 @@ public class ProjectMy extends Fragment {
             }
         });
         mFilter = (Button) rootView.findViewById(R.id.button_Filter);
-        mFilter.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                filterProjectBy();
-            }
-        });
         initial_list();
         mProjectListAdapter = new ProjectsListAdapter(getContext(),mProject);
         mProjectSampleList =  rootView.findViewById(R.id.project_my);
@@ -80,6 +73,12 @@ public class ProjectMy extends Fragment {
                 .colorRes(R.color.white).actionBarSize());
         mSearchView = (SearchView)rootView.findViewById(R.id.projectSearch);
         setupSearchView();
+        mFilter.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                filterProjectBy();
+            }
+        });
         return rootView;
     }
 
@@ -131,12 +130,8 @@ public class ProjectMy extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String s) {
-                if(TextUtils.isEmpty(s)) {
-                    mProjectSampleList.clearTextFilter();
-                } else {
-                    mProjectListAdapter.getFilter().filter(s);
-                    mProjectListAdapter.setPreviousQuery(s);
-                }
+                mProjectListAdapter.getFilter().filter(s);
+                mProjectListAdapter.setPreviousQuery(s);
                 return true;
             }
         });
