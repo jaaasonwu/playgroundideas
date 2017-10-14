@@ -135,6 +135,7 @@ public class ProjectMy extends Fragment {
                     mProjectSampleList.clearTextFilter();
                 } else {
                     mProjectListAdapter.getFilter().filter(s);
+                    mProjectListAdapter.setPreviousQuery(s);
                 }
                 return true;
             }
@@ -209,6 +210,7 @@ public class ProjectMy extends Fragment {
                 }
                 else {
                     mProjectListAdapter.setFilterByCountry(mFilterByCountry.getSelectedItem().toString());
+                    mProjectListAdapter.getFilter().filter(mProjectListAdapter.getPreviousQuery());
                     Toast.makeText(getContext(), "Project in " + mFilterByCountry.getSelectedItem().toString(), Toast.LENGTH_LONG).show();
                     mPopWindow.dismiss();
                 }
