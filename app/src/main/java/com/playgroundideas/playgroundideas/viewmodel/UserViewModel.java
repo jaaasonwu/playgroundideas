@@ -34,7 +34,7 @@ public class UserViewModel extends ViewModel {
         return this.user;
     }
 
-    public User getCurrentUser() {
-        return userRepository.getUser(userRepository.getCurrentUser());
+    public Long getCurrentUserId() {
+        return userRepository.getCurrentUser();
     }
 }

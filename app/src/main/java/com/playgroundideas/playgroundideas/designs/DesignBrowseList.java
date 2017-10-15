@@ -13,6 +13,7 @@ import android.widget.GridView;
 
 import com.playgroundideas.playgroundideas.R;
 import com.playgroundideas.playgroundideas.model.Design;
+import com.playgroundideas.playgroundideas.model.User;
 import com.playgroundideas.playgroundideas.viewmodel.DesignListViewModel;
 import com.playgroundideas.playgroundideas.viewmodel.UserViewModel;
 
@@ -39,14 +40,22 @@ public class DesignBrowseList extends DaggerFragment {
         // this integrates the view model
         userViewModel = ViewModelProviders.of(this, viewModelFactory).get(UserViewModel.class);
         designListViewModel = ViewModelProviders.of(this, viewModelFactory).get(DesignListViewModel.class);
-        designListViewModel.init(false, userViewModel.getCurrentUser());
-        designListViewModel.getDesignList().observe(getParentFragment(), new Observer<List<Pair<Design, Boolean>>>() {
+        userViewModel.init(userViewModel.getCurrentUserId());
+        userViewModel.getLiveUser().observe(this, new Observer<User>() {
             @Override
-            public void onChanged(@Nullable List<Pair<Design, Boolean>> designs) {
-                gridViewAdapter.updateDesigns(designs);
+            public void onChanged(@Nullable User user) {
+                designListViewModel.refresh(true, user);
+                designListViewModel.getDesignList().observe(getParentFragment(), new Observer<List<Pair<Design, Boolean>>>() {
+                    @Override
+                    public void onChanged(@Nullable List<Pair<Design, Boolean>> designs) {
+                        gridViewAdapter.updateDesigns(designs);
+                    }
+                });
+                gridViewAdapter = new DesignGridViewAdapter(getContext(), new LinkedList<Pair<Design, Boolean>>(), designListViewModel, user);
             }
         });
-        gridViewAdapter = new DesignGridViewAdapter(getContext(), new LinkedList<Pair<Design, Boolean>>(), designListViewModel, userViewModel.getCurrentUser());
+
+        gridViewAdapter = new DesignGridViewAdapter(getContext(), new LinkedList<Pair<Design, Boolean>>(), designListViewModel, null);
     }
 
     @Override

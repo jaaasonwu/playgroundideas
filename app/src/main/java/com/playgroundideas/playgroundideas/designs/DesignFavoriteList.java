@@ -16,6 +16,7 @@ import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.MaterialIcons;
 import com.playgroundideas.playgroundideas.R;
 import com.playgroundideas.playgroundideas.model.Design;
+import com.playgroundideas.playgroundideas.model.User;
 import com.playgroundideas.playgroundideas.viewmodel.DesignListViewModel;
 import com.playgroundideas.playgroundideas.viewmodel.UserViewModel;
 
@@ -54,14 +55,22 @@ public class DesignFavoriteList extends DaggerFragment {
         // this integrates the view model
         userViewModel = ViewModelProviders.of(this, viewModelFactory).get(UserViewModel.class);
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(DesignListViewModel.class);
-        viewModel.init(true, userViewModel.getCurrentUser());
-        viewModel.getDesignList().observe(this, new Observer<List<Pair<Design, Boolean>>>() {
+        userViewModel.init(userViewModel.getCurrentUserId());
+        userViewModel.getLiveUser().observe(this, new Observer<User>() {
             @Override
-            public void onChanged(@Nullable List<Pair<Design, Boolean>> designs) {
-                gridViewAdapter.updateDesigns(designs);
+            public void onChanged(@Nullable User user) {
+                viewModel.refresh(true, user);
+                viewModel.getDesignList().observe(getParentFragment(), new Observer<List<Pair<Design, Boolean>>>() {
+                    @Override
+                    public void onChanged(@Nullable List<Pair<Design, Boolean>> designs) {
+                        gridViewAdapter.updateDesigns(designs);
+                    }
+                });
+                gridViewAdapter = new DesignGridViewAdapter(getContext(), new LinkedList<Pair<Design, Boolean>>(), viewModel, user);
             }
         });
-        gridViewAdapter = new DesignGridViewAdapter(getContext(), new LinkedList<Pair<Design, Boolean>>(), viewModel, userViewModel.getCurrentUser());
+
+        gridViewAdapter = new DesignGridViewAdapter(getContext(), new LinkedList<Pair<Design, Boolean>>(), viewModel, null);
     }
 
     @Override
