@@ -9,7 +9,7 @@ import android.support.annotation.NonNull;
  */
 
 @Entity
-public class User {
+public class User extends VersionedEntity{
 
     @PrimaryKey(autoGenerate = false)
     @NonNull
@@ -20,7 +20,8 @@ public class User {
     private String phoneNumber;
 
 
-    public User(Long id, String firstName, String surname, String email, String phoneNumber) {
+    public User(long version, Long id, String firstName, String surname, String email, String phoneNumber) {
+        super(version);
         this.id = id;
         this.firstName = firstName;
         this.surname = surname;

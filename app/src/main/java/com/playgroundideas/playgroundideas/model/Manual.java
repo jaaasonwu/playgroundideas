@@ -10,7 +10,7 @@ import android.support.annotation.NonNull;
  */
 
 @Entity
-public class Manual {
+public class Manual extends VersionedEntity{
 
     @PrimaryKey(autoGenerate = false)
     @NonNull
@@ -22,7 +22,8 @@ public class Manual {
     private ManualFileInfo htmlInfo;
     private Boolean downloaded;
 
-    public Manual(Long id, String name, ManualFileInfo pdfInfo, ManualFileInfo htmlInfo) {
+    public Manual(long version, Long id, String name, ManualFileInfo pdfInfo, ManualFileInfo htmlInfo) {
+        super(version);
         this.id = id;
         this.name = name;
         this.pdfInfo = pdfInfo;

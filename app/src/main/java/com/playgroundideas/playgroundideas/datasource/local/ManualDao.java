@@ -10,6 +10,7 @@ import android.arch.persistence.room.Update;
 
 import com.playgroundideas.playgroundideas.model.Manual;
 import com.playgroundideas.playgroundideas.model.ManualChapter;
+import com.playgroundideas.playgroundideas.model.ManualFileInfo;
 
 import java.util.List;
 
@@ -41,6 +42,9 @@ public interface ManualDao {
     @Query("SELECT COUNT(1) FROM manual WHERE id = :id")
     boolean hasManual(long id);
 
+    @Query("SELECT manual.version FROM manual WHERE id = :id")
+    long getVersionOf(long id);
+
     @Update
     public void update(ManualChapter manualChapter);
     @Delete
@@ -52,5 +56,15 @@ public interface ManualDao {
 
     @Query("SELECT * FROM manualChapter")
     LiveData<List<ManualChapter>> loadAllChapters();
+
+    @Update
+    void update(ManualFileInfo manualFileInfo);
+    @Delete
+    void delete(ManualFileInfo manualFileInfo);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    long insert(ManualFileInfo manualFileInfo);
+
+    @Query("SELECT * FROM manualFileInfo WHERE manualId = :manualId")
+    LiveData<ManualFileInfo> loadFileInfo(long manualId);
 
 }

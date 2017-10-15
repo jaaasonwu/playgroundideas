@@ -4,14 +4,15 @@ import android.arch.persistence.room.RoomDatabase;
 
 import com.playgroundideas.playgroundideas.model.Design;
 import com.playgroundideas.playgroundideas.model.DesignPictureFileInfo;
-import com.playgroundideas.playgroundideas.model.FavouritedDesignsPerUser;
+import com.playgroundideas.playgroundideas.model.FavouritedDesign;
 import com.playgroundideas.playgroundideas.model.Manual;
 import com.playgroundideas.playgroundideas.model.ManualChapter;
+import com.playgroundideas.playgroundideas.model.ManualFileInfo;
 import com.playgroundideas.playgroundideas.model.Project;
 import com.playgroundideas.playgroundideas.model.ProjectPictureFileInfo;
 import com.playgroundideas.playgroundideas.model.User;
 
-@android.arch.persistence.room.Database(entities = {User.class, Design.class, Manual.class, Project.class, ManualChapter.class, FavouritedDesignsPerUser.class, ProjectPictureFileInfo.class, DesignPictureFileInfo.class}, version = 4)
+@android.arch.persistence.room.Database(entities = {User.class, Design.class, Manual.class, Project.class, ManualChapter.class, FavouritedDesign.class, ManualFileInfo.class, ProjectPictureFileInfo.class, DesignPictureFileInfo.class}, version = 6)
 public abstract class Database extends RoomDatabase {
     public abstract UserDao userDao();
     public abstract ManualDao manualDao();

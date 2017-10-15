@@ -14,8 +14,8 @@ public class ProjectPictureFileInfo extends FileInfo {
     @NonNull
     private Long projectId;
 
-    public ProjectPictureFileInfo(String name, byte[] md5Hash, Long projectId) {
-        super(name, md5Hash);
+    public ProjectPictureFileInfo(String name, Long projectId) {
+        super(name);
         this.projectId = projectId;
     }
 

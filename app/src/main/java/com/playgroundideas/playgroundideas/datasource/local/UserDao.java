@@ -10,6 +10,8 @@ import android.arch.persistence.room.Update;
 
 import com.playgroundideas.playgroundideas.model.User;
 
+import java.util.List;
+
 /**
  * Created by Ferdinand on 9/09/2017.
  */
@@ -20,14 +22,18 @@ public interface UserDao {
     public void update(User user);
     @Delete
     public void delete(User user);
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public long insertUser(User user);
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public long[] insertUsers(User... users);
+    @Insert(onConflict = OnConflictStrategy.FAIL)
+    public long insert(User user);
 
     @Query("SELECT * FROM user WHERE id = :id")
     LiveData<User> load(long id);
 
+    @Query("SELECT * FROM user")
+    LiveData<List<User>> loadAll();
+
     @Query("SELECT COUNT(1) FROM user WHERE id = :id")
-    boolean hasUser(long id);
+    boolean hasUserWith(long id);
+
+    @Query("SELECT user.version FROM user WHERE id = :id")
+    long getVersionOf(long id);
 }

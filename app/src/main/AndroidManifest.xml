@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:name=".di.PlaygroundApp"
@@ -27,6 +28,13 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".designs.DesignDetailsActivity"/>
+
+        <activity
+            android:name=".projects.CreateProjectActivity"
+            android:label="@string/new_project"/>
+        <activity android:name=".projects.DetailProjectActivity"/>
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.playgroundideas.playgroundideas.fileProvider"
@@ -36,11 +44,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-        <activity android:name=".designs.DesignDetailsActivity"/>
-        <activity
-            android:name=".projects.CreateProjectActivity"
-            android:label="@string/new_project"/>
-        <activity android:name=".projects.DetailProjectActivity"/>
+
     </application>
 
 </manifest>
