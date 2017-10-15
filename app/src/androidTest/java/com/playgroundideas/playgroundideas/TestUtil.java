@@ -1,5 +1,10 @@
 package com.playgroundideas.playgroundideas;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.matcher.BoundedMatcher;
 import android.support.v7.widget.Toolbar;
@@ -8,6 +13,11 @@ import com.playgroundideas.playgroundideas.model.User;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -20,12 +30,27 @@ import static org.hamcrest.core.Is.is;
 
 public class TestUtil {
 
-    static User createUser(long id) {
+    public static InputStream createImage() {
+        Context context = InstrumentationRegistry.getTargetContext();
+        Drawable drawable = context.getResources().getDrawable(R.drawable.sample1);
+        BitmapDrawable bitmapDrawable = ((BitmapDrawable) drawable);
+        Bitmap bitmap = bitmapDrawable.getBitmap();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        return new ByteArrayInputStream(stream.toByteArray());
+    }
+
+    public static InputStream createText() {
+        String text = "This is a text file for testing purposes only.";
+        return new ByteArrayInputStream(text.getBytes(StandardCharsets.UTF_8));
+    }
+
+    public static User createUser(long id) {
         User user = new User(0, id, "Hans", "Smith", "hans.smith@gmail.com", "0416777888");
         return user;
     }
 
-    static ViewInteraction matchToolbarTitle(CharSequence title) {
+    public static ViewInteraction matchToolbarTitle(CharSequence title) {
         return onView(isAssignableFrom(Toolbar.class))
                 .check(matches(withToolbarTitle(is(title))));
     }
