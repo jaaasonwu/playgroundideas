@@ -26,10 +26,13 @@ public interface UserDao {
     public long insert(User user);
 
     @Query("SELECT * FROM user WHERE id = :id")
-    LiveData<User> load(long id);
+    User load(long id);
+
+    @Query("SELECT * FROM user WHERE id = :id")
+    LiveData<User> liveLoad(long id);
 
     @Query("SELECT * FROM user")
-    LiveData<List<User>> loadAll();
+    LiveData<List<User>> liveLoadAll();
 
     @Query("SELECT COUNT(1) FROM user WHERE id = :id")
     boolean hasUserWith(long id);

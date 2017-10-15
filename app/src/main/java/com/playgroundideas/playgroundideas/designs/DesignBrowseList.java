@@ -14,7 +14,9 @@ import android.widget.GridView;
 import com.playgroundideas.playgroundideas.R;
 import com.playgroundideas.playgroundideas.model.Design;
 import com.playgroundideas.playgroundideas.viewmodel.DesignListViewModel;
+import com.playgroundideas.playgroundideas.viewmodel.UserViewModel;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -24,7 +26,8 @@ import dagger.android.support.DaggerFragment;
 public class DesignBrowseList extends DaggerFragment {
 
     private GridView gridView;
-    private DesignListViewModel viewModel;
+    private DesignListViewModel designListViewModel;
+    private UserViewModel userViewModel;
     @Inject
     ViewModelProvider.Factory viewModelFactory;
     private DesignGridViewAdapter gridViewAdapter;
@@ -33,16 +36,17 @@ public class DesignBrowseList extends DaggerFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        // this integrates the design view model
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(DesignListViewModel.class);
-        viewModel.init(false);
-        viewModel.getDesignList().observe(this, new Observer<List<Pair<Design, Boolean>>>() {
+        // this integrates the view model
+        userViewModel = ViewModelProviders.of(this, viewModelFactory).get(UserViewModel.class);
+        designListViewModel = ViewModelProviders.of(this, viewModelFactory).get(DesignListViewModel.class);
+        designListViewModel.init(false, userViewModel.getCurrentUser());
+        designListViewModel.getDesignList().observe(getParentFragment(), new Observer<List<Pair<Design, Boolean>>>() {
             @Override
             public void onChanged(@Nullable List<Pair<Design, Boolean>> designs) {
                 gridViewAdapter.updateDesigns(designs);
             }
         });
-        gridViewAdapter = new DesignGridViewAdapter(getContext(), viewModel.getDesignList().getValue(), viewModel);
+        gridViewAdapter = new DesignGridViewAdapter(getContext(), new LinkedList<Pair<Design, Boolean>>(), designListViewModel, userViewModel.getCurrentUser());
     }
 
     @Override

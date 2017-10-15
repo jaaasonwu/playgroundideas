@@ -1,5 +1,6 @@
 package com.playgroundideas.playgroundideas.datasource.local;
 
+import android.content.Context;
 import android.os.Environment;
 
 import com.playgroundideas.playgroundideas.R;
@@ -39,20 +40,20 @@ public class FileStorage {
         }
     }
 
-    public static FileInfo writeManualFile(String name, InputStream downloaded) throws IOException{
-        return writeFile(downloaded, Environment.DIRECTORY_DOCUMENTS, R.string.relative_pdf_manuals_directory_name+"", name);
+    public static FileInfo writeManualFile(String name, InputStream downloaded, Context context) throws IOException{
+        return writeFile(downloaded, Environment.DIRECTORY_DOCUMENTS, context.getString(R.string.relative_pdf_manuals_directory_name), name);
     }
 
-    public static FileInfo writeDesignImageFile(String name, InputStream downloaded) throws IOException{
-        return writeFile(downloaded, Environment.DIRECTORY_PICTURES, R.string.relative_design_images_directory_name+"", name);
+    public static FileInfo writeDesignImageFile(String name, InputStream downloaded, Context context) throws IOException{
+        return writeFile(downloaded, Environment.DIRECTORY_PICTURES, context.getString(R.string.relative_design_images_directory_name), name);
     }
 
-    public static FileInfo writeDesignGuideFile(String name, InputStream downloaded) throws IOException{
-        return writeFile(downloaded, Environment.DIRECTORY_DOCUMENTS, R.string.relative_design_guides_directory_name+"", name);
+    public static FileInfo writeDesignGuideFile(String name, InputStream downloaded, Context context) throws IOException{
+        return writeFile(downloaded, Environment.DIRECTORY_DOCUMENTS, context.getString(R.string.relative_design_guides_directory_name), name);
     }
 
-    public static FileInfo writeProjectImageFile(String name, InputStream downloaded) throws IOException{
-        return writeFile(downloaded, Environment.DIRECTORY_PICTURES, R.string.relative_project_images_directory_name+"", name);
+    public static FileInfo writeProjectImageFile(String name, InputStream downloaded, Context context) throws IOException{
+        return writeFile(downloaded, Environment.DIRECTORY_PICTURES, context.getString(R.string.relative_project_images_directory_name), name);
     }
 
     public static File readFile(FileInfo fileInfo) throws UnsupportedOperationException{
@@ -69,9 +70,14 @@ public class FileStorage {
         if(isExternalStorageWritable()) {
             // Create a new file in a subdirectory of the app's public directory.
             File file = new File(Environment.getExternalStoragePublicDirectory(
-                    environment), subdirectory + "/" + name);
+                    environment), "/" + subdirectory + "/" + name);
 
-            file.createNewFile();
+            if (!file.getParentFile().exists()) {
+                file.getParentFile().mkdirs();
+            }
+            if (!file.exists()) {
+                file.createNewFile();
+            }
             writeStreamToFile(downloaded, file);
             return new FileInfo(name, file.getPath());
         } else {
@@ -87,7 +93,7 @@ public class FileStorage {
             try {
                 byte[] fileReader = new byte[4096];
 
-                outputStream = new FileOutputStream(file);
+                outputStream = new FileOutputStream(file, false);
 
                 while (true) {
                     int read = inputStream.read(fileReader);

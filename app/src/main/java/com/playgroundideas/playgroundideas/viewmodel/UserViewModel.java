@@ -26,11 +26,15 @@ public class UserViewModel extends ViewModel {
         if(user != null) {
             return;
         } else {
-            user = userRepository.getUser(userId);
+            user = userRepository.getLiveUser(userId);
         }
     }
 
-    public LiveData<User> getUser() {
+    public LiveData<User> getLiveUser() {
         return this.user;
+    }
+
+    public User getCurrentUser() {
+        return userRepository.getUser(userRepository.getCurrentUser());
     }
 }

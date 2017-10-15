@@ -17,7 +17,9 @@ import com.joanzapata.iconify.fonts.MaterialIcons;
 import com.playgroundideas.playgroundideas.R;
 import com.playgroundideas.playgroundideas.model.Design;
 import com.playgroundideas.playgroundideas.viewmodel.DesignListViewModel;
+import com.playgroundideas.playgroundideas.viewmodel.UserViewModel;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -30,6 +32,7 @@ public class DesignFavoriteList extends DaggerFragment {
     private FloatingActionButton designsAddFab;
     private GridView gridView;
     private DesignListViewModel viewModel;
+    private UserViewModel userViewModel;
     @Inject
     ViewModelProvider.Factory viewModelFactory;
     private DesignGridViewAdapter gridViewAdapter;
@@ -48,16 +51,17 @@ public class DesignFavoriteList extends DaggerFragment {
             }
         });
 
-        // this integrates the design view model
+        // this integrates the view model
+        userViewModel = ViewModelProviders.of(this, viewModelFactory).get(UserViewModel.class);
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(DesignListViewModel.class);
-        viewModel.init(true);
+        viewModel.init(true, userViewModel.getCurrentUser());
         viewModel.getDesignList().observe(this, new Observer<List<Pair<Design, Boolean>>>() {
             @Override
             public void onChanged(@Nullable List<Pair<Design, Boolean>> designs) {
                 gridViewAdapter.updateDesigns(designs);
             }
         });
-        gridViewAdapter = new DesignGridViewAdapter(getContext(), viewModel.getDesignList().getValue(), viewModel);
+        gridViewAdapter = new DesignGridViewAdapter(getContext(), new LinkedList<Pair<Design, Boolean>>(), viewModel, userViewModel.getCurrentUser());
     }
 
     @Override

@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.playgroundideas.playgroundideas.R;
 import com.playgroundideas.playgroundideas.datasource.local.FileStorage;
 import com.playgroundideas.playgroundideas.model.Design;
+import com.playgroundideas.playgroundideas.model.User;
 import com.playgroundideas.playgroundideas.viewmodel.DesignListViewModel;
 
 import java.util.List;
@@ -24,10 +25,12 @@ import java.util.List;
 class DesignGridViewAdapter extends ArrayAdapter<Pair<Design, Boolean>> {
 
     private DesignListViewModel viewModel;
+    private User user;
 
-    public DesignGridViewAdapter(Context context, List<Pair<Design, Boolean>> designs, DesignListViewModel viewModel) {
+    public DesignGridViewAdapter(Context context, List<Pair<Design, Boolean>> designs, DesignListViewModel viewModel, User user) {
         super(context, R.layout.design_item, designs);
         this.viewModel = viewModel;
+        this.user = user;
     }
 
     public void updateDesigns(List<Pair<Design, Boolean>> designs) {
@@ -66,7 +69,7 @@ class DesignGridViewAdapter extends ArrayAdapter<Pair<Design, Boolean>> {
         @Override
         public void onClick(View view) {
             Pair<Design, Boolean> pair = getItem(position);
-            viewModel.markAsFavourite(pair.first, !pair.second);
+            viewModel.markAsFavourite(pair.first, user, !pair.second);
         }
     }
 
