@@ -66,10 +66,9 @@ public class ManualRepository {
     }
 
     private void storePDFManualFile(Manual manual, InputStream manualFile) {
-        FileInfo info = new FileInfo(manual.getId().toString());
         try {
-            FileStorage.writeManualFile(info, manualFile);
-            manual.setPdfInfo(info);
+            FileInfo fileInfo = FileStorage.writeManualFile("handbook" + manual.getId().toString() + ".pdf", manualFile);
+            manual.setPdfInfo(fileInfo);
             manualDao.update(manual);
         } catch (IOException ioe) {
 

@@ -8,6 +8,7 @@ import com.playgroundideas.playgroundideas.datasource.local.FileStorage;
 import com.playgroundideas.playgroundideas.datasource.local.ProjectDao;
 import com.playgroundideas.playgroundideas.datasource.remote.NetworkAccess;
 import com.playgroundideas.playgroundideas.datasource.remote.ProjectWebservice;
+import com.playgroundideas.playgroundideas.model.FileInfo;
 import com.playgroundideas.playgroundideas.model.Project;
 import com.playgroundideas.playgroundideas.model.ProjectPictureFileInfo;
 
@@ -103,10 +104,10 @@ public class ProjectRepository {
     }
 
     private void storeImage(long projectId, String imageId, InputStream image) {
-        ProjectPictureFileInfo info = new ProjectPictureFileInfo(imageId, projectId);
         try {
-            FileStorage.writeProjectImageFile(info, image);
-            projectDao.insert(info);
+            FileInfo fileInfo = FileStorage.writeProjectImageFile("projectImage" + imageId + ".png", image);
+            ProjectPictureFileInfo projectPictureFileInfo = new ProjectPictureFileInfo(fileInfo, projectId);
+            projectDao.insert(projectPictureFileInfo);
         } catch (IOException ioe) {
 
         }

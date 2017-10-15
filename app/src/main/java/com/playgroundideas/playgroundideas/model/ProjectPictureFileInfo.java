@@ -14,8 +14,13 @@ public class ProjectPictureFileInfo extends FileInfo {
     @NonNull
     private Long projectId;
 
-    public ProjectPictureFileInfo(String name, Long projectId) {
-        super(name);
+    public ProjectPictureFileInfo(String name, String path, Long projectId) {
+        super(name, path);
+        this.projectId = projectId;
+    }
+
+    public ProjectPictureFileInfo(FileInfo info, Long projectId) {
+        super(info.getName(), info.getPath());
         this.projectId = projectId;
     }
 
