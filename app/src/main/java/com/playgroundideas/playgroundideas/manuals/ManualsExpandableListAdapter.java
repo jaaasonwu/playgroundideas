@@ -56,11 +56,13 @@ public class ManualsExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(final int i, boolean b, View view, ViewGroup viewGroup) {
         String headerText = (String) getGroup(i);
+        // Inflate the parent list
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.manuals_list_group, null);
         }
 
+        // Check the downloaded status to determine whether to show the download icon
         final TextView download = view.findViewById(R.id.manual_download);
         if (mDownloadStatus.get(mGroupHeader.get(i)) == Boolean.FALSE) {
             download.setOnClickListener(new OnDownloadClickListener(mGroupHeader.get(i)));
@@ -74,6 +76,9 @@ public class ManualsExpandableListAdapter extends BaseExpandableListAdapter {
         return view;
     }
 
+    /**
+     * This method defines the behavior when the download icon is pressed.
+     */
     private class OnDownloadClickListener implements View.OnClickListener {
         String name;
         public OnDownloadClickListener(String name) {
@@ -81,6 +86,7 @@ public class ManualsExpandableListAdapter extends BaseExpandableListAdapter {
         }
         @Override
         public void onClick(View view) {
+            // Send a message to the list fragment
             Message msg = Message.obtain();
             msg.arg1 = 0;
             msg.obj = name;
@@ -88,6 +94,7 @@ public class ManualsExpandableListAdapter extends BaseExpandableListAdapter {
         }
     }
 
+    @Override
     public int getChildrenCount(int i) {
         return mItemHeader.get(mGroupHeader.get(i)).size();
     }
@@ -110,12 +117,16 @@ public class ManualsExpandableListAdapter extends BaseExpandableListAdapter {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.manuals_list_item, null);
         }
+        // Set the behavior when a chapter is clicked
         view.setOnClickListener(new onOpenManualClick((String) getGroup(i), i1));
         TextView itemText = view.findViewById(R.id.expandedListItem);
         itemText.setText(childText);
         return view;
     }
 
+    /**
+     * Defines the behavior when the manual chapter is clicked
+     */
     private class onOpenManualClick implements View.OnClickListener {
         private String mFilename;
         private int mId;
@@ -126,6 +137,7 @@ public class ManualsExpandableListAdapter extends BaseExpandableListAdapter {
 
         @Override
         public void onClick(View view) {
+            // Start an intent to open a web browser and use google docs preview to show the pdf
             Intent intent = new Intent(Intent.ACTION_VIEW);
 
             intent.setDataAndType(Uri.parse("http://docs.google.com/gview?embedded=true&url=" +

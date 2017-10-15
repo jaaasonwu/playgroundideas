@@ -52,13 +52,20 @@ public class ManualRepository {
         this.executor = executor;
     }
 
+    /**
+     * This method is used to get one manual from the database using id of the manual
+     */
     public LiveData<Manual> getManual(Long id) {
         refreshManual(id);
         // return a LiveData directly from the database.
         return manualDao.load(id);
     }
 
+    /**
+     * This method is used to get all manuals
+     */
     public LiveData<List<Manual>> getAll() {
+        // Synchronize database with server every time get all manuals is called
         executor.execute(new Runnable() {
             @Override
             public void run() {
@@ -68,6 +75,9 @@ public class ManualRepository {
         return manualDao.loadAll();
     }
 
+    /**
+     * This method is used to delete the pdf of a manual and update the database accordingly
+     */
     public void deletePdf(final long id) {
         executor.execute(new Runnable() {
             @Override
@@ -79,6 +89,9 @@ public class ManualRepository {
         });
     }
 
+    /**
+     * This method is used to download a pdf from the server
+     */
     public void downloadManual(Manual manual) {
         new DownloadTask().execute(manual);
     }
@@ -166,7 +179,9 @@ public class ManualRepository {
 
     }
 
-
+    /**
+     * This method is used to create an output stream for writing the downloaded pdf
+     */
     private OutputStream createOutStream(String urlStr) {
         File folder = new File(String.valueOf(context.getExternalFilesDir(null)));
         File pdf = new File(folder.getAbsolutePath() + "/" + urlStr + ".pdf");
@@ -192,33 +207,48 @@ public class ManualRepository {
     }
 
 
+    /**
+     * Synchronize the database with the server
+     */
     public void updateManualInfo() {
         Call<ResponseBody> call = webservice.getInfo();
         try {
             Response<ResponseBody> response = call.execute();
+
+            // Parse the JSON object from the server
             String json = response.body().string();
             JSONObject jsonObject = new JSONObject(json);
             Iterator<String> names = jsonObject.keys();
             List<ManualChapter> chapters = new ArrayList<>();
             List<Manual> manuals = new ArrayList<>();
             Manual oldManual;
+
+            // Iterate through all manuals
             while (names.hasNext()) {
                 String name = names.next();
                 JSONObject child = jsonObject.getJSONObject(name);
                 long id = child.getLong("id");
 
-                // Get the old manual object to avoid changing the download state
+                // Get the old manual object to avoid changing the download state for an already
+                // downloaded file
                 oldManual = manualDao.loadOne(id);
                 Manual insertManual = new Manual(id, name, null, null);
-                if (oldManual.getDownloaded()) {
-                    insertManual.setDownloaded(true);
+                if (oldManual != null && oldManual.getDownloaded()) {
+                    File folder = new File(String.valueOf(context.getExternalFilesDir(null)));
+                    File pdf = new File(folder.getAbsolutePath() + "/" + name + ".pdf");
+                    // Make sure the file exists (avoid user deleting in the file system)
+                    if (pdf.exists()) {
+                        insertManual.setDownloaded(true);
+                    }
                 }
+                // Update manuals and chapters from JSON
                 manuals.add(insertManual);
                 JSONArray chapterArray = child.getJSONArray("chapters");
                 for (int i = 0; i < chapterArray.length(); i++) {
                     chapters.add(new ManualChapter(i, (String) chapterArray.get(i), id, null, null));
                 }
             }
+            // Bulk insert to avoid multiple updates of UI
             manualDao.insertManuals(manuals);
             manualDao.insertManualChapters(chapters);
         } catch (Exception e) {

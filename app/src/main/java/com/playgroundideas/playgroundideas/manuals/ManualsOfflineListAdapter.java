@@ -46,13 +46,17 @@ public class ManualsOfflineListAdapter extends ArrayAdapter<String> {
         if (convertView == null) {
             convertView = View.inflate(mContext, R.layout.manuals_offline_item, null);
             holder = new ViewHolder(convertView);
+            // Use view holder for every item to avoid finding view every time
             convertView.setTag(holder);
         } else {
+            // When there's a view holder bind to the view
             holder = (ViewHolder) convertView.getTag();
         }
 
+        // Set the text for every item
         String title = mDownloaded.get(position);
         holder.titleText.setText(title);
+        // Set the behavior when the item is clicked and the delete button is clicked
         holder.titleText.setOnClickListener(new OnOpenManualClick(title, mContext));
         holder.deleteButton.setOnClickListener(new OnDeleteButtonClick(this, position));
         return convertView;
@@ -63,6 +67,9 @@ public class ManualsOfflineListAdapter extends ArrayAdapter<String> {
         mDownloaded = downloaded;
     }
 
+    /**
+     * The class defines the behavior when the delete button is clicked on the list
+     */
     private class OnDeleteButtonClick implements View.OnClickListener {
         private ManualsOfflineListAdapter mAdapter;
         private int position;
@@ -74,13 +81,16 @@ public class ManualsOfflineListAdapter extends ArrayAdapter<String> {
 
         @Override
         public void onClick(View view) {
+            // First delete the file in the file storage
             String filename = mDownloaded.get(position);
             File folder = new File(String.valueOf(mContext.getExternalFilesDir(null)));
             File manual = new File(folder.getAbsolutePath() + "/" + filename + ".pdf");
             boolean deleted = manual.delete();
+            // Then ask the list fragment to update the downloaded status in the database
             Message msg = Message.obtain();
             msg.obj = mDownloaded.get(position);
             mList.handleMessage(msg);
+            // Finally update the UI
             if (deleted) {
                 mDownloaded.remove(position);
                 mAdapter.notifyDataSetChanged();
@@ -98,6 +108,7 @@ public class ManualsOfflineListAdapter extends ArrayAdapter<String> {
 
         @Override
         public void onClick(View view) {
+            // Open the pdf file using a pdf reader
             File folder = new File(String.valueOf(mContext.getExternalFilesDir(null)));
             File manual = new File(folder.getAbsolutePath() + "/" + mFilename + ".pdf");
             Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -114,7 +125,9 @@ public class ManualsOfflineListAdapter extends ArrayAdapter<String> {
         }
     }
 
-
+    /**
+     * Use a view holder to avoid find the views for every item
+     */
     private class ViewHolder {
         private TextView titleText;
         private TextView deleteButton;

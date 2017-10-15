@@ -67,6 +67,7 @@ public class LoginFragment extends Fragment {
         mRootView = inflater.inflate(R.layout.fragment_login, container, false);
         mEmailView = mRootView.findViewById(R.id.email);
         mPasswordView = mRootView.findViewById(R.id.password);
+        // Check the validation of the password when changed
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -77,6 +78,8 @@ public class LoginFragment extends Fragment {
                 return false;
             }
         });
+
+        // Set the action when login button is clicked
         mLoginButton = mRootView.findViewById(R.id.email_sign_in_button);
         mLoginButton.setOnClickListener(new Button.OnClickListener() {
             @Override
@@ -87,12 +90,16 @@ public class LoginFragment extends Fragment {
 
         mLoginFormView = mRootView.findViewById(R.id.login_form);
         mProgressView = mRootView.findViewById(R.id.login_progress);
+        // Set up the listener to switch to sign up fragment
         setSwitchSignupListener();
         getActivity().setTitle(R.string.action_log_in);
 
         return mRootView;
     }
 
+    /**
+     * The method set the action to switch to sign up fragment
+     */
     private void setSwitchSignupListener() {
         TextView switchSignup = mRootView.findViewById(R.id.switch_signup);
         switchSignup.setOnClickListener(new TextView.OnClickListener() {
@@ -159,12 +166,18 @@ public class LoginFragment extends Fragment {
         }
     }
 
+    /**
+     * Check the format of emails
+     */
     private boolean isEmailValid(String email) {
         return true;
     }
 
+
+    /**
+     * Check the length of the password
+     */
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
         return password.length() > 4;
     }
 
@@ -212,14 +225,17 @@ public class LoginFragment extends Fragment {
 
         @Override
         protected Boolean doInBackground(Void... params) {
+            // Initialize retrofit class for authorization
             LoginWebservice login = retrofit.create(LoginWebservice.class);
-            String info = mEmail + ":" + mPassword;
 
+            // Set up the request for basic authentication
+            String info = mEmail + ":" + mPassword;
             String authHeader = "Basic " + Base64.encodeToString(info.getBytes(), Base64.NO_WRAP);
             Call<ResponseBody> call = login.authenticate(authHeader);
 
             try {
                 Response<ResponseBody> response = call.execute();
+                // Fail when the response code is 401 (unauthorized)
                 if (response.code() == 200) {
                     return true;
                 } else {

@@ -45,15 +45,19 @@ public class ManualsOfflineList extends DaggerFragment implements Handler.Callba
 
         mGroupHeader = new ArrayList<>();
         mDownloaded = new ArrayList<>();
+        // Get the manual ViewModel to get LiveData
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(ManualsListViewModel.class);
         manualLiveData = viewModel.getAllManuals();
+        // Set the observer for manual LiveData to update the UI when database changes
         manualLiveData.observe(this, new Observer<List<Manual>>() {
             @Override
             public void onChanged(@Nullable List<Manual> manuals) {
                 String name;
                 boolean downloaded;
 
+                // Reset the downloaded list to avoid duplicates
                 mDownloaded.clear();
+                // Reload all the data required
                 for (int i = 0; i < manuals.size(); i++) {
                     mGroupHeader.add(manuals.get(i).getName());
                     name = manuals.get(i).getName();
@@ -62,19 +66,26 @@ public class ManualsOfflineList extends DaggerFragment implements Handler.Callba
                         mDownloaded.add(name);
                     }
                 }
+                // Update the data in the adapter and notify change to update UI
                 mAdapter.setmDownloaded(mDownloaded);
                 mAdapter.notifyDataSetChanged();
             }
         });
     }
 
+    /**
+     * Handle message from the adapter
+     */
     @Override
     public boolean handleMessage(Message message) {
         List<Manual> manuals = manualLiveData.getValue();
         String delete = (String) message.obj;
-        for (Manual m : manuals) {
-            if (m.getName().equals(delete))
-                repo.deletePdf(m.getId());
+        if (manuals != null) {
+            // Find the manual with the same name and ask repository to change the downloaded status
+            for (Manual m : manuals) {
+                if (m.getName().equals(delete))
+                    repo.deletePdf(m.getId());
+            }
         }
         return true;
     }
@@ -87,6 +98,7 @@ public class ManualsOfflineList extends DaggerFragment implements Handler.Callba
         mListView = rootView.findViewById(R.id.manual_offline_list);
         mAdapter = new ManualsOfflineListAdapter(getContext(), R.layout.manuals_offline_item,
                 mDownloaded, this);
+        // Binds the list with the adapter
         mListView.setAdapter(mAdapter);
         return rootView;
 

@@ -28,12 +28,18 @@ import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 
+/**
+ * This is the class for the expandable list in manual fragment
+ */
 public class ManualExpandableList extends DaggerFragment implements Handler.Callback{
 
     private ExpandableListView mManualsList;
     private ManualsExpandableListAdapter mManualsListAdapter;
+    // Stores the name of every manual
     private ArrayList<String> mGroupHeader;
+    // Stores the mapping of manual and whether it's downloaded
     private HashMap<String, Boolean> mDownloadStatus;
+    // Stores the mapping of manual and all its chapters
     private HashMap<String, List<String>> mItemHeader;
     private ManualsListViewModel viewModel;
     private LiveData<List<Manual>> manualLiveData;
@@ -81,6 +87,7 @@ public class ManualExpandableList extends DaggerFragment implements Handler.Call
             }
         });
 
+        // Set and observer to observe the change of chapters in database
         viewModel.getChapters().observe(this, new Observer<List<ManualChapter>>() {
             @Override
             public void onChanged(@Nullable List<ManualChapter> chapters) {
@@ -88,6 +95,7 @@ public class ManualExpandableList extends DaggerFragment implements Handler.Call
                 HashMap<Long, String> manualMap = new HashMap<>();
                 HashMap<String, List<String>> itemHeader = new HashMap<>();
 
+                // Make sure there's data in the database
                 if (manuals == null || chapters == null) {
                     return;
                 }
@@ -121,12 +129,16 @@ public class ManualExpandableList extends DaggerFragment implements Handler.Call
         return rootView;
     }
 
+    /**
+     * Handle message from the adapter
+     */
     @Override
     public boolean handleMessage(Message message) {
         String str = (String) message.obj;
 
         if (message.arg1 == 0) {
             List<Manual> manuals = manualLiveData.getValue();
+            // Find the manual with the same name and ask repository to download it
             for (Manual m : manuals) {
                 if (m.getName().equals(str)) {
                     repo.downloadManual(m);
@@ -137,6 +149,9 @@ public class ManualExpandableList extends DaggerFragment implements Handler.Call
         return false;
     }
 
+    /**
+     * Update when the list is visible to the user
+     */
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
