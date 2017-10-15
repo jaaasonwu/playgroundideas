@@ -22,18 +22,25 @@ import android.widget.TextView;
 import com.playgroundideas.playgroundideas.MainActivity;
 import com.playgroundideas.playgroundideas.R;
 import com.playgroundideas.playgroundideas.datasource.remote.LoginWebservice;
+import com.playgroundideas.playgroundideas.datasource.remote.UserWebservice;
+import com.playgroundideas.playgroundideas.datasource.repository.UserRepository;
+import com.playgroundideas.playgroundideas.model.User;
 
 import java.io.IOException;
 
+import javax.inject.Inject;
+
+import dagger.android.support.DaggerFragment;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
-import retrofit2.Retrofit;
+
+import static com.playgroundideas.playgroundideas.R.id.login;
 
 /**
  * A fragment to handle login
  */
-public class LoginFragment extends Fragment {
+public class LoginFragment extends DaggerFragment {
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -46,14 +53,14 @@ public class LoginFragment extends Fragment {
     private View mProgressView;
     private View mLoginFormView;
     private Button mLoginButton;
-    private String mWpUrl = "http://swen90014v-2017plp.cis.unimelb.edu.au/";
+    @Inject
+    LoginWebservice webservice;
+    @Inject
+    UserWebservice userWebservice;
+    @Inject
+    UserRepository userRepository;
 
-    Retrofit.Builder builder = new Retrofit.Builder().baseUrl(mWpUrl);
-    Retrofit retrofit = builder.build();
-
-    public LoginFragment() {
-        // Required empty public constructor
-    }
+    public LoginFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -70,7 +77,7 @@ public class LoginFragment extends Fragment {
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.login || id == EditorInfo.IME_NULL) {
+                if (id == login || id == EditorInfo.IME_NULL) {
                     attemptLogin();
                     return true;
                 }
@@ -212,15 +219,17 @@ public class LoginFragment extends Fragment {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            LoginWebservice login = retrofit.create(LoginWebservice.class);
             String info = mEmail + ":" + mPassword;
 
             String authHeader = "Basic " + Base64.encodeToString(info.getBytes(), Base64.NO_WRAP);
-            Call<ResponseBody> call = login.authenticate(authHeader);
+            Call<ResponseBody> call = webservice.authenticate(authHeader);
 
             try {
                 Response<ResponseBody> response = call.execute();
-                if (response.code() == 200) {
+                if (response.isSuccessful()) {
+                    User user = userWebservice.getUser(1).execute().body();
+                    userRepository.createUser(user);
+                    userRepository.setCurrentUser(user.getId());
                     return true;
                 } else {
                     return false;

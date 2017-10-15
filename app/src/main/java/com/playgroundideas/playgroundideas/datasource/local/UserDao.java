@@ -22,7 +22,7 @@ public interface UserDao {
     public void update(User user);
     @Delete
     public void delete(User user);
-    @Insert(onConflict = OnConflictStrategy.FAIL)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     public long insert(User user);
 
     @Query("SELECT * FROM user WHERE id = :id")
