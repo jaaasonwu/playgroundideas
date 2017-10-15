@@ -50,6 +50,7 @@ dependencies {
 
     // convenient material icons
     compile 'com.joanzapata.iconify:android-iconify-material:2.2.2'
+    compile 'com.joanzapata.iconify:android-iconify-material-community:2.2.1'
 
     // android architecture components
     compile 'android.arch.lifecycle:extensions:1.0.0-beta1'

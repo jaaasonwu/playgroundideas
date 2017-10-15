@@ -1,9 +1,14 @@
 package com.playgroundideas.playgroundideas.projects;
 
+import android.content.Intent;
+import android.net.Uri;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.playgroundideas.playgroundideas.R;
@@ -23,6 +28,11 @@ public class DetailProjectActivity extends AppCompatActivity {
     private ImageView imageView;
     private TextView emailAddressView;
     private ProjectItem sampleProject;
+    private FloatingActionButton mShare;
+    private TextView mEmailShare;
+    private TextView mFacebookShare;
+    private Boolean isOpen = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +57,24 @@ public class DetailProjectActivity extends AppCompatActivity {
         startDateView.setText(ProjectDate);
         endDateView.setText(ProjectDate);
         emailAddressView.setText(sampleProject.getEmailAddress());
+        mEmailShare = (TextView) findViewById(R.id.email_share);
+        mFacebookShare = (TextView) findViewById(R.id.facebook_share);
+        mShare = (FloatingActionButton) findViewById(R.id.shareButton);
+        mShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(isOpen) {
+                    mEmailShare.setVisibility(view.INVISIBLE);
+                    mFacebookShare.setVisibility(view.INVISIBLE);
+                    isOpen = false;
+                } else {
+                    mEmailShare.setVisibility(view.VISIBLE);
+                    mFacebookShare.setVisibility(view.VISIBLE);
+                    isOpen = true;
+                }
+            }
+        });
+        shareListener();
         Glide.with(this).load(sampleProject.getImageUrl()).into(imageView);
     }
 
@@ -54,7 +82,7 @@ public class DetailProjectActivity extends AppCompatActivity {
 
         Calendar mCalendar = Calendar.getInstance();
         Date sampleDate = mCalendar.getTime();
-        String sampleEmailAddress = "playpus@gmail.com";
+        String sampleEmailAddress = "platypustestplatyground@gmail.com";
         String sampleCountry = "Australia";
         String sampleCurrency = "AUD";
         String sampleDescription = "It is my first project. I like to build playground for children.";
@@ -64,5 +92,33 @@ public class DetailProjectActivity extends AppCompatActivity {
         sampleProject = new ProjectItem(sampleTitle,sampleDate,sampleDate,sampleEmailAddress
                 ,sampleCountry,sampleCurrency,sampleDescription,sampleImageUrl);
 
+    }
+
+    public void shareListener() {
+        mEmailShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(DetailProjectActivity.this,"Sharing project through Email",Toast.LENGTH_LONG).show();
+                Uri imageUri = Uri.parse(sampleProject.getImageUrl());
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("message/rfc822");
+                i.putExtra(Intent.EXTRA_SUBJECT,"Project Sharing");
+                i.putExtra(Intent.EXTRA_TEXT,sampleProject.getProjectTtile() + "\n" + sampleProject.getProjectDescription());
+                i.putExtra(Intent.EXTRA_STREAM, String.valueOf(imageUri));
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                try {
+                    startActivity(Intent.createChooser(i,"Share peoject through mail applications..."));
+                } catch (android.content.ActivityNotFoundException ex) {
+                    Toast.makeText(DetailProjectActivity.this,"There are no email application installed.",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        mFacebookShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(DetailProjectActivity.this,"Sharing project through Facebook",Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }
