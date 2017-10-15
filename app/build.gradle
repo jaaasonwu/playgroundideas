@@ -60,6 +60,8 @@ dependencies {
 
     // junit
     testCompile 'junit:junit:4.12'
+    androidTestCompile group: 'commons-io', name: 'commons-io', version: '2.5'
+
 
     // dependency injection
     compile 'javax.inject:javax.inject:1'

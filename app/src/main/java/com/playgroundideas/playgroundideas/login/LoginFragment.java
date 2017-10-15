@@ -22,6 +22,9 @@ import android.widget.TextView;
 import com.playgroundideas.playgroundideas.MainActivity;
 import com.playgroundideas.playgroundideas.R;
 import com.playgroundideas.playgroundideas.datasource.remote.LoginWebservice;
+import com.playgroundideas.playgroundideas.datasource.remote.UserWebservice;
+import com.playgroundideas.playgroundideas.datasource.repository.UserRepository;
+import com.playgroundideas.playgroundideas.model.User;
 
 import java.io.IOException;
 
@@ -31,6 +34,8 @@ import dagger.android.support.DaggerFragment;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
+
+import static com.playgroundideas.playgroundideas.R.id.login;
 
 /**
  * A fragment to handle login
@@ -50,7 +55,12 @@ public class LoginFragment extends DaggerFragment {
     private Button mLoginButton;
     private TextView mForget;
     @Inject
-    LoginWebservice mLoginWebservice;
+    LoginWebservice webservice;
+    @Inject
+    UserWebservice userWebservice;
+    //TODO replace this with user view model
+    @Inject
+    UserRepository userRepository;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -189,6 +199,7 @@ public class LoginFragment extends DaggerFragment {
      * Check the length of the password
      */
     private boolean isPasswordValid(String password) {
+        //TODO: Replace this with your own logic
         return password.length() > 4;
     }
 
@@ -239,12 +250,14 @@ public class LoginFragment extends DaggerFragment {
             // Set up the request for basic authentication
             String info = mEmail + ":" + mPassword;
             String authHeader = "Basic " + Base64.encodeToString(info.getBytes(), Base64.NO_WRAP);
-            Call<ResponseBody> call = mLoginWebservice.authenticate(authHeader);
+            Call<ResponseBody> call = webservice.authenticate(authHeader);
 
             try {
                 Response<ResponseBody> response = call.execute();
-                // Fail when the response code is 401 (unauthorized)
-                if (response.code() == 200) {
+                if (response.isSuccessful()) {
+                    User user = userWebservice.getUser(1).execute().body();
+                    userRepository.createUser(user);
+                    userRepository.setCurrentUser(user.getId());
                     return true;
                 } else {
                     return false;
