@@ -50,7 +50,7 @@ public class DesignDetailsActivity extends DaggerAppCompatActivity {
                 TextView textView = findViewById(R.id.imageTitle);
                 textView.setText(design.getName());
                 ImageView imageView = findViewById(R.id.imageDetails);
-                imageView.setImageURI(Uri.fromFile(FileStorage.readDesignImageFile(design.getImageInfo())));
+                imageView.setImageURI(Uri.fromFile(FileStorage.readFile(design.getImageInfo())));
             }
         });
 
@@ -60,7 +60,7 @@ public class DesignDetailsActivity extends DaggerAppCompatActivity {
             public void onClick(View view) {
                 // open the default pdf reader to show the design guide
                 Intent intent = new Intent(Intent.ACTION_VIEW);
-                File file = FileStorage.readDesignGuideFile(viewModel.getDesign().getValue().getGuideInfo());
+                File file = FileStorage.readFile(viewModel.getDesign().getValue().getGuideInfo());
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);

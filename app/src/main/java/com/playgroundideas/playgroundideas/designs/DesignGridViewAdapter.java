@@ -105,7 +105,7 @@ class DesignGridViewAdapter extends ArrayAdapter<Pair<Design, Boolean>> {
             Pair<Design, Boolean> pair = getItem(position);
             Design design = pair.first;
             this.desc.setText(design.getDescription());
-            this.image.setImageURI(Uri.fromFile(FileStorage.readDesignImageFile(design.getImageInfo())));
+            this.image.setImageURI(Uri.fromFile(FileStorage.readFile(design.getImageInfo())));
             this.name.setText(design.getName());
             this.favourButton.setBackgroundColor(100);
             if(pair.second) {

@@ -116,10 +116,9 @@ public class DesignRepository {
     }
 
     private void storeImage(Design design, InputStream image) {
-        FileInfo info = new FileInfo(design.getId().toString());
         try {
-            FileStorage.writeDesignImageFile(info, image);
-            design.setImageInfo(info);
+            FileInfo fileInfo = FileStorage.writeDesignImageFile("design_image" + design.getId().toString() + ".png", image);
+            design.setImageInfo(fileInfo);
             designDao.insert(design);
         } catch (IOException ioe) {
 
@@ -127,10 +126,9 @@ public class DesignRepository {
     }
 
     private void storeGuide(Design design, InputStream guide) {
-        FileInfo info = new FileInfo(design.getId().toString());
         try {
-            FileStorage.writeDesignImageFile(info, guide);
-            design.setImageInfo(info);
+            FileInfo fileInfo = FileStorage.writeDesignImageFile("design_guide" + design.getId().toString() + ".pdf", guide);
+            design.setImageInfo(fileInfo);
             designDao.insert(design);
         } catch (IOException ioe) {
 

@@ -51,15 +51,12 @@ public interface ProjectDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long[] insert(ProjectPictureFileInfo... pictureFiles);
 
-    @Query("SELECT * FROM projectPictureFileInfo WHERE projectId = :projectId AND name = :filename")
-    LiveData<ProjectPictureFileInfo> load(Long projectId, String filename);
+    @Query("SELECT * FROM projectPictureFileInfo WHERE projectId = :projectId AND name = :name")
+    LiveData<ProjectPictureFileInfo> load(Long projectId, String name);
 
     @Query("SELECT * FROM projectPictureFileInfo WHERE projectId = :projectId")
     LiveData<List<ProjectPictureFileInfo>> loadAllPicturesOf(Long projectId);
 
     @Query("SELECT * FROM projectPictureFileInfo")
     LiveData<List<ProjectPictureFileInfo>> loadAllPictures();
-
-    @Query("SELECT COUNT(1) FROM projectPictureFileInfo WHERE projectId = :projectId AND name = :filename")
-    boolean hasPicture(Long projectId, String filename);
 }

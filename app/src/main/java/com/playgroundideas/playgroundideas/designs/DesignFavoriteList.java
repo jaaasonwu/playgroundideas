@@ -57,6 +57,7 @@ public class DesignFavoriteList extends DaggerFragment {
                 gridViewAdapter.updateDesigns(designs);
             }
         });
+        gridViewAdapter = new DesignGridViewAdapter(getContext(), viewModel.getDesignList().getValue(), viewModel);
     }
 
     @Override
@@ -65,7 +66,6 @@ public class DesignFavoriteList extends DaggerFragment {
         super.onCreateView(inflater, container, savedInstanceState);
         View rootView = inflater.inflate(R.layout.fragment_design_favorite_list, container, false);
         gridView = rootView.findViewById(R.id.favorite_designs_grid);
-        gridViewAdapter = new DesignGridViewAdapter(getContext(), viewModel.getDesignList().getValue(), viewModel);
         gridView.setAdapter(gridViewAdapter);
         return rootView;
     }
