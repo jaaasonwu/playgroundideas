@@ -228,14 +228,26 @@ public class ManualRepository {
                 String name = names.next();
                 JSONObject child = jsonObject.getJSONObject(name);
                 long id = child.getLong("id");
+                long version = child.getInt("version");
 
                 // Get the old manual object to avoid changing the download state for an already
                 // downloaded file
                 oldManual = manualDao.loadOne(id);
-                Manual insertManual = new Manual(id, name, null, null);
-                if (oldManual != null && oldManual.getDownloaded()) {
-                    File folder = new File(String.valueOf(context.getExternalFilesDir(null)));
-                    File pdf = new File(folder.getAbsolutePath() + "/" + name + ".pdf");
+                Manual insertManual = new Manual(version, id, name, null, null);
+
+                File folder = new File(String.valueOf(context.getExternalFilesDir(null)));
+                File pdf = new File(folder.getAbsolutePath() + "/" + name + ".pdf");
+                // If no old file in database or an old version of pdf exists, delete the existing
+                // pdf file. (for updated database schema)
+                if (oldManual == null || (oldManual != null && oldManual.getDownloaded()
+                        && oldManual.getVersion() != version)) {
+                    if (pdf.exists()) {
+                        pdf.delete();
+                    }
+                }
+                // When the same file is already downloaded, set to downloaded
+                if (oldManual != null && oldManual.getDownloaded()
+                        && oldManual.getVersion() == version) {
                     // Make sure the file exists (avoid user deleting in the file system)
                     if (pdf.exists()) {
                         insertManual.setDownloaded(true);
