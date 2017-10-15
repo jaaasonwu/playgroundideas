@@ -1,7 +1,9 @@
 package com.playgroundideas.playgroundideas.projects;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,11 +13,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.model.SharePhoto;
+import com.facebook.share.model.SharePhotoContent;
+import com.facebook.share.widget.ShareDialog;
 import com.playgroundideas.playgroundideas.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import com.facebook.FacebookSdk;
 
 public class DetailProjectActivity extends AppCompatActivity {
 
@@ -74,6 +84,7 @@ public class DetailProjectActivity extends AppCompatActivity {
                 }
             }
         });
+        contactOwner();
         shareListener();
         Glide.with(this).load(sampleProject.getImageUrl()).into(imageView);
     }
@@ -99,12 +110,10 @@ public class DetailProjectActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(DetailProjectActivity.this,"Sharing project through Email",Toast.LENGTH_LONG).show();
-                Uri imageUri = Uri.parse(sampleProject.getImageUrl());
                 Intent i = new Intent(Intent.ACTION_SEND);
                 i.setType("message/rfc822");
                 i.putExtra(Intent.EXTRA_SUBJECT,"Project Sharing");
                 i.putExtra(Intent.EXTRA_TEXT,sampleProject.getProjectTtile() + "\n" + sampleProject.getProjectDescription());
-                i.putExtra(Intent.EXTRA_STREAM, String.valueOf(imageUri));
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 try {
                     startActivity(Intent.createChooser(i,"Share peoject through mail applications..."));
@@ -118,6 +127,42 @@ public class DetailProjectActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(DetailProjectActivity.this,"Sharing project through Facebook",Toast.LENGTH_LONG).show();
+                ShareDialog shareDialog;
+                FacebookSdk.sdkInitialize(getApplicationContext());
+                shareDialog = new ShareDialog(DetailProjectActivity.this);
+
+                imageView.setDrawingCacheEnabled(true);
+                Bitmap bitmap = imageView.getDrawingCache();
+
+                SharePhoto photo = new SharePhoto.Builder()
+                        .setBitmap(bitmap)
+                        .build();
+
+                SharePhotoContent photoContent = new SharePhotoContent.Builder()
+                        .addPhoto(photo)
+                        .build();
+
+                shareDialog.show(photoContent);
+            }
+        });
+    }
+
+    public void contactOwner() {
+        emailAddressView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Toast.makeText(DetailProjectActivity.this,"Sharing project through Email",Toast.LENGTH_LONG).show();
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("message/rfc822");
+                i.putExtra(Intent.EXTRA_EMAIL,new String[] {sampleProject.getEmailAddress()});
+                i.putExtra(Intent.EXTRA_SUBJECT,"Project Consult");
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                try {
+                    startActivity(Intent.createChooser(i,"Contact with project owner through mail applications..."));
+                } catch (android.content.ActivityNotFoundException ex) {
+                    Toast.makeText(DetailProjectActivity.this,"There are no email application installed.",Toast.LENGTH_SHORT).show();
+                }
+                return false;
             }
         });
     }

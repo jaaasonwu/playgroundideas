@@ -73,4 +73,5 @@
     <string name="email_share">{md-email}</string>
     <string name="facebook_share">{mdi-facebook-box}</string>
     <string name="facebook_share1">{md-share}</string>
+    <string name="facebook_app_id">705598346299936</string>
 </resources>

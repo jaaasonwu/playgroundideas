@@ -179,6 +179,11 @@ public class ProjectBrowser extends Fragment {
                 else {
                     mProjectListAdapter.setFilterByCountry(mFilterByCountry.getSelectedItem().toString());
                     mProjectListAdapter.getFilter().filter(mProjectListAdapter.getPreviousQuery());
+                    if(mFilterByCountry.getSelectedItem().toString().equalsIgnoreCase("all")) {
+                        mFilter.setText("Filter By");
+                    } else {
+                        mFilter.setText(mFilterByCountry.getSelectedItem().toString());
+                    }
                     Toast.makeText(getContext(), "Project in " + mFilterByCountry.getSelectedItem().toString(), Toast.LENGTH_LONG).show();
                     mPopWindow.dismiss();
                 }
