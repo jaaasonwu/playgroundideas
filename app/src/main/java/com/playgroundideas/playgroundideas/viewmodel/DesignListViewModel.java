@@ -36,7 +36,7 @@ public class DesignListViewModel extends ViewModel {
         }
     }
 
-    public void init(boolean favouritedOnly, User user) {
+    public void refresh(boolean favouritedOnly, User user) {
         if(designList != null) {
             return;
         } else {
