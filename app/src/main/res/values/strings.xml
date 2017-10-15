@@ -61,9 +61,9 @@
     <string name="currency">Currency</string>
     <string name="description">Description"</string>
     <string name="relative_pdf_manuals_directory_name">playgroundHandbooks</string>
-    <string name="relative_design_images_directory_name">playgroundDesignPictures</string>
+    <string name="relative_design_images_directory_name">playgroundDesignImages</string>
     <string name="relative_design_guides_directory_name">playgroundDesignGuides</string>
-    <string name="relative_project_images_directory_name">playgroundProjectPictures</string>
+    <string name="relative_project_images_directory_name">playgroundProjectImages</string>
     <string name="preference_file_key">org.playgroundIdeas.app.android.preferenceFile</string>
     <string name="saved_user">saved_user</string>
     <string name="database_file_name">playgroundIdeas.db</string>

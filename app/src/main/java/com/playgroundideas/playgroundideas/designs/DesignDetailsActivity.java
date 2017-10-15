@@ -30,6 +30,7 @@ import dagger.android.support.DaggerAppCompatActivity;
 public class DesignDetailsActivity extends DaggerAppCompatActivity {
 
     private DesignViewModel viewModel;
+    private Design designTemp;
     private Button guideButton;
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -47,6 +48,7 @@ public class DesignDetailsActivity extends DaggerAppCompatActivity {
         viewModel.getDesign().observe(this, new Observer<Design>() {
             @Override
             public void onChanged(@Nullable Design design) {
+                designTemp = design;
                 TextView textView = findViewById(R.id.imageTitle);
                 textView.setText(design.getName());
                 ImageView imageView = findViewById(R.id.imageDetails);
@@ -60,7 +62,7 @@ public class DesignDetailsActivity extends DaggerAppCompatActivity {
             public void onClick(View view) {
                 // open the default pdf reader to show the design guide
                 Intent intent = new Intent(Intent.ACTION_VIEW);
-                File file = FileStorage.readFile(viewModel.getDesign().getValue().getGuideInfo());
+                File file = FileStorage.readFile(designTemp.getGuideInfo());
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);

@@ -44,14 +44,18 @@ public class UserRepository {
         this.networkAccess = networkAccess;
     }
 
-    public LiveData<User> getUser(Long id) {
+    public LiveData<User> getLiveUser(Long id) {
         refreshUser(id);
+        return userDao.liveLoad(id);
+    }
+
+    public User getUser(Long id) {
         return userDao.load(id);
     }
 
     public LiveData<List<User>> getUsers() {
         refreshAllUsers();
-        return userDao.loadAll();
+        return userDao.liveLoadAll();
     }
 
     public void createUser(User user) {

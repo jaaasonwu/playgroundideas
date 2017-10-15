@@ -1,6 +1,7 @@
 package com.playgroundideas.playgroundideas.datasource.repository;
 
 import android.arch.lifecycle.LiveData;
+import android.content.Context;
 
 import com.playgroundideas.playgroundideas.datasource.local.FileStorage;
 import com.playgroundideas.playgroundideas.datasource.local.ManualDao;
@@ -33,13 +34,15 @@ public class ManualRepository {
     private final ManualDao manualDao;
     private final Executor executor;
     private final NetworkAccess networkAccess;
+    private final Context context;
 
     @Inject
-    public ManualRepository(ManualWebservice webservice, ManualDao manualDao, Executor executor, NetworkAccess networkAccess) {
+    public ManualRepository(ManualWebservice webservice, ManualDao manualDao, Executor executor, NetworkAccess networkAccess, Context context) {
         this.webservice = webservice;
         this.manualDao = manualDao;
         this.executor = executor;
         this.networkAccess = networkAccess;
+        this.context = context;
     }
 
     public LiveData<Manual> getManual(Long id) {
@@ -60,7 +63,7 @@ public class ManualRepository {
 
     private void storePDFManualFile(Manual manual, InputStream manualFile) {
         try {
-            FileInfo fileInfo = FileStorage.writeManualFile("handbook" + manual.getId().toString() + ".pdf", manualFile);
+            FileInfo fileInfo = FileStorage.writeManualFile("handbook" + manual.getId().toString() + ".pdf", manualFile, context);
             manual.setPdfInfo(fileInfo);
             manualDao.update(manual);
         } catch (IOException ioe) {

@@ -5,7 +5,6 @@ import android.arch.lifecycle.ViewModel;
 import android.support.v4.util.Pair;
 
 import com.playgroundideas.playgroundideas.datasource.repository.DesignRepository;
-import com.playgroundideas.playgroundideas.datasource.repository.UserRepository;
 import com.playgroundideas.playgroundideas.model.Design;
 import com.playgroundideas.playgroundideas.model.User;
 
@@ -21,16 +20,13 @@ public class DesignListViewModel extends ViewModel {
 
     private LiveData<List<Pair<Design, Boolean>>> designList;
     private DesignRepository designRepository;
-    private UserRepository userRepository;
 
     @Inject
-    public DesignListViewModel(DesignRepository designRepository, UserRepository userRepository) {
+    public DesignListViewModel(DesignRepository designRepository) {
         this.designRepository = designRepository;
-        this.userRepository = userRepository;
     }
 
-    public void markAsFavourite(Design design, boolean isFavourite) {
-        User user = userRepository.getUser(userRepository.getCurrentUser()).getValue();
+    public void markAsFavourite(Design design, User user, boolean isFavourite) {
         if(designRepository.isFavouriteOf(design, user)) {
             if(!isFavourite) {
                 designRepository.addFavourite(design, user);
@@ -40,12 +36,10 @@ public class DesignListViewModel extends ViewModel {
         }
     }
 
-    public void init(boolean favouritedOnly) {
-
-        if (designList != null) {
+    public void init(boolean favouritedOnly, User user) {
+        if(designList != null) {
             return;
         } else {
-            User user = userRepository.getUser(userRepository.getCurrentUser()).getValue();
             designList = (favouritedOnly) ? designRepository.getFavouritesOf(user) : designRepository.getAllOf(user);
         }
     }

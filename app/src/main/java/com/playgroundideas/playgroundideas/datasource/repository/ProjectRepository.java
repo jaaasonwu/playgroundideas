@@ -3,6 +3,7 @@ package com.playgroundideas.playgroundideas.datasource.repository;
 import android.arch.core.util.Function;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Transformations;
+import android.content.Context;
 
 import com.playgroundideas.playgroundideas.datasource.local.FileStorage;
 import com.playgroundideas.playgroundideas.datasource.local.ProjectDao;
@@ -41,13 +42,15 @@ public class ProjectRepository {
     private final ProjectDao projectDao;
     private final Executor executor;
     private final NetworkAccess networkAccess;
+    private final Context context;
 
     @Inject
-    public ProjectRepository(ProjectWebservice webservice, ProjectDao projectDao, Executor executor, NetworkAccess networkAccess) {
+    public ProjectRepository(ProjectWebservice webservice, ProjectDao projectDao, Executor executor, NetworkAccess networkAccess, Context context) {
         this.webservice = webservice;
         this.projectDao = projectDao;
         this.executor = executor;
         this.networkAccess = networkAccess;
+        this.context = context;
     }
 
     public LiveData<Project> getProject(Long id) {
@@ -105,7 +108,7 @@ public class ProjectRepository {
 
     private void storeImage(long projectId, String imageId, InputStream image) {
         try {
-            FileInfo fileInfo = FileStorage.writeProjectImageFile("projectImage" + imageId + ".png", image);
+            FileInfo fileInfo = FileStorage.writeProjectImageFile("projectImage" + imageId + ".png", image, context);
             ProjectPictureFileInfo projectPictureFileInfo = new ProjectPictureFileInfo(fileInfo, projectId);
             projectDao.insert(projectPictureFileInfo);
         } catch (IOException ioe) {

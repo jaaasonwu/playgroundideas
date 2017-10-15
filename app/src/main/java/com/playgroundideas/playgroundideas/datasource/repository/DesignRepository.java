@@ -3,6 +3,7 @@ package com.playgroundideas.playgroundideas.datasource.repository;
 import android.arch.core.util.Function;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Transformations;
+import android.content.Context;
 import android.support.v4.util.Pair;
 
 import com.playgroundideas.playgroundideas.datasource.local.DesignDao;
@@ -44,14 +45,16 @@ public class DesignRepository {
     private final UserDao userDao;
     private final Executor executor;
     private final NetworkAccess networkAccess;
+    private final Context context;
 
     @Inject
-    public DesignRepository(DesignWebservice webservice, DesignDao designDao, UserDao userDao, Executor executor, NetworkAccess networkAccess) {
+    public DesignRepository(DesignWebservice webservice, DesignDao designDao, UserDao userDao, Executor executor, NetworkAccess networkAccess, Context context) {
         this.webservice = webservice;
         this.designDao = designDao;
         this.userDao = userDao;
         this.executor = executor;
         this.networkAccess = networkAccess;
+        this.context = context;
     }
 
     public LiveData<Design> get(Long id) {
@@ -117,7 +120,7 @@ public class DesignRepository {
 
     private void storeImage(Design design, InputStream image) {
         try {
-            FileInfo fileInfo = FileStorage.writeDesignImageFile("design_image" + design.getId().toString() + ".png", image);
+            FileInfo fileInfo = FileStorage.writeDesignImageFile("design_image" + design.getId().toString() + ".png", image, context);
             design.setImageInfo(fileInfo);
             designDao.insert(design);
         } catch (IOException ioe) {
@@ -127,7 +130,7 @@ public class DesignRepository {
 
     private void storeGuide(Design design, InputStream guide) {
         try {
-            FileInfo fileInfo = FileStorage.writeDesignImageFile("design_guide" + design.getId().toString() + ".pdf", guide);
+            FileInfo fileInfo = FileStorage.writeDesignImageFile("design_guide" + design.getId().toString() + ".pdf", guide, context);
             design.setImageInfo(fileInfo);
             designDao.insert(design);
         } catch (IOException ioe) {
