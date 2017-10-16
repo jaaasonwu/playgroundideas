@@ -236,9 +236,6 @@ public class LoginFragment extends DaggerFragment {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // Initialize retrofit class for authorization
-            LoginWebservice login = retrofit.create(LoginWebservice.class);
-
             // Set up the request for basic authentication
             String info = mEmail + ":" + mPassword;
             String authHeader = "Basic " + Base64.encodeToString(info.getBytes(), Base64.NO_WRAP);
