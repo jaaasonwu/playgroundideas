@@ -19,12 +19,13 @@ import android.widget.Toast;
 import com.facebook.CallbackManager;
 import com.facebook.share.widget.ShareDialog;
 import com.playgroundideas.playgroundideas.R;
+import com.playgroundideas.playgroundideas.model.Design;
 
 import java.util.ArrayList;
 
 public class DesignBrowseList extends Fragment {
 
-    private ArrayList<DesignItem> favoriteList;
+    private ArrayList<Design> favoriteList;
     private GridView myGrid;
     private SearchView searchView;
     private Spinner spinner;
@@ -34,21 +35,23 @@ public class DesignBrowseList extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        favoriteList = new ArrayList<DesignItem>();
+        favoriteList = new ArrayList<Design>();
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_design_browse_list, container, false);
+        // New varibles to commnicate with the facebook
         callbackManager = CallbackManager.Factory.create();
         shareDialog = new ShareDialog(getActivity());
         myGrid = (GridView) view.findViewById(R.id.my_browse_grid);
         searchView = (SearchView) view.findViewById(R.id.search_browse);
+        // Construct the adapter to fill data into view components
         final GridViewAdapterBrowse gridViewAdapterBrowse = new GridViewAdapterBrowse(getActivity(), favoriteList, callbackManager,shareDialog);
         myGrid.setAdapter(gridViewAdapterBrowse);
+        // Initialize the searchView
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -64,6 +67,7 @@ public class DesignBrowseList extends Fragment {
             }
         });
 
+        // Initialize the spinner
         spinner = (Spinner) view.findViewById(R.id.spinner_browse);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -83,6 +87,7 @@ public class DesignBrowseList extends Fragment {
         return view;
     }
 
+    // Facebook sharing needs it
     public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);

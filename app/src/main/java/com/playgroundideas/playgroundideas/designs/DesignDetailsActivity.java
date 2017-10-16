@@ -56,15 +56,15 @@ public class DesignDetailsActivity extends AppCompatActivity {
         textViewDesc.setText(name);
         ImageView imageView = (ImageView) findViewById(R.id.imageDetails);
         imgUrl = getIntent().getExtras().getString("designDetail");
+
         Glide.with(getApplicationContext()).load(imgUrl)
                 .into(imageView);
-
         floatingActionPlus = (FloatingActionButton) findViewById(R.id.fab_share_detail);
         floatingActionEmailShare = (FloatingActionButton) findViewById(R.id.fab_email_share_detail);
         floatingActionFacebookShare = (FloatingActionButton) findViewById(R.id.fab_facebook_share_detail);
 
+        // Initialize floating action button on the UI
         Iconify.with(new MaterialModule());
-
         floatingActionPlus.setImageDrawable(new IconDrawable(this, MaterialIcons.md_add)
                 .colorRes(R.color.black).actionBarSize());
         floatingActionEmailShare.setImageDrawable(new IconDrawable(this, MaterialIcons.md_email)
@@ -76,6 +76,7 @@ public class DesignDetailsActivity extends AppCompatActivity {
         fabCloseShare = AnimationUtils.loadAnimation(this, R.anim.fab_close_share);
         fabRAnticlockwise = AnimationUtils.loadAnimation(this, R.anim.rotate_anticlockwise);
 
+        // Initialize animation of floating action buttons
         floatingActionPlus.setOnClickListener(new View.OnClickListener() {
             boolean isOpen = false;
             @Override
@@ -99,7 +100,7 @@ public class DesignDetailsActivity extends AppCompatActivity {
             }
         });
 
-
+        // Emai sharing
         floatingActionEmailShare.setOnClickListener(new View.OnClickListener(){
             Intent intent = null, chooser = null;
             @Override
@@ -118,6 +119,7 @@ public class DesignDetailsActivity extends AppCompatActivity {
 
         callbackManager = CallbackManager.Factory.create();
         shareDialog = new ShareDialog(this);
+        // Response in the app for facebook sharing
         shareDialog.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() {
             @Override
             public void onSuccess(Sharer.Result result) {
@@ -137,6 +139,7 @@ public class DesignDetailsActivity extends AppCompatActivity {
             }
         });
 
+        // Facebook sharing
         floatingActionFacebookShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -151,6 +154,7 @@ public class DesignDetailsActivity extends AppCompatActivity {
         });
     }
 
+    // Facebook sharing needs it.
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);

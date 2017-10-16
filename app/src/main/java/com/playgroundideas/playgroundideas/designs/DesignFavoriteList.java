@@ -57,8 +57,10 @@ public class DesignFavoriteList extends DaggerFragment {
         shareDialog = new ShareDialog(getActivity());
         myFavoriteGrid = view.findViewById(R.id.my_favorite_grid);
         searchView = (SearchView) view.findViewById(R.id.search_favorite);
+        // Construct the adapter to fill data into view components
         gridViewAdapterFavorite = new GridViewAdapterFavorite(getActivity(),callbackManager,shareDialog);
         myFavoriteGrid.setAdapter(gridViewAdapterFavorite);
+        // Initialize the searchView
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -73,6 +75,7 @@ public class DesignFavoriteList extends DaggerFragment {
                 return false;
             }
         });
+        // Initialize the spinner
         spinner = (Spinner) view.findViewById(R.id.spinner_favorite);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -96,7 +99,7 @@ public class DesignFavoriteList extends DaggerFragment {
     }
 
 
-
+    // Initialize a floating action button for switching from the favorite design page to the design browsing page
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -126,6 +129,7 @@ public class DesignFavoriteList extends DaggerFragment {
 
     }
 
+    //Facebook sharing needs it
     public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);

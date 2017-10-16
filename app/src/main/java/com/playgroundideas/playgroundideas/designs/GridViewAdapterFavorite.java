@@ -40,20 +40,25 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import com.facebook.FacebookSdk;
 import com.playgroundideas.playgroundideas.model.Design;
+import com.playgroundideas.playgroundideas.model.DesignCategory;
 
 /**
  * Created by Peter Chen on 2017/8/29.
  */
+
+// This adpater is defined for filling data into each view, seraching designs in terms of keywords
+// and categories in the favourite design page.
 class GridViewAdapterFavorite extends BaseAdapter implements Filterable{
 
     private CustomFilter1 filter1;
     String previousQuery = null;
     String catergory = "All";
-    private ArrayList<DesignItem> filterList;
-    private ArrayList<DesignItem> list;
+    private ArrayList<Design> filterList;
+    private ArrayList<Design> list;
     private Context context;
     private CallbackManager callbackManager;
     private ShareDialog shareDialog;
@@ -67,11 +72,12 @@ class GridViewAdapterFavorite extends BaseAdapter implements Filterable{
         return filter1;
     }
 
-    public void designItemsChanged(List<DesignItem> designs) {
-        this.filterList = (ArrayList<DesignItem>) designs;
+    public void designItemsChanged(List<Design> designs) {
+        this.filterList = (ArrayList<Design>) designs;
         notifyDataSetChanged();
     }
 
+    // The definition of searching designs in terms of keywords and categories.
     protected class CustomFilter1 extends Filter {
         FilterResults results;
         @Override
@@ -80,11 +86,11 @@ class GridViewAdapterFavorite extends BaseAdapter implements Filterable{
             if(constraint != null && constraint.length() > 0){
                 constraint = constraint.toString().toUpperCase();
 
-                ArrayList<DesignItem> filters = new ArrayList<>();
+                ArrayList<Design> filters = new ArrayList<>();
 
                 for(int i = 0; i < filterList.size(); i++){
                     if (filterList.get(i).getName().toUpperCase().contains(constraint)) {
-                        DesignItem item = new DesignItem(filterList.get(i));
+                        Design item = filterList.get(i);
                         filters.add(item);
                     }
                     results.count = filters.size();
@@ -97,11 +103,11 @@ class GridViewAdapterFavorite extends BaseAdapter implements Filterable{
             }
 
             if(!catergory.equalsIgnoreCase("All")) {
-                ArrayList<DesignItem> temp = (ArrayList<DesignItem>) results.values;
-                ArrayList<DesignItem> filterResults = new ArrayList<>();
+                ArrayList<Design> temp = (ArrayList<Design>) results.values;
+                ArrayList<Design> filterResults = new ArrayList<>();
                 for (int i = 0; i < temp.size(); i++) {
-                    if (temp.get(i).getCatergory().equalsIgnoreCase(catergory)) {
-                        DesignItem item = new DesignItem(temp.get(i));
+                    if (temp.get(i).getCategory().getDescription().equalsIgnoreCase(catergory)) {
+                        Design item = temp.get(i);
                         filterResults.add(item);
                     }
                 }
@@ -113,12 +119,12 @@ class GridViewAdapterFavorite extends BaseAdapter implements Filterable{
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            list = (ArrayList<DesignItem>) results.values;
+            list = (ArrayList<Design>) results.values;
             notifyDataSetChanged();
         }
     }
 
-
+    // The holder used for optimizing the grid list perfomance.
     private class ViewHolder {
         private TextView name;
         private ImageView image;
@@ -176,7 +182,7 @@ class GridViewAdapterFavorite extends BaseAdapter implements Filterable{
     }
 
     GridViewAdapterFavorite(Context context,CallbackManager callbackManager, ShareDialog shareDialog){
-        list = new ArrayList<DesignItem>();
+        list = new ArrayList<Design>();
         this.context = context;
         this.callbackManager = callbackManager;
         this.shareDialog = shareDialog;
@@ -192,11 +198,13 @@ class GridViewAdapterFavorite extends BaseAdapter implements Filterable{
                 "https://playgroundideas.org/wp-content/uploads/design_gallery/slide tile.jpg",
                 "https://playgroundideas.org/wp-content/uploads/design_gallery/Scorpion.jpg"
             };
-        String[] catergory = {"Bridges", "Climbing", "Cubbies/Platforms/", "Groundlevel", "Musical", "Seating", "Seesaws", "Slides",
-        "Swings", "Tunnels", "Tyre Elements"};
+        DesignCategory[] catergory = {DesignCategory.BRIDGES.BRIDGES, DesignCategory.CLIMBING, DesignCategory.CP, DesignCategory.GROUNDLEVEL,
+                DesignCategory.MUSICAL, DesignCategory.SEATING, DesignCategory.SEESAWS, DesignCategory.BRIDGES.SLIDES, DesignCategory.SWINGS,
+                DesignCategory.SWINGS, DesignCategory.TUNNELS, DesignCategory.TE};
 
         for(int i = 0; i < name.length; i++){
-            list.add(new DesignItem(name[i], imageUrls[i], catergory[i]));
+            long id = (long) i;
+            list.add(new Design(1, id, name[i], (long)1, catergory[i], "description", "Materials", true, true, "Safe", "Steps", "Tools", imageUrls[i]));
         }
         this.filterList = list;
 
@@ -218,10 +226,11 @@ class GridViewAdapterFavorite extends BaseAdapter implements Filterable{
         return i;
     }
 
+    //Handling the event of clicking a picture or a delete button.
     class ButtonHandler implements View.OnClickListener {
         private int itemSeq;
-        private DesignItem designItem;
-        public ButtonHandler(int i, DesignItem designItem)
+        private Design designItem;
+        public ButtonHandler(int i, Design designItem)
         {
             this.itemSeq = i;
             this.designItem = designItem;
@@ -248,15 +257,13 @@ class GridViewAdapterFavorite extends BaseAdapter implements Filterable{
                     toast.show();
                     Intent intent = new Intent(context, DesignDetailsActivity.class);
                     intent.putExtra("designName", this.designItem.getName());
-                    intent.putExtra("designDetail", this.designItem.getImageUrl());
+                    intent.putExtra("designDetail", this.designItem.getPictureUrl());
                     context.startActivity(intent);
                     break;
                 case R.id.add_or_delete_button:
                         toast = Toast.makeText(context, textItemNum +
                                 " favorite design was removed.", Toast.LENGTH_SHORT);
                         toast.show();
-                        filterList.remove(itemSeq);
-                        notifyDataSetChanged();
                     break;
 
             }
@@ -264,7 +271,7 @@ class GridViewAdapterFavorite extends BaseAdapter implements Filterable{
         }
     }
 
-
+    // Fill data into each view.
     public View getView(int i, View view, ViewGroup viewGroup) {
 
         View designItem = view;
@@ -280,9 +287,9 @@ class GridViewAdapterFavorite extends BaseAdapter implements Filterable{
             holder = (ViewHolder) designItem.getTag();
         }
 
-        final DesignItem temp_item = list.get(i);
+        final Design temp_item = list.get(i);
         holder.name.setText(temp_item.getName());
-        Glide.with(context).load(temp_item.getImageUrl())
+        Glide.with(context).load(temp_item.getPictureUrl())
                 .into(holder.image);
         ButtonHandler buttonHandler = new ButtonHandler(i, temp_item);
         holder.image.setOnClickListener(buttonHandler);
@@ -310,7 +317,7 @@ class GridViewAdapterFavorite extends BaseAdapter implements Filterable{
             public void onClick(View view) {
                 if (ShareDialog.canShow(ShareLinkContent.class)) {
                     ShareLinkContent linkContent = new ShareLinkContent.Builder()
-                            .setContentUrl(Uri.parse(temp_item.getImageUrl()))
+                            .setContentUrl(Uri.parse(temp_item.getPictureUrl()))
                             .build();
                     shareDialog.show(linkContent);
                 }
