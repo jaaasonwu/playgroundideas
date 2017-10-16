@@ -18,7 +18,8 @@
 
         <TextView
             android:id="@+id/project_title"
-            android:layout_width="189dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:paddingBottom="10dp"
             android:paddingTop="5dp"
@@ -28,7 +29,8 @@
 
         <TextView
             android:id="@+id/project_date"
-            android:layout_width="189dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:gravity="right"
             android:paddingBottom="10dp"

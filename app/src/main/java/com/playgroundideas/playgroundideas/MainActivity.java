@@ -1,5 +1,6 @@
 package com.playgroundideas.playgroundideas;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -95,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         inflater.inflate(R.menu.toolbar_overflow_menu, menu);
         // Set an icon in the toolbar
         menu.findItem(R.id.action_settings).setIcon(
-                new IconDrawable(this, MaterialIcons.md_settings)
+                new IconDrawable(this, MaterialIcons.md_perm_identity)
                         .colorRes(R.color.white)
                         .actionBarSize());
 
@@ -106,8 +107,9 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_settings:
-                // User chose the "Settings" item, show the app settings UI
-                // TODO
+                Intent intent = new Intent();
+                intent.setClass(this, AccountInfoActivity.class);
+                startActivity(intent);
                 return true;
             default:
                 // If we got here, the user's action was not recognized.

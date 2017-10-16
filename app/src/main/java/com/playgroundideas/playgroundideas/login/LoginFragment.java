@@ -25,15 +25,17 @@ import com.playgroundideas.playgroundideas.datasource.remote.LoginWebservice;
 
 import java.io.IOException;
 
+import javax.inject.Inject;
+
+import dagger.android.support.DaggerFragment;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 /**
  * A fragment to handle login
  */
-public class LoginFragment extends Fragment {
+public class LoginFragment extends DaggerFragment {
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -46,10 +48,9 @@ public class LoginFragment extends Fragment {
     private View mProgressView;
     private View mLoginFormView;
     private Button mLoginButton;
-    private String mWpUrl = "http://swen90014v-2017plp.cis.unimelb.edu.au/";
-
-    Retrofit.Builder builder = new Retrofit.Builder().baseUrl(mWpUrl);
-    Retrofit retrofit = builder.build();
+    private TextView mForget;
+    @Inject
+    LoginWebservice mLoginWebservice;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -87,6 +88,8 @@ public class LoginFragment extends Fragment {
 
         mLoginFormView = mRootView.findViewById(R.id.login_form);
         mProgressView = mRootView.findViewById(R.id.login_progress);
+        mForget = mRootView.findViewById(R.id.forget_password);
+        mForget.setOnClickListener(new OnForgetClick());
         setSwitchSignupListener();
         getActivity().setTitle(R.string.action_log_in);
 
@@ -103,6 +106,14 @@ public class LoginFragment extends Fragment {
                 fragmentTransaction.replace(R.id.login_container, signupFragment).commit();
             }
         });
+    }
+
+    private class OnForgetClick implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            String email = mEmailView.getText().toString();
+            mLoginWebservice.forgetPassword(email);
+        }
     }
 
 
@@ -212,11 +223,10 @@ public class LoginFragment extends Fragment {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            LoginWebservice login = retrofit.create(LoginWebservice.class);
             String info = mEmail + ":" + mPassword;
 
             String authHeader = "Basic " + Base64.encodeToString(info.getBytes(), Base64.NO_WRAP);
-            Call<ResponseBody> call = login.authenticate(authHeader);
+            Call<ResponseBody> call = mLoginWebservice.authenticate(authHeader);
 
             try {
                 Response<ResponseBody> response = call.execute();

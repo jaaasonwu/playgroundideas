@@ -7,8 +7,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.playgroundideas.playgroundideas.R;
-import com.playgroundideas.playgroundideas.plans.PlanBrowser;
-import com.playgroundideas.playgroundideas.plans.PlanList;
 
 
 class DesignTabPagerAdapter extends FragmentPagerAdapter {
