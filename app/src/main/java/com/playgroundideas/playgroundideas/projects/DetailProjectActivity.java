@@ -2,21 +2,16 @@ package com.playgroundideas.playgroundideas.projects;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
-import android.provider.MediaStore;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.BitmapImageViewTarget;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
-import com.facebook.share.model.ShareLinkContent;
+import com.facebook.FacebookSdk;
 import com.facebook.share.model.SharePhoto;
 import com.facebook.share.model.SharePhotoContent;
 import com.facebook.share.widget.ShareDialog;
@@ -25,7 +20,6 @@ import com.playgroundideas.playgroundideas.R;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import com.facebook.FacebookSdk;
 
 public class DetailProjectActivity extends AppCompatActivity {
 
@@ -35,6 +29,7 @@ public class DetailProjectActivity extends AppCompatActivity {
     private TextView startDateView;
     private TextView endDateView;
     private ImageView imageView;
+    private TextView emailAddressView;
     private ProjectItem sampleProject;
     private FloatingActionButton mShare;
     private TextView mEmailShare;
@@ -54,6 +49,7 @@ public class DetailProjectActivity extends AppCompatActivity {
         startDateView = (TextView) findViewById(R.id.project_start_date);
         endDateView = (TextView) findViewById(R.id.project_end_date);
         imageView =(ImageView) findViewById(R.id.project_detail_image);
+        emailAddressView = (TextView) findViewById(R.id.paypal_email);
 
         titleView.setText(sampleProject.getProjectTtile());
         contryView.setText(sampleProject.getCountry());
