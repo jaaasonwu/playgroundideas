@@ -16,41 +16,35 @@ public class DetailProjectActivity extends AppCompatActivity {
 
     private TextView titleView;
     private TextView contryView;
-    private TextView currencyView;
     private TextView descriptionView;
     private TextView startDateView;
     private TextView endDateView;
     private ImageView imageView;
-    private TextView emailAddressView;
     private ProjectItem sampleProject;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_project);
 
-        intial();
+        initial();
 
         titleView =(TextView) findViewById(R.id.title_project_detail);
         contryView = (TextView) findViewById(R.id.title_project_country);
-        currencyView = (TextView) findViewById(R.id.currency);
         descriptionView = (TextView) findViewById(R.id.description);
         startDateView = (TextView) findViewById(R.id.project_start_date);
         endDateView = (TextView) findViewById(R.id.project_end_date);
         imageView =(ImageView) findViewById(R.id.project_detail_image);
-        emailAddressView = (TextView) findViewById(R.id.paypal_email);
 
         titleView.setText(sampleProject.getProjectTtile());
         contryView.setText(sampleProject.getCountry());
-        currencyView.setText(sampleProject.getCurrency());
         descriptionView.setText(sampleProject.getProjectDescription());
         String ProjectDate = new SimpleDateFormat("dd-MM-yyyy").format(sampleProject.getStartDate());
         startDateView.setText(ProjectDate);
         endDateView.setText(ProjectDate);
-        emailAddressView.setText(sampleProject.getEmailAddress());
         Glide.with(this).load(sampleProject.getImageUrl()).into(imageView);
     }
 
-    private void intial() {
+    private void initial() {
 
         Calendar mCalendar = Calendar.getInstance();
         Date sampleDate = mCalendar.getTime();

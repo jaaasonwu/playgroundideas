@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.playgroundideas.playgroundideas.R;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 
@@ -55,7 +54,6 @@ public class ProjectsListAdapter extends BaseAdapter {
             holder = new ViewHolder();
             holder.titleTextView = (TextView) converView.findViewById(R.id.project_title);
             holder.imageProjectView = (ImageView) converView.findViewById(R.id.project_image);
-            holder.dateTextView = (TextView) converView.findViewById(R.id.project_date);
 
             converView.setTag(holder);
         } else {
@@ -64,9 +62,7 @@ public class ProjectsListAdapter extends BaseAdapter {
         }
 
         String ProjectTitle = mProject.get(position).getProjectTtile();
-        String ProjectDate = new SimpleDateFormat("dd-MM-yyyy").format(mProject.get(position).getStartDate());
         holder.titleTextView.setText(ProjectTitle);
-        holder.dateTextView.setText(ProjectDate);
         Glide.with(mContext).load(mProject.get(position).getImageUrl())
                             .into(holder.imageProjectView);
 
@@ -75,7 +71,6 @@ public class ProjectsListAdapter extends BaseAdapter {
 
     public static class ViewHolder {
         TextView titleTextView;
-        TextView dateTextView;
         ImageView imageProjectView;
     }
 
