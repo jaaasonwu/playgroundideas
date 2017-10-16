@@ -12,6 +12,7 @@ import android.view.MenuItem;
 
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.Iconify;
+import com.joanzapata.iconify.fonts.MaterialCommunityModule;
 import com.joanzapata.iconify.fonts.MaterialIcons;
 import com.joanzapata.iconify.fonts.MaterialModule;
 import com.playgroundideas.playgroundideas.designs.DesignsFragment;
@@ -61,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Iconify.with(new MaterialModule());
+        Iconify.with(new MaterialCommunityModule());
 
         // bottom navigation view
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);

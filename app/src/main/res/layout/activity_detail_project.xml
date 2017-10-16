@@ -58,8 +58,8 @@
             android:layout_below="@+id/email_share"
             android:layout_marginTop="22dp"
             android:backgroundTint="@android:color/background_dark"
-            android:text="@string/facebook_share1"
-            android:textColor="@android:color/holo_blue_dark"
+            android:text="@string/facebook_share"
+            android:textColor="@color/blue"
             android:textSize="35sp"
             android:visibility="invisible" />
 
