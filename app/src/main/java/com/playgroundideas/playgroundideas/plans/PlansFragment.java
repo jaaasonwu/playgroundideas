@@ -1,19 +1,16 @@
 package com.playgroundideas.playgroundideas.plans;
 
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.playgroundideas.playgroundideas.R;
 
 public class PlansFragment extends Fragment {
-
-    private PlanTabPagerAdapter planTabPagerAdapter;
-    ViewPager viewPager;
+    private Button planButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -24,16 +21,16 @@ public class PlansFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(
                 R.layout.fragment_plans, container, false);
-
-        // create the swipe views
-        planTabPagerAdapter = new PlanTabPagerAdapter(getChildFragmentManager(), getContext());
-        viewPager = rootView.findViewById(R.id.planPager);
-        viewPager.setAdapter(planTabPagerAdapter);
-
-        TabLayout tabLayout = rootView.findViewById(R.id.plan_tabs);
-        tabLayout.setupWithViewPager(viewPager);
-
+        planButton = rootView.findViewById(R.id.plan_button);
+        planButton.setOnClickListener(new PlanButtonClickListener());
         return rootView;
+    }
+
+    private class PlanButtonClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            // TODO open an external app
+        }
     }
 
 }
