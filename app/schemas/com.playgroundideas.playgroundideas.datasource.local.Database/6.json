@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 6,
-    "identityHash": "ac29617af9a21bcb2503846ab609fc35",
+    "identityHash": "6bc44f57147b5a38f2b2b9bafa92e953",
     "entities": [
       {
         "tableName": "User",
@@ -56,7 +56,7 @@
       },
       {
         "tableName": "Design",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT, `creatorId` INTEGER, `category` TEXT, `description` TEXT, `published` INTEGER NOT NULL, `pickedByStaff` INTEGER NOT NULL, `safetyConsiderations` TEXT, `buildingSteps` TEXT, `buildingMaterials` TEXT, `buildingTools` TEXT, `pictureUrl` TEXT, `version` INTEGER NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`creatorId`) REFERENCES `User`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT, `creatorId` INTEGER, `category` TEXT, `description` TEXT, `published` INTEGER NOT NULL, `pickedByStaff` INTEGER NOT NULL, `safetyConsiderations` TEXT, `buildingSteps` TEXT, `buildingMaterials` TEXT, `buildingTools` TEXT, `version` INTEGER NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`creatorId`) REFERENCES `User`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "id",
@@ -125,12 +125,6 @@
             "notNull": false
           },
           {
-            "fieldPath": "pictureUrl",
-            "columnName": "pictureUrl",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
             "fieldPath": "version",
             "columnName": "version",
             "affinity": "INTEGER",
@@ -177,7 +171,7 @@
       },
       {
         "tableName": "Manual",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT, `version` INTEGER NOT NULL, `pdf_manualId` INTEGER, `pdf_name` TEXT, `html_manualId` INTEGER, `html_name` TEXT, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT, `downloaded` INTEGER, `version` INTEGER NOT NULL, `pdf_manualId` INTEGER, `pdf_name` TEXT, `html_manualId` INTEGER, `html_name` TEXT, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -189,6 +183,12 @@
             "fieldPath": "name",
             "columnName": "name",
             "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "downloaded",
+            "columnName": "downloaded",
+            "affinity": "INTEGER",
             "notNull": false
           },
           {
@@ -647,7 +647,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"ac29617af9a21bcb2503846ab609fc35\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"6bc44f57147b5a38f2b2b9bafa92e953\")"
     ]
   }
 }

@@ -1,37 +1,21 @@
 package com.playgroundideas.playgroundideas.datasource.remote;
 
-import com.playgroundideas.playgroundideas.model.Manual;
-import com.playgroundideas.playgroundideas.model.ManualChapter;
-
-import java.util.List;
-import java.util.Map;
-
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import retrofit2.http.Streaming;
 
-/**
- * Created by Ferdinand on 10/09/2017.
- */
 
 public interface ManualWebservice {
+    @Streaming
+    @GET("/manuals/{manual}")
+    Call<ResponseBody> getManual(@Path("manual") String manual);
 
-    @GET("/manual/{manual}")
-    Call<Manual> getManual(@Path("manual") long id);
+    @Streaming
+    @GET("/manuals/{manual}/{id}")
+    Call<ResponseBody> getChapter(@Path("manual") String manual, @Path("id") int id);
 
-    @GET("/manual/{manual}/version")
-    Call<Long> getVersion(@Path("manual") long id);
-
-    @GET("/manual/all")
-    Call<List<Manual>> getAllManual();
-
-    @GET("/manual/all/version")
-    Call<Map<Long, Long>> getVersionOfAll();
-
-    @GET("/manual/{manualId}/pdf")
-    Call<ResponseBody> getPdfOf(@Path("manualId") long manualId);
-
-    @GET("/manual/{manualId}/chapter/all")
-    Call<List<ManualChapter>> getChaptersOf(@Path("manualId") long manualId);
+    @GET("/manuals/info")
+    Call<ResponseBody> getInfo();
 }

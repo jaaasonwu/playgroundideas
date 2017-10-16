@@ -1,5 +1,6 @@
 package com.playgroundideas.playgroundideas;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -11,6 +12,7 @@ import android.view.MenuItem;
 
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.Iconify;
+import com.joanzapata.iconify.fonts.MaterialCommunityModule;
 import com.joanzapata.iconify.fonts.MaterialIcons;
 import com.joanzapata.iconify.fonts.MaterialModule;
 import com.playgroundideas.playgroundideas.designs.DesignsFragment;
@@ -60,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Iconify.with(new MaterialModule());
+        Iconify.with(new MaterialCommunityModule());
 
         // bottom navigation view
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
@@ -95,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         inflater.inflate(R.menu.toolbar_overflow_menu, menu);
         // Set an icon in the toolbar
         menu.findItem(R.id.action_settings).setIcon(
-                new IconDrawable(this, MaterialIcons.md_settings)
+                new IconDrawable(this, MaterialIcons.md_perm_identity)
                         .colorRes(R.color.white)
                         .actionBarSize());
 
@@ -106,8 +109,9 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_settings:
-                // User chose the "Settings" item, show the app settings UI
-                // TODO
+                Intent intent = new Intent();
+                intent.setClass(this, AccountInfoActivity.class);
+                startActivity(intent);
                 return true;
             default:
                 // If we got here, the user's action was not recognized.
