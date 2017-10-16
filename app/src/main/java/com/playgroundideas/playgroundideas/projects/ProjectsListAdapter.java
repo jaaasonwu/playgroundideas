@@ -5,20 +5,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.playgroundideas.playgroundideas.R;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 
 
-public class ProjectsListAdapter extends BaseAdapter {
+public class ProjectsListAdapter extends BaseAdapter implements Filterable{
 
 
     private List<ProjectItem> mProject;
+    private List<ProjectItem> mSearchList;
+    private String filterByCountry = "ALL";
+    private String previousQuery = null;
     private Context mContext;
 
 
@@ -74,4 +81,61 @@ public class ProjectsListAdapter extends BaseAdapter {
         ImageView imageProjectView;
     }
 
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                final FilterResults oReturn = new FilterResults();
+                ArrayList<ProjectItem> results = new ArrayList<ProjectItem>();
+                ArrayList<ProjectItem> temp = new ArrayList<ProjectItem>();
+                if (mSearchList == null) {
+                    mSearchList = mProject;
+                }
+                if (charSequence != null) {
+                    if (mSearchList != null && mSearchList.size() > 0) {
+                        for (ProjectItem pro : mSearchList) {
+                            if (pro.getProjectTtile().toLowerCase().contains(charSequence.toString().toLowerCase())) {
+                                temp.add(pro);
+                            }
+                        }
+                    }
+                } else {
+                    for (ProjectItem pro : mSearchList) {
+                        temp.add(pro);
+                    }
+                }
+
+                if(!filterByCountry.equalsIgnoreCase("all")) {
+                    for (ProjectItem pro : temp) {
+                        if (pro.getCountry().equalsIgnoreCase(filterByCountry)) {
+                            results.add(pro);
+                        }
+                    }
+                } else {
+                    results = temp;
+                }
+                oReturn.count = results.size();
+                oReturn.values = results;
+                return oReturn;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                mProject = (ArrayList<ProjectItem>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
+    }
+
+    public void setFilterByCountry(String filterByCountry) {
+        this.filterByCountry = filterByCountry;
+    }
+
+    public void setPreviousQuery(String previousQuery) {
+        this.previousQuery = previousQuery;
+    }
+
+    public String getPreviousQuery() {
+        return previousQuery;
+    }
 }

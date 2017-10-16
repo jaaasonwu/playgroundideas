@@ -1,4 +1,5 @@
 package com.playgroundideas.playgroundideas.di;
+
 import dagger.android.AndroidInjector;
 import dagger.android.support.DaggerApplication;
 
@@ -19,5 +20,4 @@ public class PlaygroundApp extends DaggerApplication {
         appComponent.inject(this);
         return appComponent;
     }
-
 }

@@ -1,7 +1,10 @@
 package com.playgroundideas.playgroundideas.di.screens;
 
+import com.playgroundideas.playgroundideas.AccountInfoActivity;
 import com.playgroundideas.playgroundideas.designs.DesignBrowseList;
 import com.playgroundideas.playgroundideas.designs.DesignFavoriteList;
+import com.playgroundideas.playgroundideas.login.LoginFragment;
+import com.playgroundideas.playgroundideas.login.SignUpFragment;
 import com.playgroundideas.playgroundideas.manuals.ManualExpandableList;
 import com.playgroundideas.playgroundideas.manuals.ManualsOfflineList;
 import com.playgroundideas.playgroundideas.projects.ProjectBrowser;
@@ -30,4 +33,13 @@ public abstract class FragmentBuilderModule {
 
     @ContributesAndroidInjector(modules = {ViewModelModule.class})
     abstract ProjectBrowser contributeProjectBrowser();
+
+    @ContributesAndroidInjector
+    abstract LoginFragment contributeLoginFragment();
+
+    @ContributesAndroidInjector
+    abstract SignUpFragment contributeSignUpFragment();
+
+    @ContributesAndroidInjector
+    abstract AccountInfoActivity contributesAccountInfoActivity();
 }

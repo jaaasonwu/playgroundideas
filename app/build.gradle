@@ -50,6 +50,7 @@ dependencies {
 
     // convenient material icons
     compile 'com.joanzapata.iconify:android-iconify-material:2.2.2'
+    compile 'com.joanzapata.iconify:android-iconify-material-community:2.2.1'
 
     // android architecture components
     compile 'android.arch.lifecycle:extensions:1.0.0-beta1'
@@ -77,5 +78,8 @@ dependencies {
     // json serialisation and deserialisation
     compile 'com.google.code.gson:gson:2.8.2'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+
+    // facebook SDK
+    compile 'com.facebook.android:facebook-share:[4,5)'
 
 }

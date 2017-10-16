@@ -20,6 +20,7 @@ public class Manual extends VersionedEntity{
     private ManualFileInfo pdfInfo;
     @Embedded(prefix = "html_")
     private ManualFileInfo htmlInfo;
+    private Boolean downloaded;
 
     public Manual(long version, Long id, String name, ManualFileInfo pdfInfo, ManualFileInfo htmlInfo) {
         super(version);
@@ -27,6 +28,15 @@ public class Manual extends VersionedEntity{
         this.name = name;
         this.pdfInfo = pdfInfo;
         this.htmlInfo = htmlInfo;
+        this.downloaded = false;
+    }
+
+    public Boolean getDownloaded() {
+        return downloaded;
+    }
+
+    public void setDownloaded(Boolean downloaded) {
+        this.downloaded = downloaded;
     }
 
     public Long getId() {
