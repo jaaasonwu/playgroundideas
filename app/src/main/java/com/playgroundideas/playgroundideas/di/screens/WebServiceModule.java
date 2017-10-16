@@ -42,7 +42,7 @@ public class WebServiceModule {
     @Provides
     ManualWebservice provideManualWebService() {
         return new Retrofit.Builder()
-                .baseUrl("https://api.playgroundIdeas.org/user/").addConverterFactory(GsonConverterFactory.create()).build().create(ManualWebservice.class);
+                .baseUrl("http://swen90014v-2017plp.cis.unimelb.edu.au:3000/").build().create(ManualWebservice.class);
     }
 
     @Singleton

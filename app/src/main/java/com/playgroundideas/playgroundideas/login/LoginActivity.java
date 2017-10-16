@@ -17,6 +17,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setTitle(R.string.action_log_in);
         setContentView(R.layout.activity_login);
+        // Initialize the app with the login page
         FragmentTransaction fragmentTransaction= getSupportFragmentManager().beginTransaction();
         Fragment loginFragment = new LoginFragment();
         fragmentTransaction.add(R.id.login_container, loginFragment).commit();
