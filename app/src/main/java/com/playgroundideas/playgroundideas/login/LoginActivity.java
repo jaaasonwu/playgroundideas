@@ -22,5 +22,9 @@ public class LoginActivity extends AppCompatActivity {
         Fragment loginFragment = new LoginFragment();
         fragmentTransaction.add(R.id.login_container, loginFragment).commit();
     }
+
+    @Override
+    public void onBackPressed() {
+    }
 }
 

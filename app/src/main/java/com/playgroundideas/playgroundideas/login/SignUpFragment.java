@@ -10,13 +10,19 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.playgroundideas.playgroundideas.R;
+import com.playgroundideas.playgroundideas.datasource.remote.LoginWebservice;
 
-public class SignUpFragment extends Fragment {
+import javax.inject.Inject;
+
+import dagger.android.support.DaggerFragment;
+
+public class SignUpFragment extends DaggerFragment {
     // UI references.
     private View mRootView;
     private TextView mEmailView;
-    private View mLoginFormView;
-    private Button mLoginButton;
+    private Button mSignupButton;
+    @Inject
+    LoginWebservice mLoginWebservice;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -28,9 +34,9 @@ public class SignUpFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mRootView = inflater.inflate(R.layout.fragment_signup, container, false);
-        mEmailView = mRootView.findViewById(R.id.email);
-        mLoginButton = mRootView.findViewById(R.id.email_sign_in_button);
-        mLoginFormView = mRootView.findViewById(R.id.login_form);
+        mEmailView = mRootView.findViewById(R.id.signup_email);
+        mSignupButton = mRootView.findViewById(R.id.email_sign_up_button);
+        mSignupButton.setOnClickListener(new OnSignupClick());
 
         // Change the title of the activity
         getActivity().setTitle(R.string.action_sign_up);
@@ -52,5 +58,13 @@ public class SignUpFragment extends Fragment {
                 fragmentTransaction.replace(R.id.login_container, loginFragment).commit();
             }
         });
+    }
+
+    private class OnSignupClick implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            String email = mEmailView.getText().toString();
+            mLoginWebservice.signup(email);
+        }
     }
 }

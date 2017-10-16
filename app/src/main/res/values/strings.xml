@@ -7,7 +7,7 @@
 
     <string name="fav_designs">Favourite Designs</string>
     <string name="brs_designs">Browse Designs</string>
-    <string name="my_plans">My Plans</string>
+    <string name="my_plans">Plan Tool</string>
     <string name="brs_plans">Browse Plans</string>
     <string name="offline_manuals">Offline Manuals</string>
     <string name="my_projects">My Projects</string>
@@ -65,6 +65,18 @@
     <string name="relative_project_pictures_directory_name">playgroundProjectPictures</string>
     <string name="preference_file_key">org.playgroundIdeas.app.android.preferenceFile</string>
     <string name="saved_user">saved_user</string>
+
+    <string name="firstname">First Name</string>
+    <string name="lastname">Last Name</string>
+    <string name="email">Email</string>
+    <string name="save_settings">Save Settings</string>
+    <string name="details">Details</string>
+    <string name="donation">Donation Method</string>
+    <string name="account_info">Account Information</string>
+    <string name="logout">Log out</string>
+    <string name="forget_pass">Forget Password?</string>
+    <string name="or">Or</string>
+
     <string name="download_failed">Download failed. Please check your Internet connection.</string>
     <string name="download_start">Download started.</string>
     <string name="download_finished">Download finished!</string>
@@ -73,4 +85,5 @@
     <string name="project_post_status_draft_description">The project is currently saved but not submitted for approval or displayed on the website.</string>
     <string name="project_post_status_pending_approval_description">The project is currently saved and has been submitted for approval.</string>
     <string name="project_post_status_paused_description">The project was paused. (everything is saved, but not available on the site)</string>
+    <string name="plan_open_button">Open Plan Tool</string>
 </resources>
