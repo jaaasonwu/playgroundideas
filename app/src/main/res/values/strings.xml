@@ -7,7 +7,7 @@
 
     <string name="fav_designs">Favourite Designs</string>
     <string name="brs_designs">Browse Designs</string>
-    <string name="my_plans">Plan Tool</string>
+    <string name="my_plans">My Plans</string>
     <string name="brs_plans">Browse Plans</string>
     <string name="offline_manuals">Offline Manuals</string>
     <string name="my_projects">My Projects</string>
@@ -82,5 +82,9 @@
     <string name="project_post_status_draft_description">The project is currently saved but not submitted for approval or displayed on the website.</string>
     <string name="project_post_status_pending_approval_description">The project is currently saved and has been submitted for approval.</string>
     <string name="project_post_status_paused_description">The project was paused. (everything is saved, but not available on the site)</string>
+    <string name="email_share">{md-email}</string>
+    <string name="facebook_share">{mdi-facebook-box}</string>
+    <string name="facebook_share1">{md-share}</string>
+    <string name="facebook_app_id">705598346299936</string>
     <string name="plan_open_button">Open Plan Tool</string>
 </resources>
