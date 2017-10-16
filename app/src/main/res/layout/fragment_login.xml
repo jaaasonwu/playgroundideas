@@ -96,10 +96,28 @@
                 android:background="@color/colorPrimary"/>
 
             <TextView
+                android:id="@+id/forget_password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/forget_pass"
+                android:layout_marginTop="8dp"
+                android:layout_gravity="center"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/or"
+                android:layout_marginTop="8dp"
+                android:layout_gravity="center"
+                android:textColor="@color/colorAccent"
+                android:textSize="12sp"/>
+
+
+            <TextView
                 android:id="@+id/switch_signup"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
-                android:layout_marginTop="16dp"
                 android:gravity="center"
                 android:text="@string/create_account_prompt"
                 android:textSize="18sp"/>

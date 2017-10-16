@@ -65,6 +65,18 @@
     <string name="relative_project_pictures_directory_name">playgroundProjectPictures</string>
     <string name="preference_file_key">org.playgroundIdeas.app.android.preferenceFile</string>
     <string name="saved_user">saved_user</string>
+
+    <string name="firstname">First Name</string>
+    <string name="lastname">Last Name</string>
+    <string name="email">Email</string>
+    <string name="save_settings">Save Settings</string>
+    <string name="details">Details</string>
+    <string name="donation">Donation Method</string>
+    <string name="account_info">Account Information</string>
+    <string name="logout">Log out</string>
+    <string name="forget_pass">Forget Password?</string>
+    <string name="or">Or</string>
+
     <string name="database_file_name">playgroundIdeas.db</string>
     <string name="project_post_status_publish_description">The Project has been approved and published on the site.</string>
     <string name="project_post_status_draft_description">The project is currently saved but not submitted for approval or displayed on the website.</string>
