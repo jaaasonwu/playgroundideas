@@ -1,40 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="10dp"
-        app:srcCompat="@drawable/sample1"
-        android:scaleType="centerCrop"/>
 
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_gravity="center"
-        >
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:lines="2"
-            android:gravity="center"
-            android:textSize="16sp"/>
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="200dp"
+            android:layout_height="150dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="10dp"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/sample1" />
+
+
         <Button
             android:id="@+id/add_or_delete_button"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:background="@color/yellow"
-            android:layout_marginBottom="16dp"
-            android:text="@string/add_button"
-            android:textColor="@color/white"/>
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/imageView"
+            android:layout_centerInParent="true"
+            android:background="@android:color/transparent"
+            android:text="@string/add_button" />
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/add_or_delete_button"
+            android:layout_centerHorizontal="true"
+            android:textStyle="bold"
+            android:textColor="@color/colorAccent"
+            android:text="TextView" />
 
-</FrameLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignEnd="@+id/add_or_delete_button"
+            android:layout_marginTop="10dp">
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab_share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:elevation="6dp"
+                app:borderWidth="0dp"
+                app:fabSize="mini"
+                app:pressedTranslationZ="12dp" />
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab_facebook_share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/fab_share"
+                android:backgroundTint="@color/blue"
+                android:elevation="3dp"
+                android:visibility="invisible"
+                app:borderWidth="0dp"
+                app:fabSize="mini"
+                android:layout_marginTop="3dp"
+                app:pressedTranslationZ="12dp"
+                tools:layout_editor_absoluteX="60dp"
+                tools:layout_editor_absoluteY="0dp" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab_email_share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/fab_facebook_share"
+                android:backgroundTint="@color/colorAccent"
+                android:elevation="3dp"
+                android:visibility="invisible"
+                app:borderWidth="0dp"
+                app:fabSize="mini"
+                android:layout_marginTop="3dp"
+                app:pressedTranslationZ="12dp"
+                tools:layout_editor_absoluteX="30dp"
+                tools:layout_editor_absoluteY="0dp" />
+        </RelativeLayout>
+    </RelativeLayout>
+</RelativeLayout>

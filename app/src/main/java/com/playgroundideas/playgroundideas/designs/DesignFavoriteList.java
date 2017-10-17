@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +48,6 @@ public class DesignFavoriteList extends DaggerFragment {
     private CallbackManager callbackManager;
     private ShareDialog shareDialog;
     private GridViewAdapter gridViewAdapter;
-    private ArrayList<Design> favoriteList;
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -61,7 +61,7 @@ public class DesignFavoriteList extends DaggerFragment {
         myFavoriteGrid = view.findViewById(R.id.my_favorite_grid);
         searchView = (SearchView) view.findViewById(R.id.search_favorite);
         // Construct the adapter to fill data into view components
-        gridViewAdapter = new GridViewAdapter(getActivity(),callbackManager,shareDialog,favoriteList,true);
+        gridViewAdapter = new GridViewAdapter(getActivity(),callbackManager,shareDialog,true);
         myFavoriteGrid.setAdapter(gridViewAdapter);
         // Initialize the searchView
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -88,9 +88,6 @@ public class DesignFavoriteList extends DaggerFragment {
                 Filter filter = gridViewAdapter.getFilter();
                 gridViewAdapter.catergory = option.getText().toString();
                 filter.filter(gridViewAdapter.previousQuery);
-
-
-
             }
 
             @Override
@@ -110,6 +107,7 @@ public class DesignFavoriteList extends DaggerFragment {
         designsAddFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.e("fab", "fav");
                 designsFragment = (DesignsFragment) getParentFragment();
                 designsFragment.respond();
             }
@@ -125,7 +123,7 @@ public class DesignFavoriteList extends DaggerFragment {
         viewModel.getDesignList().observe(this, new Observer<List<Design>>() {
             @Override
             public void onChanged(@Nullable List<Design> designs) {
-                //gridViewAdapterFavorite.designItemsChanged(designs);
+               // gridViewAdapter.designItemsChanged(designs);
 
             }
         });

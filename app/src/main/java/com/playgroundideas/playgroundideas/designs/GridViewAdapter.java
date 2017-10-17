@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,15 +49,14 @@ import java.util.List;
     private Context context;
     private CallbackManager callbackManager;
     private ShareDialog shareDialog;
-    private ArrayList<Design> favoriteList;
+    static public ArrayList<Design> favoriteList = new ArrayList<Design>();
     private boolean isFavourite;
 
-    GridViewAdapter(Context context,CallbackManager callbackManager, ShareDialog shareDialog, ArrayList<Design> favoriteList, boolean isFavourite){
+    GridViewAdapter(Context context,CallbackManager callbackManager, ShareDialog shareDialog, boolean isFavourite){
         list = new ArrayList<Design>();
         this.context = context;
         this.callbackManager = callbackManager;
         this.shareDialog = shareDialog;
-        this.favoriteList = favoriteList;
         this.isFavourite = isFavourite;
 
         Resources resources = context.getResources();
@@ -81,6 +81,7 @@ import java.util.List;
             list.add(new Design(1, id, name[i], (long)1, catergory[i], description, "Materials", true, true, "Safe", "Steps", "Tools", imageUrls[i]));
         }
         this.filterList = list;
+
     }
 
     // The definition of searching designs in terms of keywords and categories.
@@ -239,6 +240,8 @@ import java.util.List;
                     if(isFavourite) {
                         toast = Toast.makeText(context, textItemNum +
                                 " favorite design was removed.", Toast.LENGTH_SHORT);
+                        filterList.remove(itemSeq);
+                        notifyDataSetChanged();
                         toast.show();
                     }
                     else {
@@ -249,6 +252,8 @@ import java.util.List;
                         }
                         else{
                             favoriteList.add(this.designItem);
+                            notifyDataSetChanged();
+                            Log.d("Number", "" + favoriteList.size());
                             toast = Toast.makeText(context, "The " + textItemNum + " favorite design is added.", Toast.LENGTH_SHORT);
                             toast.show();
                         }
@@ -333,6 +338,7 @@ import java.util.List;
 
     public void designItemsChanged(List<Design> designs) {
         this.filterList = (ArrayList<Design>) designs;
+        this.list = (ArrayList<Design>) designs;
         notifyDataSetChanged();
     }
 }

@@ -24,18 +24,11 @@ import java.util.ArrayList;
 
 public class DesignBrowseList extends Fragment {
 
-    private ArrayList<Design> favoriteList;
     private GridView myGrid;
     private SearchView searchView;
     private Spinner spinner;
     private CallbackManager callbackManager;
     private ShareDialog shareDialog;
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        favoriteList = new ArrayList<Design>();
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,7 +41,7 @@ public class DesignBrowseList extends Fragment {
         myGrid = (GridView) view.findViewById(R.id.my_browse_grid);
         searchView = (SearchView) view.findViewById(R.id.search_browse);
         // Construct the adapter to fill data into view components
-        final GridViewAdapter gridViewAdapter = new GridViewAdapter(getActivity(),callbackManager,shareDialog,favoriteList,false);
+        final GridViewAdapter gridViewAdapter = new GridViewAdapter(getActivity(),callbackManager,shareDialog,false);
         myGrid.setAdapter(gridViewAdapter);
         // Initialize the searchView
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
