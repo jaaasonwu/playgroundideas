@@ -5,6 +5,8 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
+import com.playgroundideas.playgroundideas.datasource.local.FileStorage;
+
 /**
  * Created by Ferdinand on 9/09/2017.
  */
@@ -59,5 +61,9 @@ public class Manual extends VersionedEntity{
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isPDFDownloaded() {
+        return FileStorage.isDownloaded(pdfInfo);
     }
 }

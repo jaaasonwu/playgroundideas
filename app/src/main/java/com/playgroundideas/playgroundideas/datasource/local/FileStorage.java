@@ -40,6 +40,16 @@ public class FileStorage {
         }
     }
 
+    public static void deleteFile(FileInfo fileInfo) {
+        if(isExternalStorageWritable()) {
+            // Get the file from the given file handle
+            File file = new File(fileInfo.getPath());
+            file.delete();
+        } else {
+            throw new UnsupportedOperationException("FileInfo cannot be read because external storage is not mounted");
+        }
+    }
+
     public static FileInfo writeManualFile(String name, InputStream downloaded, Context context) throws IOException{
         return writeFile(downloaded, Environment.DIRECTORY_DOCUMENTS, context.getString(R.string.relative_pdf_manuals_directory_name), name);
     }

@@ -3,7 +3,6 @@ package com.playgroundideas.playgroundideas.manuals;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,18 +10,21 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
 import com.playgroundideas.playgroundideas.R;
+import com.playgroundideas.playgroundideas.model.Manual;
+import com.playgroundideas.playgroundideas.model.ManualChapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 
 public class ManualsExpandableListAdapter extends BaseExpandableListAdapter {
     private Context mContext;
     private ManualExpandableList mList;
-    private List<String> mGroupHeader;
-    private HashMap<String, List<String>> mItemHeader;
-    private HashMap<String, Boolean> mDownloadStatus;
+    private List<Manual> mGroupHeader;
+    private HashMap<Manual, List<ManualChapter>> mItemHeader;
+    private HashMap<Manual, Boolean> mDownloadStatus;
     private final String baseUrl = "http://swen90014v-2017plp.cis.unimelb.edu.au:3000/";
 
     ManualsExpandableListAdapter(Context context, ManualExpandableList list) {
@@ -31,6 +33,26 @@ public class ManualsExpandableListAdapter extends BaseExpandableListAdapter {
         this.mItemHeader = new HashMap<>();
         this.mDownloadStatus = new HashMap<>();
         this.mList = list;
+    }
+
+    public void updateGroups(List<Manual> manuals) {
+        // Update the download status and groups
+        mGroupHeader.clear();
+        mGroupHeader.addAll(manuals);
+        for (Manual manual : manuals) {
+            mDownloadStatus.put(manual, manual.isPDFDownloaded());
+            //initialise item header with no manual chapters -> they will be filled later
+            mItemHeader.put(manual, new LinkedList<ManualChapter>());
+        }
+
+        //Notify the adapter of the change to update the UI
+        notifyDataSetChanged();
+    }
+
+    public void updateChildrenOfGroup(Manual manual, List<ManualChapter> chapters) {
+        mItemHeader.get(manual).clear();
+        mItemHeader.get(manual).addAll(chapters);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -50,12 +72,12 @@ public class ManualsExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public long getGroupId(int i) {
-        return i;
+        return mGroupHeader.get(i).getId();
     }
 
     @Override
     public View getGroupView(final int i, boolean b, View view, ViewGroup viewGroup) {
-        String headerText = (String) getGroup(i);
+        Manual manual = (Manual) getGroup(i);
         // Inflate the parent list
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -71,7 +93,7 @@ public class ManualsExpandableListAdapter extends BaseExpandableListAdapter {
             download.setVisibility(View.INVISIBLE);
         }
         TextView headerView = view.findViewById(R.id.listTitle);
-        headerView.setText(headerText);
+        headerView.setText(manual.getName());
 
         return view;
     }
@@ -80,17 +102,13 @@ public class ManualsExpandableListAdapter extends BaseExpandableListAdapter {
      * This method defines the behavior when the download icon is pressed.
      */
     private class OnDownloadClickListener implements View.OnClickListener {
-        String name;
-        public OnDownloadClickListener(String name) {
-            this.name = name;
+        private Manual manual;
+        public OnDownloadClickListener(Manual manual) {
+            this.manual = manual;
         }
         @Override
         public void onClick(View view) {
-            // Send a message to the list fragment
-            Message msg = Message.obtain();
-            msg.arg1 = 0;
-            msg.obj = name;
-            mList.handleMessage(msg);
+            mList.downloadManual(manual);
         }
     }
 
@@ -106,33 +124,32 @@ public class ManualsExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public long getChildId(int i, int i1) {
-        return i1;
+        return ((ManualChapter) getChild(i, i1)).getPosition();
     }
 
     @Override
     public View getChildView(int i, int i1, boolean b, View view, ViewGroup viewGroup) {
-        final String childText = (String) getChild(i, i1);
+        final ManualChapter chapter = (ManualChapter) getChild(i, i1);
 
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.manuals_list_item, null);
         }
         // Set the behavior when a chapter is clicked
-        view.setOnClickListener(new onOpenManualClick((String) getGroup(i), i1));
+        view.setOnClickListener(new onOpenManualChapterClick((ManualChapter) getChild(i, i1)));
         TextView itemText = view.findViewById(R.id.expandedListItem);
-        itemText.setText(childText);
+        itemText.setText(chapter.getTitle());
         return view;
     }
 
     /**
      * Defines the behavior when the manual chapter is clicked
      */
-    private class onOpenManualClick implements View.OnClickListener {
-        private String mFilename;
-        private int mId;
-        public onOpenManualClick(String filename, int id) {
-            mFilename = filename;
-            mId = id;
+    private class onOpenManualChapterClick implements View.OnClickListener {
+        private ManualChapter chapter;
+
+        public onOpenManualChapterClick(ManualChapter chapter) {
+            this.chapter = chapter;
         }
 
         @Override
@@ -141,23 +158,11 @@ public class ManualsExpandableListAdapter extends BaseExpandableListAdapter {
             Intent intent = new Intent(Intent.ACTION_VIEW);
 
             intent.setDataAndType(Uri.parse("http://docs.google.com/gview?embedded=true&url=" +
-                    baseUrl + "manuals/" + mFilename + '/' + Integer.toString(mId)), "text/html");
+                    baseUrl + "manual/" + chapter.getManualId() + "/chapter/" + chapter.getPosition() + "/html"), "text/html");
             intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
             mContext.startActivity(intent);
         }
-    }
-
-    public void setmItemHeader(HashMap<String, List<String>> mItemHeader) {
-        this.mItemHeader = mItemHeader;
-    }
-
-    public void setmGroupHeader(List<String> mGroupHeader) {
-        this.mGroupHeader = mGroupHeader;
-    }
-
-    public void setmDownloadStatus(HashMap<String, Boolean> mDownloadStatus) {
-        this.mDownloadStatus = mDownloadStatus;
     }
 
     @Override

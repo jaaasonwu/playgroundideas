@@ -10,7 +10,6 @@ import com.playgroundideas.playgroundideas.datasource.remote.NetworkAccess;
 import com.playgroundideas.playgroundideas.model.FileInfo;
 import com.playgroundideas.playgroundideas.model.Manual;
 import com.playgroundideas.playgroundideas.model.ManualChapter;
-import com.playgroundideas.playgroundideas.model.ManualFileInfo;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -68,6 +67,11 @@ public class ManualRepository {
         return manualDao.loadAllOf(id);
     }
 
+    public LiveData<List<ManualChapter>> getManualChapters() {
+        refreshAllManuals();
+        return manualDao.loadAllChapters();
+    }
+
     private void storePDFManualFile(Manual manual, InputStream manualFile) {
         try {
             FileInfo fileInfo = FileStorage.writeManualFile("handbook" + manual.getId().toString() + ".pdf", manualFile, context);
@@ -76,6 +80,30 @@ public class ManualRepository {
         } catch (IOException ioe) {
 
         }
+    }
+
+    private void removePDFManualFile(Manual manual) {
+        FileStorage.deleteFile(manual.getPdfInfo());
+    }
+
+    public void removeDownloadedManual(Manual manual) {
+        removePDFManualFile(manual);
+    }
+
+    public void downloadManual(final Manual manual) {
+        webservice.getPdfOf(manual.getId()).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if(response.isSuccessful()) {
+                    storePDFManualFile(manual, response.body().byteStream());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable throwable) {
+
+            }
+        });
     }
 
     private void refreshManual(final Long id) {
@@ -111,22 +139,7 @@ public class ManualRepository {
                                                     manualDao.update(newManual);
                                                 }
 
-                                                // don't forget to download the actual manual pdf file
-                                                webservice.getPdfOf(newManual.getId()).enqueue(new Callback<ResponseBody>() {
-                                                    @Override
-                                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                                        if(response.isSuccessful()) {
-                                                            storePDFManualFile(newManual, response.body().byteStream());
-                                                        }
-                                                    }
-
-                                                    @Override
-                                                    public void onFailure(Call<ResponseBody> call, Throwable throwable) {
-
-                                                    }
-                                                });
-
-                                                // don't forget to update the manual chapters, too
+                                                // don't forget to update the manual chapters
                                                 webservice.getChaptersOf(newManual.getId()).enqueue(new Callback<List<ManualChapter>>() {
                                                     @Override
                                                     public void onResponse(Call<List<ManualChapter>> call, Response<List<ManualChapter>> response) {

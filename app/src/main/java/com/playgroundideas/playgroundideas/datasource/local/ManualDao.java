@@ -25,18 +25,13 @@ public interface ManualDao {
     @Delete
     public void delete(Manual manual);
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public long insertManual(Manual manual);
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public long[] insertManuals(List<Manual> manuals);
+    public long insert(Manual manual);
 
     @Query("SELECT * FROM manual WHERE id = :id")
     LiveData<Manual> load(long id);
 
     @Query("SELECT * FROM manual")
     LiveData<List<Manual>> loadAll();
-
-    @Query("SELECT * FROM manual WHERE id = :id")
-    Manual loadOne(Long id);
 
     @Query("SELECT COUNT(1) FROM manual WHERE id = :id")
     boolean hasManual(long id);
@@ -52,6 +47,9 @@ public interface ManualDao {
     public long insertManualChapter(ManualChapter manualChapter);
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public long[] insertManualChapters(List<ManualChapter> manualChapters);
+
+    @Query("SELECT * FROM manualChapter WHERE manualId = :manualId")
+    LiveData<List<ManualChapter>> loadAllOf(long manualId);
 
     @Query("SELECT * FROM manualChapter")
     LiveData<List<ManualChapter>> loadAllChapters();
