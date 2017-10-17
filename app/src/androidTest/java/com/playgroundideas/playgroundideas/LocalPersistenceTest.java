@@ -10,13 +10,9 @@ import com.playgroundideas.playgroundideas.datasource.local.DesignDao;
 import com.playgroundideas.playgroundideas.datasource.local.ManualDao;
 import com.playgroundideas.playgroundideas.datasource.local.ProjectDao;
 import com.playgroundideas.playgroundideas.datasource.local.UserDao;
-import com.playgroundideas.playgroundideas.model.User;
-
-import junit.framework.Assert;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.IOException;
@@ -46,14 +42,6 @@ public class LocalPersistenceTest {
     @After
     public void closeDb() throws IOException {
         db.close();
-    }
-
-    @Test
-    public void writeUserAndReadInList() throws Exception {
-        User user = TestUtil.createUser(1);
-        userDao.insert(user);
-        User u = userDao.load(1).getValue();
-        Assert.assertEquals(u.getId(), user.getId());
     }
 }
 

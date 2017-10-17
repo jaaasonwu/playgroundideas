@@ -47,43 +47,42 @@ class DesignGridViewAdapter extends ArrayAdapter<Pair<Design, Boolean>> {
         if (convertView == null) {
             // if it's not recycled, initialize some attributes
             designView = View.inflate(getContext(), R.layout.design_item, parent);
-            viewHolder = new ViewHolder(convertView, i);
+            viewHolder = new ViewHolder(convertView, getItem(i));
             designView.setTag(viewHolder);
         } else {
             designView = convertView;
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewHolder.update(i);
+        viewHolder.update(getItem(i));
         return designView;
 
     }
 
     private class OnFavourButtonClickListener implements View.OnClickListener {
-        private int position;
+        private Pair<Design, Boolean> pair;
 
-        public OnFavourButtonClickListener(int position) {
-            this.position = position;
+        public OnFavourButtonClickListener(Pair<Design, Boolean> pair) {
+            this.pair = pair;
         }
 
         @Override
         public void onClick(View view) {
-            Pair<Design, Boolean> pair = getItem(position);
             viewModel.markAsFavourite(pair.first, user, !pair.second);
         }
     }
 
     class OnDesignClickListener implements View.OnClickListener {
-        private int position;
+        private Design design;
 
-        OnDesignClickListener(int position) {
-            this.position = position;
+        OnDesignClickListener(Design design) {
+            this.design= design;
         }
 
         @Override
         public void onClick(View view) {
             Intent intent = new Intent(getContext(), DesignDetailsActivity.class);
-            intent.putExtra("designId", getItem(position).first.getId());
+            intent.putExtra("designId", design.getId());
             getContext().startActivity(intent);
         }
     }
@@ -94,18 +93,17 @@ class DesignGridViewAdapter extends ArrayAdapter<Pair<Design, Boolean>> {
         private TextView name;
         private Button favourButton;
 
-        ViewHolder(View v, int position){
-            this.desc = (TextView) v.findViewById(R.id.description);
-            this.image = (ImageView) v.findViewById(R.id.image);
-            this.name = (TextView) v.findViewById(R.id.name);
-            this.favourButton = (Button) v.findViewById(R.id.favour_button);
-            this.favourButton.setOnClickListener(new OnFavourButtonClickListener(position));
-            v.setOnClickListener(new OnDesignClickListener(position));
-            update(position);
+        ViewHolder(View v, Pair<Design, Boolean> pair){
+            this.desc = v.findViewById(R.id.description);
+            this.image =  v.findViewById(R.id.image);
+            this.name =  v.findViewById(R.id.name);
+            this.favourButton = v.findViewById(R.id.favour_button);
+            this.favourButton.setOnClickListener(new OnFavourButtonClickListener(pair));
+            v.setOnClickListener(new OnDesignClickListener(pair.first));
+            update(pair);
         }
 
-        void update(int position) {
-            Pair<Design, Boolean> pair = getItem(position);
+        void update(Pair<Design, Boolean> pair) {
             Design design = pair.first;
             this.desc.setText(design.getDescription());
             this.image.setImageURI(Uri.fromFile(FileStorage.readFile(design.getImageInfo())));

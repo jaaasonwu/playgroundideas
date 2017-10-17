@@ -35,8 +35,6 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
 
-import static com.playgroundideas.playgroundideas.R.id.login;
-
 /**
  * A fragment to handle login
  */
@@ -129,7 +127,7 @@ public class LoginFragment extends DaggerFragment {
         @Override
         public void onClick(View view) {
             String email = mEmailView.getText().toString();
-            mLoginWebservice.forgetPassword(email);
+            webservice.forgetPassword(email);
         }
     }
 

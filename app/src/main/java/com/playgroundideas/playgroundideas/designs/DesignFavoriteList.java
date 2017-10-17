@@ -39,8 +39,8 @@ public class DesignFavoriteList extends DaggerFragment {
     private DesignGridViewAdapter gridViewAdapter;
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         this.designsAddFab = getActivity().findViewById(R.id.add_designs_fab);
         designsAddFab.setImageDrawable(new IconDrawable(getContext(), MaterialIcons.md_add)
                 .colorRes(R.color.white).actionBarSize());
@@ -59,7 +59,7 @@ public class DesignFavoriteList extends DaggerFragment {
         userViewModel.getLiveUser().observe(this, new Observer<User>() {
             @Override
             public void onChanged(@Nullable User user) {
-                viewModel.refresh(true, user);
+                viewModel.setTo(true, user);
                 viewModel.getDesignList().observe(getParentFragment(), new Observer<List<Pair<Design, Boolean>>>() {
                     @Override
                     public void onChanged(@Nullable List<Pair<Design, Boolean>> designs) {

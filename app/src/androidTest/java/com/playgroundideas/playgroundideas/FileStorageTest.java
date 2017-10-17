@@ -1,5 +1,6 @@
 package com.playgroundideas.playgroundideas;
 
+import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.playgroundideas.playgroundideas.datasource.local.FileStorage;
@@ -26,7 +27,7 @@ public class FileStorageTest {
     public void writeAndReadDesignImage() throws Exception{
         InputStream toWrite = TestUtil.createImage();
         String name = "test.jpg";
-        FileInfo writeResult = FileStorage.writeDesignImageFile(name, toWrite);
+        FileInfo writeResult = FileStorage.writeDesignImageFile(name, toWrite, InstrumentationRegistry.getTargetContext());
         Assert.assertTrue(FileStorage.isDownloaded(writeResult));
 
         File readResult = FileStorage.readFile(writeResult);
@@ -37,7 +38,7 @@ public class FileStorageTest {
     public void writeAndReadProjectImage() throws Exception{
         InputStream toWrite = TestUtil.createImage();
         String name = "test.jpg";
-        FileInfo writeResult = FileStorage.writeProjectImageFile(name, toWrite);
+        FileInfo writeResult = FileStorage.writeProjectImageFile(name, toWrite, InstrumentationRegistry.getTargetContext());
         Assert.assertTrue(FileStorage.isDownloaded(writeResult));
 
         File readResult = FileStorage.readFile(writeResult);
@@ -48,7 +49,7 @@ public class FileStorageTest {
     public void writeAndReadDesignGuide() throws Exception{
         InputStream toWrite = TestUtil.createText();
         String name = "test.txt";
-        FileInfo writeResult = FileStorage.writeDesignGuideFile(name, toWrite);
+        FileInfo writeResult = FileStorage.writeDesignGuideFile(name, toWrite, InstrumentationRegistry.getTargetContext());
         Assert.assertTrue(FileStorage.isDownloaded(writeResult));
 
         File readResult = FileStorage.readFile(writeResult);
@@ -59,7 +60,7 @@ public class FileStorageTest {
     public void writeAndReadManual() throws Exception{
         InputStream toWrite = TestUtil.createText();
         String name = "test.txt";
-        FileInfo writeResult = FileStorage.writeManualFile(name, toWrite);
+        FileInfo writeResult = FileStorage.writeManualFile(name, toWrite, InstrumentationRegistry.getTargetContext());
         Assert.assertTrue(FileStorage.isDownloaded(writeResult));
 
         File readResult = FileStorage.readFile(writeResult);

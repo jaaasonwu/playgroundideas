@@ -34,8 +34,8 @@ public class DesignBrowseList extends DaggerFragment {
     private DesignGridViewAdapter gridViewAdapter;
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         // this integrates the view model
         userViewModel = ViewModelProviders.of(this, viewModelFactory).get(UserViewModel.class);
@@ -44,7 +44,7 @@ public class DesignBrowseList extends DaggerFragment {
         userViewModel.getLiveUser().observe(this, new Observer<User>() {
             @Override
             public void onChanged(@Nullable User user) {
-                designListViewModel.refresh(true, user);
+                designListViewModel.setTo(true, user);
                 designListViewModel.getDesignList().observe(getParentFragment(), new Observer<List<Pair<Design, Boolean>>>() {
                     @Override
                     public void onChanged(@Nullable List<Pair<Design, Boolean>> designs) {
