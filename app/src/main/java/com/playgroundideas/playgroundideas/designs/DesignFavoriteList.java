@@ -78,6 +78,7 @@ public class DesignFavoriteList extends DaggerFragment {
                 return false;
             }
         });
+
         // Initialize the spinner
         spinner = (Spinner) view.findViewById(R.id.spinner_favorite);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -103,17 +104,6 @@ public class DesignFavoriteList extends DaggerFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        this.designsAddFab = getActivity().findViewById(R.id.add_designs_fab);
-        designsAddFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.e("fab", "fav");
-                designsFragment = (DesignsFragment) getParentFragment();
-                designsFragment.respond();
-            }
-        });
-        designsAddFab.setImageDrawable(new IconDrawable(getContext(), MaterialIcons.md_add)
-                .colorRes(R.color.white).actionBarSize());
 
 
 

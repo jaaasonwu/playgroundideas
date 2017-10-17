@@ -42,14 +42,6 @@
                 android:stretchMode="columnWidth" />
         </LinearLayout>
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/add_designs_fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/fab_margin"
-            android:background="@color/colorPrimary"
-            app:fabSize="normal" />
     </android.support.design.widget.CoordinatorLayout>
 
 </LinearLayout>
