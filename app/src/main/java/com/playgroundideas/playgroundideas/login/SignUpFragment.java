@@ -38,16 +38,21 @@ public class SignUpFragment extends DaggerFragment {
         mSignupButton = mRootView.findViewById(R.id.email_sign_up_button);
         mSignupButton.setOnClickListener(new OnSignupClick());
 
+        // Change the title of the activity
         getActivity().setTitle(R.string.action_sign_up);
         setSwitchLoginListener();
         return mRootView;
     }
 
+    /**
+     * Define the behavior when the user wants to switch back to login fragment
+     */
     private void setSwitchLoginListener() {
         TextView switchLogin = mRootView.findViewById(R.id.switch_login);
         switchLogin.setOnClickListener(new TextView.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Change the fragment to login fragment
                 FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                 Fragment loginFragment = new LoginFragment();
                 fragmentTransaction.replace(R.id.login_container, loginFragment).commit();
