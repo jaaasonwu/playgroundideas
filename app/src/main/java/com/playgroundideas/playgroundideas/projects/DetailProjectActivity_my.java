@@ -37,7 +37,6 @@ public class DetailProjectActivity_my extends AppCompatActivity {
 
     private TextView titleView;
     private TextView contryView;
-    private TextView currencyView;
     private TextView descriptionView;
     private TextView startDateView;
     private TextView endDateView;
@@ -65,9 +64,9 @@ public class DetailProjectActivity_my extends AppCompatActivity {
 
         intial();
 
+
         titleView =(TextView) findViewById(R.id.title_project_detail);
         contryView = (TextView) findViewById(R.id.title_project_country);
-        currencyView = (TextView) findViewById(R.id.currency);
         descriptionView = (TextView) findViewById(R.id.description);
         startDateView = (TextView) findViewById(R.id.project_start_date);
         endDateView = (TextView) findViewById(R.id.project_end_date);
@@ -76,7 +75,6 @@ public class DetailProjectActivity_my extends AppCompatActivity {
         mAddPhoto = (Button) findViewById(R.id.button_new_photo);
         titleView.setText(sampleProject.getProjectTtile());
         contryView.setText(sampleProject.getCountry());
-        currencyView.setText(sampleProject.getCurrency());
         descriptionView.setText(sampleProject.getProjectDescription());
         String ProjectDate = new SimpleDateFormat("dd-MM-yyyy").format(sampleProject.getStartDate());
         startDateView.setText(ProjectDate);
@@ -257,14 +255,18 @@ public class DetailProjectActivity_my extends AppCompatActivity {
         if (requestCode == RESULT_LOAD_IMG || resultCode == RESULT_OK || data != null) {
             try {
                 final Uri imageUri = data.getData();
-                Glide.with(DetailProjectActivity_my.this).load(imageUri).into(imageView);
+                if(imageUri != null) {
+                    Glide.with(DetailProjectActivity_my.this).load(imageUri).into(imageView);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
                 Toast.makeText(DetailProjectActivity_my.this, "Something went wrong", Toast.LENGTH_LONG).show();
             }
         } else if(requestCode == REQUEST_IMAGE_CAPTURE|| resultCode == RESULT_OK || data != null){
             try{
-                Glide.with(DetailProjectActivity_my.this).load(data.getExtras().get("data")).into(imageView);
+                if(data.getExtras().get("data") != null) {
+                    Glide.with(DetailProjectActivity_my.this).load(data.getExtras().get("data")).into(imageView);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
                 Toast.makeText(DetailProjectActivity_my.this, "Something went wrong", Toast.LENGTH_LONG).show();
