@@ -63,54 +63,12 @@ class GridViewAdapterBrowse extends BaseAdapter implements Filterable {
         private TextView name;
         private ImageView image;
         private Button addButton;
-        private FloatingActionButton floatingActionPlus;
-        private FloatingActionButton floatingActionEmailShare;
-        private FloatingActionButton floatingActionFacebookShare;
-        private Animation fabOpenShare, fabCloseShare, fabRClockwise, fabRAnticlockwise;
 
         ViewHolder(View view){
             this.name = (TextView) view.findViewById(R.id.textView);
             this.image = (ImageView) view.findViewById(R.id.imageView);
             this.addButton = (Button) view.findViewById(R.id.add_or_delete_button);
-            floatingActionPlus = (FloatingActionButton) view.findViewById(R.id.fab_share);
-            floatingActionEmailShare = (FloatingActionButton) view.findViewById(R.id.fab_email_share);
-            floatingActionFacebookShare = (FloatingActionButton) view.findViewById(R.id.fab_facebook_share);
 
-            Iconify.with(new MaterialModule());
-
-            floatingActionPlus.setImageDrawable(new IconDrawable(context, MaterialIcons.md_add)
-                    .colorRes(R.color.black).actionBarSize());
-            floatingActionEmailShare.setImageDrawable(new IconDrawable(context, MaterialIcons.md_email)
-                    .colorRes(R.color.black).actionBarSize());
-            floatingActionFacebookShare.setImageDrawable(new IconDrawable(context, MaterialIcons.md_share)
-                    .colorRes(R.color.black).actionBarSize());
-            fabOpenShare = AnimationUtils.loadAnimation(context, R.anim.fab_open_share);
-            fabRClockwise = AnimationUtils.loadAnimation(context, R.anim.rotate_clockwise);
-            fabCloseShare = AnimationUtils.loadAnimation(context, R.anim.fab_close_share);
-            fabRAnticlockwise = AnimationUtils.loadAnimation(context, R.anim.rotate_anticlockwise);
-
-            floatingActionPlus.setOnClickListener(new View.OnClickListener() {
-                boolean isOpen = false;
-                @Override
-                public void onClick(View view) {
-                    if(isOpen){
-                        floatingActionEmailShare.startAnimation(fabCloseShare);
-                        floatingActionFacebookShare.startAnimation(fabCloseShare);
-                        floatingActionPlus.startAnimation(fabRAnticlockwise);
-                        floatingActionEmailShare.setClickable(false);
-                        floatingActionFacebookShare.setClickable(false);
-                        isOpen = false;
-                    }
-                    else{
-                        floatingActionEmailShare.startAnimation(fabOpenShare);
-                        floatingActionFacebookShare.startAnimation(fabOpenShare);
-                        floatingActionPlus.startAnimation(fabRClockwise);
-                        floatingActionEmailShare.setClickable(true);
-                        floatingActionFacebookShare.setClickable(true);
-                        isOpen = true;
-                    }
-                }
-            });
         }
     }
 
@@ -238,33 +196,6 @@ class GridViewAdapterBrowse extends BaseAdapter implements Filterable {
         ButtonHandler buttonHandler = new ButtonHandler(i, temp_item, favoriteList);
         holder.image.setOnClickListener(buttonHandler);
         holder.addButton.setOnClickListener(buttonHandler);
-        holder.floatingActionEmailShare.setOnClickListener(new View.OnClickListener(){
-            Intent intent = null, chooser = null;
-            @Override
-            public void onClick(View view) {
-                intent = new Intent(Intent.ACTION_SEND);
-                intent.setData(Uri.parse("mailto:"));
-                String[] to = {};
-                intent.putExtra(Intent.EXTRA_EMAIL, to);
-                intent.putExtra(Intent.EXTRA_SUBJECT, temp_item.getName() + " Sharing");
-                intent.putExtra(Intent.EXTRA_TEXT, temp_item.getName());
-                intent.setType("message/rfc822");
-                chooser = Intent.createChooser(intent, "Send Email");
-                context.startActivity(chooser);
-            }
-        });
-
-        holder.floatingActionFacebookShare.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (ShareDialog.canShow(ShareLinkContent.class)) {
-                    ShareLinkContent linkContent = new ShareLinkContent.Builder()
-                            .setContentUrl(Uri.parse(temp_item.getPictureUrl()))
-                            .build();
-                    shareDialog.show(linkContent);
-                }
-            }
-        });
         return designItem;
 
     }

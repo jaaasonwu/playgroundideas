@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical">
     <Spinner
         android:entries="@array/catergory"
         android:id="@+id/spinner_favorite"
@@ -11,16 +12,13 @@
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <android.support.design.widget.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/fab_margin"
-            android:background="@color/colorPrimary"
-            app:fabSize="normal"
-            android:id="@+id/add_designs_fab"/>
 
-        <SearchView
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <SearchView
             android:id="@+id/search_favorite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -43,6 +41,16 @@
             android:verticalSpacing="8dp"
             android:numColumns="auto_fit"
             android:stretchMode="columnWidth" />
+        </LinearLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/add_designs_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            android:background="@color/colorPrimary"
+            app:fabSize="normal" />
     </android.support.design.widget.CoordinatorLayout>
 
-</RelativeLayout>
+</LinearLayout>
