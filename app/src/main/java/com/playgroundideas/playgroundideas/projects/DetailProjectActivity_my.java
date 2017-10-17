@@ -54,7 +54,9 @@ public class DetailProjectActivity_my extends AppCompatActivity {
     private Button mAddPhotoFromCamera;
     private PopupWindow mPopWindow;
     private File file;
-    private static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final int REQUEST_IMAGE_CAPTURE = 2;
+    private static final int RESULT_LOAD_IMG = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -217,6 +219,16 @@ public class DetailProjectActivity_my extends AppCompatActivity {
                 mPopWindow.dismiss();
             }
         });
+
+        mAddPhotoFromGallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(Intent.ACTION_PICK);
+                i.setType("image/*");
+                startActivityForResult(i,RESULT_LOAD_IMG);
+                mPopWindow.dismiss();
+            }
+        });
     }
 
     private File getOutputPhotoFile() {
@@ -238,14 +250,27 @@ public class DetailProjectActivity_my extends AppCompatActivity {
         return output;
     }
 
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+        super.onActivityResult(requestCode,resultCode,data);
+
+        if (requestCode == RESULT_LOAD_IMG || resultCode == RESULT_OK || data != null) {
             try {
-                Bundle extras = data.getExtras();
-                Glide.with(DetailProjectActivity_my.this).load(extras.get("data")).into(imageView);
+                final Uri imageUri = data.getData();
+                Glide.with(DetailProjectActivity_my.this).load(imageUri).into(imageView);
             } catch (Exception e) {
                 e.printStackTrace();
+                Toast.makeText(DetailProjectActivity_my.this, "Something went wrong", Toast.LENGTH_LONG).show();
             }
+        } else if(requestCode == REQUEST_IMAGE_CAPTURE|| resultCode == RESULT_OK || data != null){
+            try{
+                Glide.with(DetailProjectActivity_my.this).load(data.getExtras().get("data")).into(imageView);
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(DetailProjectActivity_my.this, "Something went wrong", Toast.LENGTH_LONG).show();
+            }
+        } else {
+            Toast.makeText(DetailProjectActivity_my.this, "You haven't picked Image",Toast.LENGTH_LONG).show();
         }
     }
 }
