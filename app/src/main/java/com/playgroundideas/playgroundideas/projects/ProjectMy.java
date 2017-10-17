@@ -90,7 +90,7 @@ public class ProjectMy extends Fragment {
 
     public void checkProjectDetail() {
         Intent intent = new Intent();
-        intent.setClass(getContext(), DetailProjectActivity.class);
+        intent.setClass(getContext(), DetailProjectActivity_my.class);
         startActivity(intent);
     }
 
