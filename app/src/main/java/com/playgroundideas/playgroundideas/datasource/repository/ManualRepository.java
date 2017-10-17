@@ -107,6 +107,10 @@ public class ManualRepository {
     }
 
     private void refreshManual(final Long id) {
+        //TODO remove this switch-off
+        if(!NetworkAccess.ACTIVE_SYNC) {
+            return;
+        }
         executor.execute(new Runnable() {
             @Override
             public void run() {
@@ -178,6 +182,10 @@ public class ManualRepository {
     }
 
     private void refreshAllManuals() {
+        //TODO remove this switch-off
+        if(!NetworkAccess.ACTIVE_SYNC) {
+            return;
+        }
         // running in a background thread
         // check if there is a network connection
         if(networkAccess.isNetworkAvailable()) {

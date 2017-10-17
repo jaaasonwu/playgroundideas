@@ -80,6 +80,10 @@ public class UserRepository {
 
 
     private void refreshUser(final Long id) {
+        //TODO remove this switch-off
+        if(!NetworkAccess.ACTIVE_SYNC) {
+            return;
+        }
         executor.execute(new Runnable() {
             @Override
             public void run() {
@@ -148,6 +152,10 @@ public class UserRepository {
     }
 
     private void refreshAllUsers() {
+        //TODO remove this switch-off
+        if(!NetworkAccess.ACTIVE_SYNC) {
+            return;
+        }
         executor.execute(new Runnable() {
             @Override
             public void run() {

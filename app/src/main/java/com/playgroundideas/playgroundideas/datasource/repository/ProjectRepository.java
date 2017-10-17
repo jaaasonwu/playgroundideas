@@ -118,6 +118,10 @@ public class ProjectRepository {
 
 
     private void refreshProject(final Long id) {
+        //TODO remove this switch-off
+        if(!NetworkAccess.ACTIVE_SYNC) {
+            return;
+        }
         executor.execute(new Runnable() {
             @Override
             public void run() {
@@ -198,6 +202,10 @@ public class ProjectRepository {
     }
 
     private void refreshAllProjects() {
+        //TODO remove this switch-off
+        if(!NetworkAccess.ACTIVE_SYNC) {
+            return;
+        }
         // running in a background thread
         // check if there is a network connection
         if(networkAccess.isNetworkAvailable()) {

@@ -14,6 +14,9 @@ import javax.inject.Singleton;
 @Singleton
 public class NetworkAccess {
 
+    //TODO remove
+    public static boolean ACTIVE_SYNC = false;
+
     private Context context;
 
     @Inject
