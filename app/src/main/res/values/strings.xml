@@ -22,7 +22,7 @@
         <item>Scorpion</item>
         <item>Tire Sphere</item>
     </string-array>
-    <string name="add_button"> + Add to Favourites</string>
+    <string name="add_button">Favourite</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="title_activity_drawer">DrawerActivity</string>
@@ -85,6 +85,11 @@
     <string name="project_post_status_draft_description">The project is currently saved but not submitted for approval or displayed on the website.</string>
     <string name="project_post_status_pending_approval_description">The project is currently saved and has been submitted for approval.</string>
     <string name="project_post_status_paused_description">The project was paused. (everything is saved, but not available on the site)</string>
+    <string name="current">Current</string>
+    <string name="goal">Goal</string>
+    <string name="days_to_go">days to go</string>
+    <string name="funding">Looking for funding</string>
+    <string name="volunteers">Looking for volunteers</string>
     <string name="email_share">{md-email}</string>
     <string name="facebook_share">{mdi-facebook-box}</string>
     <string name="facebook_share1">{md-share}</string>
