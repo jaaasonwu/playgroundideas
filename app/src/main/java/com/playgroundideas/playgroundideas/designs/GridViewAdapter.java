@@ -38,7 +38,7 @@ import java.util.List;
  */
 
 // This adpater is defined for filling data into each view, seraching designs in terms of keywords
-// and categories in the favourite design page.
+// and categories in the design page.
  class GridViewAdapter extends BaseAdapter implements Filterable{
     private CustomFilter filter1;
     String previousQuery = null;
