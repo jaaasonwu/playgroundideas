@@ -2,21 +2,16 @@ package com.playgroundideas.playgroundideas.projects;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
-import android.provider.MediaStore;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.BitmapImageViewTarget;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
-import com.facebook.share.model.ShareLinkContent;
+import com.facebook.FacebookSdk;
 import com.facebook.share.model.SharePhoto;
 import com.facebook.share.model.SharePhotoContent;
 import com.facebook.share.widget.ShareDialog;
@@ -25,13 +20,11 @@ import com.playgroundideas.playgroundideas.R;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import com.facebook.FacebookSdk;
 
 public class DetailProjectActivity extends AppCompatActivity {
 
     private TextView titleView;
     private TextView contryView;
-    private TextView currencyView;
     private TextView descriptionView;
     private TextView startDateView;
     private TextView endDateView;
@@ -48,11 +41,10 @@ public class DetailProjectActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_project);
 
-        intial();
+        initial();
 
         titleView =(TextView) findViewById(R.id.title_project_detail);
         contryView = (TextView) findViewById(R.id.title_project_country);
-        currencyView = (TextView) findViewById(R.id.currency);
         descriptionView = (TextView) findViewById(R.id.description);
         startDateView = (TextView) findViewById(R.id.project_start_date);
         endDateView = (TextView) findViewById(R.id.project_end_date);
@@ -61,7 +53,6 @@ public class DetailProjectActivity extends AppCompatActivity {
 
         titleView.setText(sampleProject.getProjectTtile());
         contryView.setText(sampleProject.getCountry());
-        currencyView.setText(sampleProject.getCurrency());
         descriptionView.setText(sampleProject.getProjectDescription());
         String ProjectDate = new SimpleDateFormat("dd-MM-yyyy").format(sampleProject.getStartDate());
         startDateView.setText(ProjectDate);
@@ -89,7 +80,7 @@ public class DetailProjectActivity extends AppCompatActivity {
         Glide.with(this).load(sampleProject.getImageUrl()).into(imageView);
     }
 
-    private void intial() {
+    private void initial() {
 
         Calendar mCalendar = Calendar.getInstance();
         Date sampleDate = mCalendar.getTime();
