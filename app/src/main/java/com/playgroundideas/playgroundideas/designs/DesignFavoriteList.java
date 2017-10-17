@@ -28,6 +28,7 @@ import com.playgroundideas.playgroundideas.R;
 import com.playgroundideas.playgroundideas.model.Design;
 import com.playgroundideas.playgroundideas.viewmodel.DesignListViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -45,7 +46,9 @@ public class DesignFavoriteList extends DaggerFragment {
     private DesignListViewModel viewModel;
     private CallbackManager callbackManager;
     private ShareDialog shareDialog;
-    private GridViewAdapterFavorite gridViewAdapterFavorite;
+    private GridViewAdapter gridViewAdapter;
+    private ArrayList<Design> favoriteList;
+
     @Inject
     ViewModelProvider.Factory viewModelFactory;
 
@@ -58,8 +61,8 @@ public class DesignFavoriteList extends DaggerFragment {
         myFavoriteGrid = view.findViewById(R.id.my_favorite_grid);
         searchView = (SearchView) view.findViewById(R.id.search_favorite);
         // Construct the adapter to fill data into view components
-        gridViewAdapterFavorite = new GridViewAdapterFavorite(getActivity(),callbackManager,shareDialog);
-        myFavoriteGrid.setAdapter(gridViewAdapterFavorite);
+        gridViewAdapter = new GridViewAdapter(getActivity(),callbackManager,shareDialog,favoriteList,true);
+        myFavoriteGrid.setAdapter(gridViewAdapter);
         // Initialize the searchView
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -69,8 +72,8 @@ public class DesignFavoriteList extends DaggerFragment {
 
             @Override
             public boolean onQueryTextChange(String query) {
-                Filter filter = gridViewAdapterFavorite.getFilter();
-                gridViewAdapterFavorite.previousQuery = query;
+                Filter filter = gridViewAdapter.getFilter();
+                gridViewAdapter.previousQuery = query;
                 filter.filter(query);
                 return false;
             }
@@ -82,9 +85,9 @@ public class DesignFavoriteList extends DaggerFragment {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 TextView option = (TextView) view;
                 Toast.makeText(getContext(), option.getText() + " selected", Toast.LENGTH_SHORT).show();
-                Filter filter = gridViewAdapterFavorite.getFilter();
-                gridViewAdapterFavorite.catergory = option.getText().toString();
-                filter.filter(gridViewAdapterFavorite.previousQuery);
+                Filter filter = gridViewAdapter.getFilter();
+                gridViewAdapter.catergory = option.getText().toString();
+                filter.filter(gridViewAdapter.previousQuery);
 
 
 

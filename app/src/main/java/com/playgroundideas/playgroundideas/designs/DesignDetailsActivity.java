@@ -51,11 +51,31 @@ public class DesignDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_design_details);
-        TextView textViewDesc = (TextView) findViewById(R.id.imageTitle);
+        TextView textViewName = (TextView) findViewById(R.id.imageTitle);
         final String name = getIntent().getExtras().getString("designName");
-        textViewDesc.setText(name);
+        textViewName.setText(name);
         ImageView imageView = (ImageView) findViewById(R.id.imageDetails);
         imgUrl = getIntent().getExtras().getString("designDetail");
+        TextView textViewDesigner = (TextView) findViewById(R.id.designer);
+        final String designer = getIntent().getExtras().getString("designer");
+        textViewDesigner.setText(designer);
+        TextView textViewCategory = (TextView) findViewById(R.id.category);
+        final String category = getIntent().getExtras().getString("category");
+        textViewCategory.setText(category);
+        TextView textViewDescription = (TextView) findViewById(R.id.designDescription);
+        final String description = getIntent().getExtras().getString("designDescription");
+        textViewDescription.setText(description);
+        TextView textViewSteps = (TextView) findViewById(R.id.buildingSteps);
+        final String steps = getIntent().getExtras().getString("buildingSteps");
+        textViewSteps.setText(steps);
+        TextView textViewMaterials = (TextView) findViewById(R.id.materials);
+        final String materials = getIntent().getExtras().getString("materials");
+        textViewMaterials.setText(materials);
+        TextView textViewTools = (TextView) findViewById(R.id.tools);
+        final String tools = getIntent().getExtras().getString("buildingSteps");
+        textViewTools.setText(tools);
+
+
 
         Glide.with(getApplicationContext()).load(imgUrl)
                 .into(imageView);
