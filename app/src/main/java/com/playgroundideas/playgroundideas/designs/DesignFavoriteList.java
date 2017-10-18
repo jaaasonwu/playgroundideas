@@ -60,6 +60,14 @@ public class DesignFavoriteList extends DaggerFragment {
         shareDialog = new ShareDialog(getActivity());
         myFavoriteGrid = view.findViewById(R.id.my_favorite_grid);
         searchView = (SearchView) view.findViewById(R.id.search_favorite);
+        searchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                searchView.onActionViewExpanded();
+                searchView.setIconified(false);
+                searchView.clearFocus();
+            }
+        });
         // Construct the adapter to fill data into view components
         gridViewAdapter = new GridViewAdapter(getActivity(),callbackManager,shareDialog,true);
         myFavoriteGrid.setAdapter(gridViewAdapter);
