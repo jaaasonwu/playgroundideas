@@ -30,7 +30,8 @@ public class CreateProjectActivity extends AppCompatActivity {
     TextView mShowEnd;
     Calendar mStartCalendar;
     Calendar mEndCalendar;
-    Date mDate;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +50,7 @@ public class CreateProjectActivity extends AppCompatActivity {
         setOnSetDateClick();
     }
 
+    //choose the start date from calendar
     DatePickerDialog.OnDateSetListener startDateSetListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear,
@@ -64,6 +66,7 @@ public class CreateProjectActivity extends AppCompatActivity {
         }
     };
 
+    //choose the end date from calendar
     DatePickerDialog.OnDateSetListener endDateSetListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear,
@@ -91,6 +94,7 @@ public class CreateProjectActivity extends AppCompatActivity {
         }
     };
 
+    //call the calendar
     private void setOnSetDateClick() {
         mSetStart = (Button) findViewById(R.id.set_start);
         mSetEnd = (Button) findViewById(R.id.set_end);

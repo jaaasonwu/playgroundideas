@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
@@ -16,34 +17,25 @@ import com.playgroundideas.playgroundideas.BuildConfig;
 import com.playgroundideas.playgroundideas.R;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.List;
 
-public class ManualsOfflineLIstAdapter extends ArrayAdapter<String> {
+public class ManualsOfflineListAdapter extends ArrayAdapter<String> {
     private Context mContext;
-    private List<String> mGroupHeader;
-    private HashMap<String, Boolean> downloadStatus;
     private List<String> mDownloaded;
+    private ManualsOfflineList mList;
 
 
-    public ManualsOfflineLIstAdapter(Context context, List<String> groupHeader,
-                                     HashMap<String, Boolean> downloadStatus,
-                                     List<String> downloaded) {
-        super(context, -1, downloaded);
+    public ManualsOfflineListAdapter(Context context, int resource, List<String> mDownloaded,
+                                     ManualsOfflineList list) {
+        super(context, resource, mDownloaded);
         this.mContext = context;
-        this.mGroupHeader = groupHeader;
-        this.downloadStatus = downloadStatus;
-        this.mDownloaded = downloaded;
+        this.mDownloaded = mDownloaded;
+        this.mList = list;
     }
 
-    public void update() {
-        mDownloaded.clear();
-        for (String s : mGroupHeader) {
-            if (downloadStatus.get(s)) {
-                mDownloaded.add(s);
-            }
-        }
-        notifyDataSetChanged();
+    @Override
+    public int getCount() {
+        return super.getCount();
     }
 
     @NonNull
@@ -54,51 +46,69 @@ public class ManualsOfflineLIstAdapter extends ArrayAdapter<String> {
         if (convertView == null) {
             convertView = View.inflate(mContext, R.layout.manuals_offline_item, null);
             holder = new ViewHolder(convertView);
+            // Use view holder for every item to avoid finding view every time
             convertView.setTag(holder);
         } else {
+            // When there's a view holder bind to the view
             holder = (ViewHolder) convertView.getTag();
         }
 
+        // Set the text for every item
         String title = mDownloaded.get(position);
         holder.titleText.setText(title);
-        holder.titleText.setOnClickListener(new onOpenManualClick(title, mContext));
-        holder.deleteButton.setOnClickListener(new onDeleteButtonClick(this, position));
+        // Set the behavior when the item is clicked and the delete button is clicked
+        holder.titleText.setOnClickListener(new OnOpenManualClick(title, mContext));
+        holder.deleteButton.setOnClickListener(new OnDeleteButtonClick(this, position));
         return convertView;
     }
 
-    private class onDeleteButtonClick implements View.OnClickListener {
-        private ManualsOfflineLIstAdapter mAdapter;
+
+    public void setmDownloaded(List<String> downloaded) {
+        mDownloaded = downloaded;
+    }
+
+    /**
+     * The class defines the behavior when the delete button is clicked on the list
+     */
+    private class OnDeleteButtonClick implements View.OnClickListener {
+        private ManualsOfflineListAdapter mAdapter;
         private int position;
 
-        public onDeleteButtonClick(ManualsOfflineLIstAdapter adapter, int position) {
+        public OnDeleteButtonClick(ManualsOfflineListAdapter adapter, int position) {
             mAdapter = adapter;
             this.position = position;
         }
 
         @Override
         public void onClick(View view) {
+            // First delete the file in the file storage
             String filename = mDownloaded.get(position);
             File folder = new File(String.valueOf(mContext.getExternalFilesDir(null)));
             File manual = new File(folder.getAbsolutePath() + "/" + filename + ".pdf");
             boolean deleted = manual.delete();
+            // Then ask the list fragment to update the downloaded status in the database
+            Message msg = Message.obtain();
+            msg.obj = mDownloaded.get(position);
+            mList.handleMessage(msg);
+            // Finally update the UI
             if (deleted) {
-                downloadStatus.put(filename, Boolean.FALSE);
                 mDownloaded.remove(position);
                 mAdapter.notifyDataSetChanged();
             }
         }
     }
 
-    private class onOpenManualClick implements View.OnClickListener {
+    private class OnOpenManualClick implements View.OnClickListener {
         private String mFilename;
         private Context mContext;
-        public onOpenManualClick(String filename, Context context) {
+        public OnOpenManualClick(String filename, Context context) {
             mFilename = filename;
             mContext = context;
         }
 
         @Override
         public void onClick(View view) {
+            // Open the pdf file using a pdf reader
             File folder = new File(String.valueOf(mContext.getExternalFilesDir(null)));
             File manual = new File(folder.getAbsolutePath() + "/" + mFilename + ".pdf");
             Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -115,7 +125,9 @@ public class ManualsOfflineLIstAdapter extends ArrayAdapter<String> {
         }
     }
 
-
+    /**
+     * Use a view holder to avoid find the views for every item
+     */
     private class ViewHolder {
         private TextView titleText;
         private TextView deleteButton;

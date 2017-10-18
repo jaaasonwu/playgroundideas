@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Playground Ideas</string>
     <string name="designs">Designs</string>
-    <string name="manuals">Manuals</string>
+    <string name="manuals">Handbooks</string>
     <string name="plans">Plans</string>
     <string name="projects">Projects</string>
 
@@ -9,20 +9,35 @@
     <string name="brs_designs">Browse Designs</string>
     <string name="my_plans">My Plans</string>
     <string name="brs_plans">Browse Plans</string>
-    <string name="offline_manuals">Offline Manuals</string>
+    <string name="offline_manuals">Offline Handbooks</string>
     <string name="my_projects">My Projects</string>
     <string name="brs_projects">Browse Projects</string>
     <string-array name="description">
         <item>Scoope and Shaft</item>
         <item>Mayan Pyramid</item>
-        <item>Tire Swing</item>
-        <item>Tire Seat</item>
-        <item>Wall</item>
-        <item>DragonFly</item>
+        <item>Tire Hurdle</item>
+        <item>Wide Slide</item>
+        <item>Twister</item>
+        <item>Stage</item>
+        <item>Slide Tile</item>
         <item>Scorpion</item>
-        <item>Tire Sphere</item>
     </string-array>
-    <string name="add_button"> + Add to Favourites</string>
+    <string-array name="catergory">
+        <item>All</item>
+        <item>Bridges</item>
+        <item>Climbing</item>
+        <item>Cubbies/Platforms/</item>
+        <item>Groundlevel</item>
+        <item>Musical</item>
+        <item>Seating</item>
+        <item>Seesaws</item>
+        <item>Slides</item>
+        <item>Swings</item>
+        <item>Tunnels</item>
+        <item>Tyre Elements</item>
+        <item>Others</item>
+    </string-array>
+    <string name="add_button">Favourite</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="title_activity_drawer">DrawerActivity</string>
@@ -40,8 +55,8 @@
     <string name="create_account_prompt">No account yet? Create one!</string>
     <string name="login_prompt">Already have an account? Log in!</string>
     <string name="prompt_sign_up">Enter the email to sign up</string>
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password (optional)</string>
+    <string name="prompt_email">Username</string>
+    <string name="prompt_password">Password</string>
     <string name="action_log_in">Log In</string>
     <string name="action_sign_up">Sign Up</string>
     <string name="error_invalid_email">This email address is invalid</string>
@@ -60,4 +75,49 @@
     <string name="paypal_email">Paypal Email Address</string>
     <string name="currency">Currency</string>
     <string name="description">Description"</string>
+    <string name="relative_pdf_manuals_directory_name">playgroundHandbooks</string>
+    <string name="relative_design_pictures_directory_name">playgroundDesignPictures</string>
+    <string name="relative_project_pictures_directory_name">playgroundProjectPictures</string>
+    <string name="preference_file_key">org.playgroundIdeas.app.android.preferenceFile</string>
+    <string name="saved_user">saved_user</string>
+
+    <string name="firstname">First Name</string>
+    <string name="lastname">Last Name</string>
+    <string name="email">Email</string>
+    <string name="save_settings">Save Settings</string>
+    <string name="details">Details</string>
+    <string name="donation">Donation Method</string>
+    <string name="account_info">Account Information</string>
+    <string name="logout">Log out</string>
+    <string name="forget_pass">Forgot Password?</string>
+    <string name="or">Or</string>
+
+    <string name="download_failed">Download failed. Please check your Internet connection.</string>
+    <string name="download_start">Download started.</string>
+    <string name="download_finished">Download finished!</string>
+    <string name="database_file_name">playgroundIdeas.db</string>
+    <string name="project_post_status_publish_description">The Project has been approved and published on the site.</string>
+    <string name="project_post_status_draft_description">The project is currently saved but not submitted for approval or displayed on the website.</string>
+    <string name="project_post_status_pending_approval_description">The project is currently saved and has been submitted for approval.</string>
+    <string name="project_post_status_paused_description">The project was paused. (everything is saved, but not available on the site)</string>
+    <string name="current">Current</string>
+    <string name="goal">Goal</string>
+    <string name="days_to_go">days to go</string>
+    <string name="funding">Looking for funding</string>
+    <string name="volunteers">Looking for volunteers</string>
+    <string name="email_share">{md-email}</string>
+    <string name="facebook_share">{mdi-facebook-box}</string>
+    <string name="facebook_share1">{md-share}</string>
+    <string name="facebook_app_id">705598346299936</string>
+    <string name="plan_open_button">Open Plan Tool</string>
+    <string name="designed_by">Designed by</string>
+    <string name="category">Category</string>
+    <string name="design_description">Design Description</string>
+    <string name="building_steps">Building Steps</string>
+    <string name="tools">Tools</string>
+    <string name="materials">Materials</string>
+    <string name="favourite_design_icon">{mdi-star}</string>
+    <string name="dislike_design_icon">{mdi-star-outline}</string>
+    <string name="photo_icon">{md-photo}</string>
+    <string name="choose_source">Choose source</string>
 </resources>
