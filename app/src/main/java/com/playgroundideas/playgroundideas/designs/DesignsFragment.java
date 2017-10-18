@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.facebook.FacebookSdk;
 import com.playgroundideas.playgroundideas.R;
 
 
@@ -26,6 +27,8 @@ public class DesignsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_designs, container, false);
+        // Construct the adapter used with the pager for switching between the favorite design page and the design browsing page
+        // according to users' click.
         designTabPagerAdapter = new DesignTabPagerAdapter(getChildFragmentManager(), getContext());
         viewPager = rootView.findViewById(R.id.designPager);
         viewPager.setAdapter(designTabPagerAdapter);
@@ -35,6 +38,8 @@ public class DesignsFragment extends Fragment {
         return rootView;
     }
 
+    // The method would be used in the floating action button in reponse to a click for switching from the favorite design page to
+    // the design browsing page.
     public void respond() {
         viewPager.setAdapter(designTabPagerAdapter);
         viewPager.setCurrentItem(1);

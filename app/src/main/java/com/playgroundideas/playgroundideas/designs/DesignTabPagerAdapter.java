@@ -8,7 +8,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.playgroundideas.playgroundideas.R;
 
-
+// The Pager Adpater is defined for switching between the favorite design page and the design browsing page.
 class DesignTabPagerAdapter extends FragmentPagerAdapter {
 
     private Resources resources;

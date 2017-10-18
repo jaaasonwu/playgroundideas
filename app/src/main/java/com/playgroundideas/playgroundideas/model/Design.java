@@ -47,6 +47,7 @@ public class Design extends VersionedEntity {
         this.buildingTools = buildingTools;
     }
 
+
     public String getName() {
         return name;
     }

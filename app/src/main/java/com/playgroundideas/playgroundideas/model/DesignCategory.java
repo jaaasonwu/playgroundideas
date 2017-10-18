@@ -10,7 +10,18 @@ import android.arch.persistence.room.Entity;
 public enum DesignCategory {
 
     //TODO remove
-    TEST("test");
+    //TEST("test");
+    BRIDGES("Bridges"),
+    CLIMBING("Climbing"),
+    CP("Cubbies/Platforms/"),
+    GROUNDLEVEL("Groundlevel"),
+    MUSICAL("Musical"),
+    SEATING("Seating"),
+    SEESAWS("Seesaws"),
+    SLIDES("Slides"),
+    SWINGS("Swings"),
+    TUNNELS("Tunnels"),
+    TE("Tyre Elements");
 
     private String description;
 

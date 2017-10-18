@@ -1,26 +1,195 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <TextView
         android:id="@+id/imageTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="37dp"
-        android:text="TextView" />
+        android:text="TextView"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:layout_below="@+id/categoryTitle"
+        android:layout_centerHorizontal="true" />
 
     <ImageView
         android:id="@+id/imageDetails"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/sample1"
-        android:layout_marginTop="20dp"
         android:layout_below="@+id/imageTitle"
         android:layout_alignParentStart="true" />
 
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_share_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="2dp"
+        android:elevation="6dp"
+        app:borderWidth="0dp"
+        app:fabSize="normal"
+        app:pressedTranslationZ="12dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="14dp"
+        android:layout_marginBottom="26dp" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_facebook_share_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/blue"
+        android:elevation="6dp"
+        android:visibility="invisible"
+        app:borderWidth="0dp"
+        app:fabSize="normal"
+        app:pressedTranslationZ="12dp"
+        tools:layout_editor_absoluteX="60dp"
+        tools:layout_editor_absoluteY="0dp"
+        android:layout_above="@+id/fab_share_detail"
+        android:layout_alignStart="@+id/fab_share_detail" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_email_share_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorAccent"
+        android:elevation="6dp"
+        android:visibility="invisible"
+        app:borderWidth="0dp"
+        app:fabSize="normal"
+        app:pressedTranslationZ="12dp"
+        tools:layout_editor_absoluteX="30dp"
+        tools:layout_editor_absoluteY="0dp"
+        android:layout_above="@+id/fab_facebook_share_detail"
+        android:layout_alignStart="@+id/fab_facebook_share_detail" />
+
+    <TextView
+        android:id="@+id/designerTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="34dp"
+        android:text="@string/design_by"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="32dp" />
+
+    <TextView
+        android:id="@+id/categoryTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/designerTitle"
+        android:layout_below="@+id/designerTitle"
+        android:layout_marginTop="16dp"
+        android:text="Category:"
+        android:textColor="@color/black"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/designDescriptionTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Design Description"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:layout_alignStart="@+id/designerTitle"
+        android:layout_below="@+id/imageDetails"
+       />
+
+    <TextView
+        android:id="@+id/buildingStepsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Building Steps"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:layout_below="@+id/designDescription"
+        android:layout_alignStart="@+id/designerTitle"
+        android:layout_marginTop="32dp" />
+
+    <TextView
+        android:id="@+id/toolsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tools"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:layout_below="@+id/materials"
+        android:layout_alignStart="@+id/designerTitle"
+        />
+
+    <TextView
+        android:id="@+id/materialsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Materials"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:layout_below="@+id/buildingSteps"
+        android:layout_alignStart="@+id/designerTitle"
+        />
+
+    <TextView
+        android:id="@+id/designer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textColor="@color/colorAccent"
+        android:layout_alignBottom="@+id/designerTitle"
+        android:layout_toRightOf="@+id/designerTitle" />
+
+    <TextView
+        android:id="@+id/category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/categoryTitle"
+        android:layout_alignBaseline="@+id/categoryTitle"
+        android:text="TextView"
+        android:textColor="@color/colorAccent"
+        />
+
+    <TextView
+        android:id="@+id/designDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="TextView"
+        android:textColor="@color/colorAccent"
+        android:layout_below="@+id/imageDetails"
+        android:layout_alignStart="@+id/designDescriptionTitle" />
+
+    <TextView
+        android:id="@+id/buildingSteps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/buildingStepsTitle"
+        android:layout_below="@+id/buildingStepsTitle"
+        android:text="TextView"
+        android:textColor="@color/colorAccent"
+        />
+
+    <TextView
+        android:id="@+id/materials"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/materialsTitle"
+        android:layout_below="@+id/materialsTitle"
+        android:text="TextView"
+        android:textColor="@color/colorAccent"
+        />
+
+    <TextView
+        android:id="@+id/tools"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/toolsTitle"
+        android:layout_below="@+id/toolsTitle"
+        android:text="TextView"
+        android:textColor="@color/colorAccent"
+        />
 </RelativeLayout>
