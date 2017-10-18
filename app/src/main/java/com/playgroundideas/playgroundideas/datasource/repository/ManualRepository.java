@@ -135,18 +135,9 @@ public class ManualRepository {
                     Log.e("Response body", "Cannot create input stream");
                     e.printStackTrace();
                 }
-                length = body.contentLength();
                 byte data[] = new byte[4096];
-                long total = 0;
-                int percentage = 0;
                 try {
                     while ((count = input.read(data)) != -1) {
-                        total += count;
-                        if ((int) ((total * 100) / length) - percentage >= 20) {
-                            sendToastMessage("Downloaded: " + percentage + "%");
-                            percentage += 20;
-                        }
-
                         out.write(data, 0, (int) count);
                     }
                     out.flush();

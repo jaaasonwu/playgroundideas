@@ -2,7 +2,6 @@ package com.playgroundideas.playgroundideas.designs;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,14 +12,10 @@ import android.widget.GridView;
 import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.CallbackManager;
 import com.facebook.share.widget.ShareDialog;
 import com.playgroundideas.playgroundideas.R;
-import com.playgroundideas.playgroundideas.model.Design;
-
-import java.util.ArrayList;
 
 public class DesignBrowseList extends Fragment {
 
@@ -77,7 +72,6 @@ public class DesignBrowseList extends Fragment {
                 if (option==null) {
                     return;
                 }
-                Toast.makeText(getContext(), option.getText() + " selected", Toast.LENGTH_SHORT).show();
                 Filter filter = gridViewAdapter.getFilter();
                 gridViewAdapter.catergory = option.getText().toString();
                 filter.filter(gridViewAdapter.previousQuery);

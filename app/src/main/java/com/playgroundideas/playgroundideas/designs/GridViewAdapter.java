@@ -3,16 +3,10 @@ package com.playgroundideas.playgroundideas.designs;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.net.Uri;
-import android.support.design.widget.FloatingActionButton;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
@@ -21,12 +15,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.facebook.CallbackManager;
-import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
-import com.joanzapata.iconify.IconDrawable;
-import com.joanzapata.iconify.Iconify;
-import com.joanzapata.iconify.fonts.MaterialIcons;
-import com.joanzapata.iconify.fonts.MaterialModule;
 import com.joanzapata.iconify.widget.IconTextView;
 import com.playgroundideas.playgroundideas.R;
 import com.playgroundideas.playgroundideas.model.Design;
@@ -188,8 +177,6 @@ import java.util.List;
 
             switch (view.getId()){
                 case R.id.imageView:
-                    toast = Toast.makeText(context, "The " + textItemNum + " design detail.", Toast.LENGTH_SHORT);
-                    toast.show();
                     Intent intent = new Intent(context, DesignDetailsActivity.class);
                     intent.putExtra("designName", this.designItem.getName());
                     intent.putExtra("designDetail",  imageUrls[itemSeq]);
@@ -203,26 +190,18 @@ import java.util.List;
                     break;
                 case R.id.favourite_or_remove:
                     if(isFavourite) {
-                        toast = Toast.makeText(context, "The " + textItemNum +
-                                " favorite design was removed.", Toast.LENGTH_SHORT);
                         filterList.remove(itemSeq);
                         notifyDataSetChanged();
-                        toast.show();
                     }
                     else {
                         if(favoriteList.contains(this.designItem)){
-                            toast = Toast.makeText(context, "The " + textItemNum +
-                                    " design is not a favourite design any more.", Toast.LENGTH_SHORT);
                             holder.favouriteIcon.setText("{mdi-star-outline}");
                             favoriteList.remove(this.designItem);
-                            toast.show();
                         }
                         else{
                             favoriteList.add(this.designItem);
                             holder.favouriteIcon.setText("{mdi-star}");
                             notifyDataSetChanged();
-                            toast = Toast.makeText(context, "The " + textItemNum + " design is added as a favourite one.", Toast.LENGTH_SHORT);
-                            toast.show();
                         }
                     }
                     break;
