@@ -49,8 +49,10 @@ public class DetailProjectActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_project);
 
+        //using parcel to pass projectItem from project fragment
         test = (ProjectItem) getIntent().getParcelableExtra("project_data");
 
+        //initial the view
         titleView =(TextView) findViewById(R.id.title_project_detail);
         contryView = (TextView) findViewById(R.id.title_project_country);
         descriptionView = (TextView) findViewById(R.id.description);
@@ -58,11 +60,9 @@ public class DetailProjectActivity extends AppCompatActivity {
         endDateView = (TextView) findViewById(R.id.project_end_date);
         imageView =(ImageView) findViewById(R.id.project_detail_image);
         emailAddressView = (TextView) findViewById(R.id.paypal_email);
-
         currentFund = (TextView) findViewById(R.id.current_funding);
         goalFund = (TextView) findViewById(R.id.goal_funding);
         dayLeft = (TextView) findViewById(R.id.percentage);
-
         titleView.setText(test.getProjectTtile());
         contryView.setText(test.getCountry());
         descriptionView.setText(test.getProjectDescription());
@@ -82,10 +82,11 @@ public class DetailProjectActivity extends AppCompatActivity {
                         .colorRes(R.color.white).actionBarSize());
         mFacebookShare.setImageDrawable(new IconDrawable(this, MaterialCommunityIcons.mdi_facebook)
                 .colorRes(R.color.white).actionBarSize());
-
         currentFund.setText(Integer.toString(test.getmCurrentFund()));
         goalFund.setText(Integer.toString(test.getmGoalFund()));
         dayLeft.setText(Integer.toString(test.getmDayleft()));
+
+        //shareButton listener
         mShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -100,12 +101,17 @@ public class DetailProjectActivity extends AppCompatActivity {
                 }
             }
         });
+
         contactOwner();
         shareListener();
         Glide.with(this).load(test.getImageUrl()).into(imageView);
     }
 
+
+    //share function
     public void shareListener() {
+
+        //share project via email
         mEmailShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -123,6 +129,7 @@ public class DetailProjectActivity extends AppCompatActivity {
             }
         });
 
+        //share project via facebook
         mFacebookShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -147,6 +154,8 @@ public class DetailProjectActivity extends AppCompatActivity {
         });
     }
 
+
+    //long click to contact with creator
     public void contactOwner() {
         emailAddressView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override

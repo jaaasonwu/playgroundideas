@@ -49,6 +49,7 @@ public class ProjectBrowser extends Fragment {
                 R.layout.project_browser, container, false);
 
         initial_list();
+
         mFilter = (Button) rootView.findViewById(R.id.button_Filter);
         mProjectListAdapter = new ProjectsListAdapter(getContext(),mProject);
         mProjectSampleList =  rootView.findViewById(R.id.project_list);
@@ -59,6 +60,7 @@ public class ProjectBrowser extends Fragment {
                 checkProjectDetail(mProjectListAdapter.getItem(i));
             }
         });
+
         mSearchView = (SearchView)rootView.findViewById(R.id.projectSearch);
         setupSearchView();
         mFilter.setOnClickListener(new Button.OnClickListener() {
@@ -123,6 +125,7 @@ public class ProjectBrowser extends Fragment {
         startActivity(intent);
     }
 
+    //setup search function
     private void setupSearchView() {
         mSearchView.setQueryHint("search title");
         mSearchView.setOnClickListener(new View.OnClickListener() {
@@ -149,6 +152,7 @@ public class ProjectBrowser extends Fragment {
     }
 
 
+    //filter project by item
     public void filterProjectBy() {
         View conternView = LayoutInflater.from(getContext()).inflate(R.layout.project_filter_popupview,null);
         mPopWindow = new PopupWindow(conternView);
@@ -164,6 +168,7 @@ public class ProjectBrowser extends Fragment {
     }
 
 
+    //set the default title of spinner
     public class SortSpinnerAdapter extends ArrayAdapter<String> {
         Context mContext;
         String[] objects;
@@ -208,6 +213,7 @@ public class ProjectBrowser extends Fragment {
     }
 
 
+    //filter project by country
     public void filterProject() {
         mFilterByCountry.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             int a = 1,b = 0;

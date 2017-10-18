@@ -52,7 +52,6 @@ public class ProjectMy extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(
                 R.layout.project_my, container, false);
-        //use icon button
 
         mCreateBtn = (FloatingActionButton) rootView.findViewById(R.id.create_project);
         mCreateBtn.setOnClickListener(new IconButton.OnClickListener() {
@@ -97,6 +96,7 @@ public class ProjectMy extends Fragment {
         intent.putExtra("project_data",pro);
         startActivity(intent);
     }
+
 
     private void initial_list() {
         Calendar mCalendar = Calendar.getInstance();
@@ -144,6 +144,7 @@ public class ProjectMy extends Fragment {
         }
     }
 
+    //setup search function
     private void setupSearchView() {
         mSearchView.setQueryHint("search title");
         mSearchView.setOnClickListener(new View.OnClickListener() {
@@ -171,6 +172,7 @@ public class ProjectMy extends Fragment {
     }
 
 
+    //filter project
     public void filterProjectBy() {
         View conternView = LayoutInflater.from(getContext()).inflate(R.layout.project_filter_popupview,null);
         mPopWindow = new PopupWindow(conternView);
@@ -194,6 +196,7 @@ public class ProjectMy extends Fragment {
     }
 
 
+    //set default text of spinner
     public class SortSpinnerAdapter extends ArrayAdapter<String> {
         Context mContext;
         String[] objects;
@@ -242,6 +245,7 @@ public class ProjectMy extends Fragment {
     }
 
 
+    //filter project by country
     public void filterProject() {
         mFilterByCountry.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             int a = 1,b = 0;

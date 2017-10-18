@@ -91,6 +91,8 @@ public class ProjectItem implements Parcelable{
         return 0;
     }
 
+
+    //write projectItem into parcel
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(mProjectTtile);
@@ -107,6 +109,8 @@ public class ProjectItem implements Parcelable{
 
     }
 
+
+    //read projectItem into parcel
     public static final Parcelable.Creator<ProjectItem> CREATOR = new Parcelable.Creator<ProjectItem>() {
         @Override
         public ProjectItem createFromParcel(Parcel source) {

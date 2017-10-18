@@ -74,7 +74,10 @@ public class DetailProjectActivity_my extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_project_my);
 
+        //using parcel to pass projectItem from project fragment
         test = (ProjectItem) getIntent().getParcelableExtra("project_data");
+
+        //initial the view
         titleView =(TextView) findViewById(R.id.title_project_detail);
         contryView = (TextView) findViewById(R.id.title_project_country);
         descriptionView = (TextView) findViewById(R.id.description);
@@ -109,6 +112,7 @@ public class DetailProjectActivity_my extends AppCompatActivity {
         mFacebookShare.setImageDrawable(new IconDrawable(this, MaterialCommunityIcons.mdi_facebook)
                 .colorRes(R.color.white).actionBarSize());
 
+        //shareButton listener
         mShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -123,6 +127,8 @@ public class DetailProjectActivity_my extends AppCompatActivity {
                 }
             }
         });
+
+        //addPhotoButton listener
         mAddPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -140,7 +146,10 @@ public class DetailProjectActivity_my extends AppCompatActivity {
     }
 
 
+    //share function
     public void shareListener() {
+
+        //share project via email
         mEmailShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -158,6 +167,8 @@ public class DetailProjectActivity_my extends AppCompatActivity {
             }
         });
 
+
+        //share project via facebook
         mFacebookShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -182,6 +193,8 @@ public class DetailProjectActivity_my extends AppCompatActivity {
         });
     }
 
+
+    //long click to contact with creator
     public void contactOwner() {
         emailAddressView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -202,6 +215,7 @@ public class DetailProjectActivity_my extends AppCompatActivity {
         });
     }
 
+
     public void addPhotoBy() {
         View conternView = LayoutInflater.from(DetailProjectActivity_my.this).inflate(R.layout.project_new_photo_popupview,null);
         mPopWindow = new PopupWindow(conternView);
@@ -217,6 +231,7 @@ public class DetailProjectActivity_my extends AppCompatActivity {
         addPhoto();
     }
 
+    //addphoto from camera and photo
     public void addPhoto() {
 
         mAddPhotoFromCamera.setOnClickListener(new View.OnClickListener() {
