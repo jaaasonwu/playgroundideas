@@ -38,7 +38,7 @@ public class ProjectBrowser extends Fragment {
     private Button mFilter;
     private PopupWindow mPopWindow;
     private Spinner mFilterByCountry = null;
-    public static final String[] mSortSelections = {"-","Australia","American","South Africa","China","All"};
+    public static final String[] mSortSelections = {"-","Australia","American","Rwanda","China","All"};
     public static final String defaultText = "Location";
 
 
@@ -49,6 +49,7 @@ public class ProjectBrowser extends Fragment {
                 R.layout.project_browser, container, false);
 
         initial_list();
+
         mFilter = (Button) rootView.findViewById(R.id.button_Filter);
         mProjectListAdapter = new ProjectsListAdapter(getContext(),mProject);
         mProjectSampleList =  rootView.findViewById(R.id.project_list);
@@ -56,9 +57,10 @@ public class ProjectBrowser extends Fragment {
         mProjectSampleList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                checkProjectDetail();
+                checkProjectDetail(mProjectListAdapter.getItem(i));
             }
         });
+
         mSearchView = (SearchView)rootView.findViewById(R.id.projectSearch);
         setupSearchView();
         mFilter.setOnClickListener(new Button.OnClickListener() {
@@ -71,30 +73,69 @@ public class ProjectBrowser extends Fragment {
     }
 
     private void initial_list() {
+        Calendar mCalendar = Calendar.getInstance();
         mProject = new ArrayList<>();
         Date sampleDate = mCalendar.getTime();
+        String[] sampleTitle = {"Go to play"
+                                ,"Gawad Kalinga Village Playground"
+                                ,"Children on the Edge"
+                                ,"Rolling Dreams"
+                                ,"Maendeleo Playscape & Farm"
+                                ,"AMOR ACTIVO COPAN"
+                                ,"Pact Playground"
+                                ,"Morocco Interactive Playspace"
+                                ,"St. Monica’s Preschool"
+                                ,"Preschool Playground"};
         String sampleEmailAddress = "playpus@gmail.com";
-        String sampleCountry = "Australia";
+        String sampleCountry;
         String sampleCurrency = "AUD";
-        String sampleDescription = "It is my first project";
-        String sampleTitle = "My Project";
-        String sampleImageUrl = "https://playgroundideas.org/wp-content/uploads/2016/09/DSC_2414-1024x685.jpg";
+        String sampleDescription = "This recycled playground was built at a Gawad Kalinga Village in Davao, Philippines in November 2011.The playground was built in a housing development of about 100 small, low cost homes. An unexpected donation of 20 tractor tires, enabled us create interesting cubby features as a part of the design. Design by Playground Ideas, rendering by Howard Lorenzo, photography by Macky Madalangconsuegra.";
+        String[] sampleImageUrl = {"https://playgroundideas.org/wp-content/uploads/2017/02/IMGP0204-1024x768.jpg"
+                ,"https://playgroundideas.org/wp-content/uploads/2017/02/IMG_0871-1024x768.jpg"
+                ,"https://playgroundideas.org/wp-content/uploads/2017/02/IMG_0782-1024x572.jpg"
+                ,"https://playgroundideas.org/wp-content/uploads/2017/02/IMGP0184-1024x768.jpg"
+                ,"https://playgroundideas.org/wp-content/uploads/2017/02/IMG_2269-1024x683.jpg"
+                ,"https://playgroundideas.org/wp-content/uploads/2017/02/IMG_2269-1024x683.jpg"
+                ,"https://playgroundideas.org/wp-content/uploads/2017/02/IMG_2370-1024x683.jpg"
+                ,"https://playgroundideas.org/wp-content/uploads/2017/02/IMG_8878-1024x768.jpg"
+                ,"https://playgroundideas.org/wp-content/uploads/2017/02/IMG_2345-1024x683.jpg"
+                ,"https://playgroundideas.org/wp-content/uploads/2017/02/IMG_8831-1024x768.jpg"
+                ,"https://playgroundideas.org/wp-content/uploads/2017/02/IMG_2407-1024x683.jpg"};
         ProjectItem newProject;
-        for(int i = 0; i< PROJECT_COUNTER; i++) {
-            newProject = new ProjectItem(sampleTitle+ " " + i,sampleDate,sampleDate,sampleEmailAddress
-                    ,sampleCountry,sampleCurrency,sampleDescription,sampleImageUrl);
+        for(int i = 0; i< PROJECT_COUNTER ; i++) {
+            if(i < 2) {
+                sampleCountry = "China";
+            } else if(i < 5){
+                sampleCountry = "Australia";
+            } else if(i < 8) {
+                sampleCountry = "Rwanda";
+            } else {
+                sampleCountry = "American";
+            }
+            newProject = new ProjectItem(sampleTitle[i],sampleDate,sampleDate,sampleEmailAddress
+                    ,sampleCountry,sampleCurrency,sampleDescription,sampleImageUrl[i],i*100+1042,i*1000+4123,i);
             mProject.add(newProject);
         }
     }
 
-    public void checkProjectDetail() {
-        Intent intent = new Intent();
+    public void checkProjectDetail(ProjectItem pro) {
+        Intent intent = new Intent(getContext(),DetailProjectActivity.class);
         intent.setClass(getContext(), DetailProjectActivity.class);
+        intent.putExtra("project_data",pro);
         startActivity(intent);
     }
 
+    //setup search function
     private void setupSearchView() {
         mSearchView.setQueryHint("search title");
+        mSearchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mSearchView.onActionViewExpanded();
+                mSearchView.setIconified(false);
+                mSearchView.clearFocus();
+            }
+        });
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -111,10 +152,13 @@ public class ProjectBrowser extends Fragment {
     }
 
 
+    //filter project by item
     public void filterProjectBy() {
         View conternView = LayoutInflater.from(getContext()).inflate(R.layout.project_filter_popupview,null);
         mPopWindow = new PopupWindow(conternView);
         mPopWindow.setContentView(conternView);
+        mPopWindow.setOutsideTouchable(true);
+        mPopWindow.setFocusable(true);
         mPopWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
         mPopWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
         mFilterByCountry = (Spinner) conternView.findViewById(R.id.spinner_filter_country);
@@ -124,6 +168,7 @@ public class ProjectBrowser extends Fragment {
     }
 
 
+    //set the default title of spinner
     public class SortSpinnerAdapter extends ArrayAdapter<String> {
         Context mContext;
         String[] objects;
@@ -168,6 +213,7 @@ public class ProjectBrowser extends Fragment {
     }
 
 
+    //filter project by country
     public void filterProject() {
         mFilterByCountry.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             int a = 1,b = 0;

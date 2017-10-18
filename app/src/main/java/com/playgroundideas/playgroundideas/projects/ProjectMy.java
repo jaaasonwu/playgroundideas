@@ -2,9 +2,12 @@ package com.playgroundideas.playgroundideas.projects;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +43,7 @@ public class ProjectMy extends Fragment {
     private Button mFilter;
     private PopupWindow mPopWindow;
     private Spinner mFilterByCountry = null;
-    public static final String[] mSortSelections = {"-","Australia","American","South Africa","China","All"};
+    public static final String[] mSortSelections = {"-","Australia","American","Rwanda","China","All"};
     public static final String defaultText = "Location";
 
 
@@ -49,7 +52,6 @@ public class ProjectMy extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(
                 R.layout.project_my, container, false);
-        //use icon button
 
         mCreateBtn = (FloatingActionButton) rootView.findViewById(R.id.create_project);
         mCreateBtn.setOnClickListener(new IconButton.OnClickListener() {
@@ -66,7 +68,7 @@ public class ProjectMy extends Fragment {
         mProjectSampleList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                checkProjectDetail();
+                checkProjectDetail(mProjectListAdapter.getItem(i));
             }
         });
         mCreateBtn.setImageDrawable(new IconDrawable(getContext(), MaterialIcons.md_add)
@@ -76,7 +78,7 @@ public class ProjectMy extends Fragment {
         mFilter.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                filterProjectBy();
+                    filterProjectBy();
             }
         });
         return rootView;
@@ -88,40 +90,72 @@ public class ProjectMy extends Fragment {
         startActivity(intent);
     }
 
-    public void checkProjectDetail() {
-        Intent intent = new Intent();
-        intent.setClass(getContext(), DetailProjectActivity.class);
+    public void checkProjectDetail(ProjectItem pro) {
+        Intent intent = new Intent(getContext(),DetailProjectActivity_my.class);
+        intent.setClass(getContext(), DetailProjectActivity_my.class);
+        intent.putExtra("project_data",pro);
         startActivity(intent);
     }
+
 
     private void initial_list() {
         Calendar mCalendar = Calendar.getInstance();
         mProject = new ArrayList<>();
         Date sampleDate = mCalendar.getTime();
-        String sampleTitle = "My Project";
-        String sampleEmailAddress = "playpus@gmail.com";
-        String sampleCountry = "Australia";
+        String[] sampleTitle = {"Go to play"
+                ,"Gawad Kalinga Village Playground"
+                ,"Children on the Edge"
+                ,"Maendeleo Playscape & Farm"
+                ,"AMOR ACTIVO COPAN"
+                ,"Morocco Interactive Playspace"
+                ,"Pact Playground"
+                ,"St. Monica’s Preschool"
+                ,"Rolling Dreams"
+                ,"Preschool Playground"};
+        String sampleEmailAddress = "platypustestplatyground@gmail.com";
+        String sampleCountry;
         String sampleCurrency = "AUD";
-        String sampleDescription = "It is my first project";
-        String sampleImageUrl = "https://playgroundideas.org/wp-content/uploads/2017/02/IMGP0204-1024x768.jpg";
+        String sampleDescription = "This playground project was a partnership between  University of Canberra, Playground Ideas, Pacific Adventist University and Koiari Park Adventist Primary School. The playground was built to be a demonstration playground and research site, with the long-term goal to promote playgrounds built of locally sourced materials as safe and stimulating play and learning environments for children and also to serve as community hubs.";
+        String[] sampleImageUrl = {"https://playgroundideas.org/wp-content/uploads/2017/02/IMGP0204-1024x768.jpg"
+                ,"https://playgroundideas.org/wp-content/uploads/2017/02/IMG_0782-1024x572.jpg"
+                ,"https://playgroundideas.org/wp-content/uploads/2017/02/IMG_0871-1024x768.jpg"
+                ,"https://playgroundideas.org/wp-content/uploads/2017/02/IMGP0184-1024x768.jpg"
+                ,"https://playgroundideas.org/wp-content/uploads/2017/02/IMG_2269-1024x683.jpg"
+                ,"https://playgroundideas.org/wp-content/uploads/2017/02/IMG_2269-1024x683.jpg"
+                ,"https://playgroundideas.org/wp-content/uploads/2017/02/IMG_2345-1024x683.jpg"
+                ,"https://playgroundideas.org/wp-content/uploads/2017/02/IMG_2370-1024x683.jpg"
+                ,"https://playgroundideas.org/wp-content/uploads/2017/02/IMG_2407-1024x683.jpg"
+                ,"https://playgroundideas.org/wp-content/uploads/2017/02/IMG_8878-1024x768.jpg"
+                ,"https://playgroundideas.org/wp-content/uploads/2017/02/IMG_8831-1024x768.jpg"};
         ProjectItem newProject;
         for(int i = 0; i< PROJECT_COUNTER ; i++) {
-            if(i >= 5) {
+            if(i < 2) {
                 sampleCountry = "China";
-                newProject = new ProjectItem(sampleTitle+ " " + i,sampleDate,sampleDate,sampleEmailAddress
-                        ,sampleCountry,sampleCurrency,sampleDescription,sampleImageUrl);
-            } else {
+            } else if(i < 5){
                 sampleCountry = "Australia";
-                newProject = new ProjectItem(sampleTitle+ " " + i,sampleDate,sampleDate,sampleEmailAddress
-                        ,sampleCountry,sampleCurrency,sampleDescription,sampleImageUrl);
+            } else if(i < 8) {
+                sampleCountry = "Rwanda";
+            } else {
+                sampleCountry = "American";
             }
-
+            newProject = new ProjectItem(sampleTitle[i],sampleDate,sampleDate,sampleEmailAddress
+                    ,sampleCountry,sampleCurrency,sampleDescription,sampleImageUrl[i],i*100+1231,i*1000+1321,i);
             mProject.add(newProject);
         }
     }
 
+    //setup search function
     private void setupSearchView() {
         mSearchView.setQueryHint("search title");
+        mSearchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mSearchView.onActionViewExpanded();
+                mSearchView.setIconified(false);
+                mSearchView.clearFocus();
+            }
+        });
+
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -138,19 +172,31 @@ public class ProjectMy extends Fragment {
     }
 
 
+    //filter project
     public void filterProjectBy() {
         View conternView = LayoutInflater.from(getContext()).inflate(R.layout.project_filter_popupview,null);
         mPopWindow = new PopupWindow(conternView);
         mPopWindow.setContentView(conternView);
+        mPopWindow.setOutsideTouchable(true);
+        mPopWindow.setFocusable(true);
+        mPopWindow.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(getContext(), android.R.color.transparent)));
         mPopWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
         mPopWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
         mFilterByCountry = (Spinner) conternView.findViewById(R.id.spinner_filter_country);
-        mFilterByCountry.setAdapter(new SortSpinnerAdapter(getContext(),R.layout.support_simple_spinner_dropdown_item,mSortSelections,defaultText));
+        final SortSpinnerAdapter mCountryAdapter = new SortSpinnerAdapter(getContext(),R.layout.support_simple_spinner_dropdown_item,mSortSelections,defaultText);
+        mFilterByCountry.setAdapter(mCountryAdapter);
         mPopWindow.showAsDropDown(mFilter);
         filterProject();
+        mPopWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                mCountryAdapter.setFirstTime(true);
+            }
+        });
     }
 
 
+    //set default text of spinner
     public class SortSpinnerAdapter extends ArrayAdapter<String> {
         Context mContext;
         String[] objects;
@@ -192,9 +238,14 @@ public class ProjectMy extends Fragment {
             label.setText(objects[position]);
             return row;
         }
+
+        public void setFirstTime(Boolean firstTime) {
+            isFirstTime = firstTime;
+        }
     }
 
 
+    //filter project by country
     public void filterProject() {
         mFilterByCountry.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             int a = 1,b = 0;
