@@ -118,4 +118,6 @@
     <string name="materials">Materials</string>
     <string name="favourite_design_icon">{mdi-star}</string>
     <string name="dislike_design_icon">{mdi-star-outline}</string>
+    <string name="photo_icon">{md-photo}</string>
+    <string name="choose_source">Choose source</string>
 </resources>
