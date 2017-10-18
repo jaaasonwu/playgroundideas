@@ -29,6 +29,7 @@ public class DesignBrowseList extends Fragment {
     private Spinner spinner;
     private CallbackManager callbackManager;
     private ShareDialog shareDialog;
+    private GridViewAdapter gridViewAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,7 +42,7 @@ public class DesignBrowseList extends Fragment {
         myGrid = (GridView) view.findViewById(R.id.my_browse_grid);
         searchView = (SearchView) view.findViewById(R.id.search_browse);
         // Construct the adapter to fill data into view components
-        final GridViewAdapter gridViewAdapter = new GridViewAdapter(getActivity(),callbackManager,shareDialog,false);
+        gridViewAdapter = new GridViewAdapter(getActivity(),callbackManager,shareDialog,false);
         myGrid.setAdapter(gridViewAdapter);
         // Initialize the searchView
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -86,5 +87,16 @@ public class DesignBrowseList extends Fragment {
     public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    /**
+     * Update when the list is visible to the user
+     */
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && gridViewAdapter != null) {
+            gridViewAdapter.notifyDataSetChanged();
+        }
     }
 }

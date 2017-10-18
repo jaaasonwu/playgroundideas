@@ -38,11 +38,4 @@ public class DesignsFragment extends Fragment {
         return rootView;
     }
 
-    // The method would be used in the floating action button in reponse to a click for switching from the favorite design page to
-    // the design browsing page.
-    public void respond() {
-        viewPager.setAdapter(designTabPagerAdapter);
-        viewPager.setCurrentItem(1);
-    }
-
 }
