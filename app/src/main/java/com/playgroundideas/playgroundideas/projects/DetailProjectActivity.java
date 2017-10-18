@@ -38,13 +38,14 @@ public class DetailProjectActivity extends AppCompatActivity {
     private TextView mEmailShare;
     private TextView mFacebookShare;
     private Boolean isOpen = false;
+    private ProjectItem test;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_project);
 
-        ProjectItem test = (ProjectItem) getIntent().getParcelableExtra("project_data");
+        test = (ProjectItem) getIntent().getParcelableExtra("project_data");
 
         titleView =(TextView) findViewById(R.id.title_project_detail);
         contryView = (TextView) findViewById(R.id.title_project_country);
@@ -139,7 +140,7 @@ public class DetailProjectActivity extends AppCompatActivity {
                 Toast.makeText(DetailProjectActivity.this,"Sharing project through Email",Toast.LENGTH_LONG).show();
                 Intent i = new Intent(Intent.ACTION_SEND);
                 i.setType("message/rfc822");
-                i.putExtra(Intent.EXTRA_EMAIL,new String[] {sampleProject.getEmailAddress()});
+                i.putExtra(Intent.EXTRA_EMAIL,new String[] {test.getEmailAddress()});
                 i.putExtra(Intent.EXTRA_SUBJECT,"Project Consult");
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 try {

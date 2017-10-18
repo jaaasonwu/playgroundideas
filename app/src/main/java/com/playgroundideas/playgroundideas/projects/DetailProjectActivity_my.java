@@ -58,6 +58,7 @@ public class DetailProjectActivity_my extends AppCompatActivity {
     private Button mAddPhotoFromGallery;
     private Button mAddPhotoFromCamera;
     private PopupWindow mPopWindow;
+    private ProjectItem test;
     private File file;
     private static final int REQUEST_IMAGE_CAPTURE = 2;
     private static final int RESULT_LOAD_IMG = 1;
@@ -68,7 +69,7 @@ public class DetailProjectActivity_my extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_project_my);
 
-        ProjectItem test = (ProjectItem) getIntent().getParcelableExtra("project_data");
+        test = (ProjectItem) getIntent().getParcelableExtra("project_data");
         titleView =(TextView) findViewById(R.id.title_project_detail);
         contryView = (TextView) findViewById(R.id.title_project_country);
         descriptionView = (TextView) findViewById(R.id.description);
@@ -173,7 +174,7 @@ public class DetailProjectActivity_my extends AppCompatActivity {
                 Toast.makeText(DetailProjectActivity_my.this,"Sharing project through Email",Toast.LENGTH_LONG).show();
                 Intent i = new Intent(Intent.ACTION_SEND);
                 i.setType("message/rfc822");
-                i.putExtra(Intent.EXTRA_EMAIL,new String[] {sampleProject.getEmailAddress()});
+                i.putExtra(Intent.EXTRA_EMAIL,new String[] {test.getEmailAddress()});
                 i.putExtra(Intent.EXTRA_SUBJECT,"Project Consult");
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 try {
