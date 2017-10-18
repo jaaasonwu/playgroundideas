@@ -1,17 +1,14 @@
 package com.playgroundideas.playgroundideas.designs;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,24 +17,16 @@ import com.bumptech.glide.Glide;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
 import com.facebook.share.Sharer;
 import com.facebook.share.model.ShareLinkContent;
-import com.facebook.share.model.SharePhoto;
-import com.facebook.share.model.SharePhotoContent;
 import com.facebook.share.widget.ShareDialog;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.Iconify;
+import com.joanzapata.iconify.fonts.MaterialCommunityIcons;
+import com.joanzapata.iconify.fonts.MaterialCommunityModule;
 import com.joanzapata.iconify.fonts.MaterialIcons;
 import com.joanzapata.iconify.fonts.MaterialModule;
-import com.playgroundideas.playgroundideas.MainActivity;
 import com.playgroundideas.playgroundideas.R;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
 
 public class DesignDetailsActivity extends AppCompatActivity {
     private FloatingActionButton floatingActionPlus;
@@ -64,13 +53,15 @@ public class DesignDetailsActivity extends AppCompatActivity {
         floatingActionFacebookShare = (FloatingActionButton) findViewById(R.id.fab_facebook_share_detail);
 
         // Initialize floating action button on the UI
-        Iconify.with(new MaterialModule());
-        floatingActionPlus.setImageDrawable(new IconDrawable(this, MaterialIcons.md_add)
-                .colorRes(R.color.black).actionBarSize());
+        Iconify.with(new MaterialModule()).with(new MaterialCommunityModule());
+
+        floatingActionPlus.setImageDrawable(new IconDrawable(this, MaterialIcons.md_share)
+                .colorRes(R.color.white).actionBarSize());
         floatingActionEmailShare.setImageDrawable(new IconDrawable(this, MaterialIcons.md_email)
-                .colorRes(R.color.black).actionBarSize());
-        floatingActionFacebookShare.setImageDrawable(new IconDrawable(this, MaterialIcons.md_share)
-                .colorRes(R.color.black).actionBarSize());
+                .colorRes(R.color.white).actionBarSize());
+        floatingActionFacebookShare.setImageDrawable(new IconDrawable(this, MaterialCommunityIcons.mdi_facebook)
+                .colorRes(R.color.white).actionBarSize());
+
         fabOpenShare = AnimationUtils.loadAnimation(this, R.anim.fab_open_share);
         fabRClockwise = AnimationUtils.loadAnimation(this, R.anim.rotate_clockwise);
         fabCloseShare = AnimationUtils.loadAnimation(this, R.anim.fab_close_share);

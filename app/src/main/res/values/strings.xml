@@ -108,6 +108,13 @@
     <string name="email_share">{md-email}</string>
     <string name="facebook_share">{mdi-facebook-box}</string>
     <string name="facebook_share1">{md-share}</string>
-    <string name="facebook_app_id">252116368644369</string>
+    <string name="facebook_app_id">705598346299936</string>
     <string name="plan_open_button">Open Plan Tool</string>
+    <string name="designed_by">Designed by</string>
+    <string name="category">Category</string>
+    <string name="design_description">Design Description</string>
+    <string name="building_steps">Building Steps</string>
+    <string name="tools">Tools</string>
+    <string name="materials">Materials</string>
+
 </resources>
