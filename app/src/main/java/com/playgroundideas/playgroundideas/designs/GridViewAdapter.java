@@ -84,6 +84,11 @@ import java.util.List;
         }
         this.filterList = list;
 
+        if(isFavourite){
+            this.filterList = favoriteList;
+            this.list = favoriteList;
+        }
+
     }
 
     // The definition of searching designs in terms of keywords and categories.
@@ -254,6 +259,14 @@ import java.util.List;
             holder = new ViewHolder(designItem);
             if(isFavourite) {
                 holder.favouriteIcon.setText("{mdi-star}");
+            }
+            else{
+                if(favoriteList.contains(filterList.get(itemSeq))){
+                    holder.favouriteIcon.setText("{mdi-star}");
+                }
+                else{
+                    holder.favouriteIcon.setText("{mdi-star-outline}");
+                }
             }
             designItem.setTag(holder);
         }
