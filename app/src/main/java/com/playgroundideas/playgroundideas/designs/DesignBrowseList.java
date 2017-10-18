@@ -41,6 +41,14 @@ public class DesignBrowseList extends Fragment {
         shareDialog = new ShareDialog(getActivity());
         myGrid = (GridView) view.findViewById(R.id.my_browse_grid);
         searchView = (SearchView) view.findViewById(R.id.search_browse);
+        searchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                searchView.onActionViewExpanded();
+                searchView.setIconified(false);
+                searchView.clearFocus();
+            }
+        });
         // Construct the adapter to fill data into view components
         gridViewAdapter = new GridViewAdapter(getActivity(),callbackManager,shareDialog,false);
         myGrid.setAdapter(gridViewAdapter);
