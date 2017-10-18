@@ -115,6 +115,8 @@ public class ProjectBrowser extends Fragment {
         View conternView = LayoutInflater.from(getContext()).inflate(R.layout.project_filter_popupview,null);
         mPopWindow = new PopupWindow(conternView);
         mPopWindow.setContentView(conternView);
+        mPopWindow.setOutsideTouchable(true);
+        mPopWindow.setFocusable(true);
         mPopWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
         mPopWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
         mFilterByCountry = (Spinner) conternView.findViewById(R.id.spinner_filter_country);

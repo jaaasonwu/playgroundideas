@@ -2,9 +2,12 @@ package com.playgroundideas.playgroundideas.projects;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +43,7 @@ public class ProjectMy extends Fragment {
     private Button mFilter;
     private PopupWindow mPopWindow;
     private Spinner mFilterByCountry = null;
-    public static final String[] mSortSelections = {"-","Australia","American","South Africa","China","All"};
+    public static final String[] mSortSelections = {"-","Australia","American","Rwanda","China","All"};
     public static final String defaultText = "Location";
 
 
@@ -76,7 +79,7 @@ public class ProjectMy extends Fragment {
         mFilter.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                filterProjectBy();
+                    filterProjectBy();
             }
         });
         return rootView;
@@ -103,18 +106,30 @@ public class ProjectMy extends Fragment {
         String sampleCountry = "Australia";
         String sampleCurrency = "AUD";
         String sampleDescription = "It is my first project";
-        String sampleImageUrl = "https://playgroundideas.org/wp-content/uploads/2017/02/IMGP0204-1024x768.jpg";
+        String[] sampleImageUrl = {"https://playgroundideas.org/wp-content/uploads/2017/02/IMGP0204-1024x768.jpg"
+                ,"https://playgroundideas.org/wp-content/uploads/2017/02/IMG_0782-1024x572.jpg"
+                ,"https://playgroundideas.org/wp-content/uploads/2017/02/IMG_0871-1024x768.jpg"
+                ,"https://playgroundideas.org/wp-content/uploads/2017/02/IMGP0184-1024x768.jpg"
+                ,"https://playgroundideas.org/wp-content/uploads/2017/02/IMG_2269-1024x683.jpg"
+                ,"https://playgroundideas.org/wp-content/uploads/2017/02/IMG_2269-1024x683.jpg"
+                ,"https://playgroundideas.org/wp-content/uploads/2017/02/IMG_2345-1024x683.jpg"
+                ,"https://playgroundideas.org/wp-content/uploads/2017/02/IMG_2370-1024x683.jpg"
+                ,"https://playgroundideas.org/wp-content/uploads/2017/02/IMG_2407-1024x683.jpg"
+                ,"https://playgroundideas.org/wp-content/uploads/2017/02/IMG_8878-1024x768.jpg"
+                ,"https://playgroundideas.org/wp-content/uploads/2017/02/IMG_8831-1024x768.jpg"};
         ProjectItem newProject;
         for(int i = 0; i< PROJECT_COUNTER ; i++) {
-            if(i >= 5) {
+            if(i < 2) {
                 sampleCountry = "China";
-                newProject = new ProjectItem(sampleTitle+ " " + i,sampleDate,sampleDate,sampleEmailAddress
-                        ,sampleCountry,sampleCurrency,sampleDescription,sampleImageUrl);
-            } else {
+            } else if(i < 5){
                 sampleCountry = "Australia";
-                newProject = new ProjectItem(sampleTitle+ " " + i,sampleDate,sampleDate,sampleEmailAddress
-                        ,sampleCountry,sampleCurrency,sampleDescription,sampleImageUrl);
+            } else if(i < 8) {
+                sampleCountry = "Rwanda";
+            } else {
+                sampleCountry = "American";
             }
+            newProject = new ProjectItem(sampleTitle+ " " + i,sampleDate,sampleDate,sampleEmailAddress
+                    ,sampleCountry,sampleCurrency,sampleDescription,sampleImageUrl[i]);
 
             mProject.add(newProject);
         }
@@ -142,12 +157,22 @@ public class ProjectMy extends Fragment {
         View conternView = LayoutInflater.from(getContext()).inflate(R.layout.project_filter_popupview,null);
         mPopWindow = new PopupWindow(conternView);
         mPopWindow.setContentView(conternView);
+        mPopWindow.setOutsideTouchable(true);
+        mPopWindow.setFocusable(true);
+        mPopWindow.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(getContext(), android.R.color.transparent)));
         mPopWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
         mPopWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
         mFilterByCountry = (Spinner) conternView.findViewById(R.id.spinner_filter_country);
-        mFilterByCountry.setAdapter(new SortSpinnerAdapter(getContext(),R.layout.support_simple_spinner_dropdown_item,mSortSelections,defaultText));
+        final SortSpinnerAdapter mCountryAdapter = new SortSpinnerAdapter(getContext(),R.layout.support_simple_spinner_dropdown_item,mSortSelections,defaultText);
+        mFilterByCountry.setAdapter(mCountryAdapter);
         mPopWindow.showAsDropDown(mFilter);
         filterProject();
+        mPopWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                mCountryAdapter.setFirstTime(true);
+            }
+        });
     }
 
 
@@ -191,6 +216,10 @@ public class ProjectMy extends Fragment {
             TextView label = (TextView) row.findViewById(android.R.id.text1);
             label.setText(objects[position]);
             return row;
+        }
+
+        public void setFirstTime(Boolean firstTime) {
+            isFirstTime = firstTime;
         }
     }
 
