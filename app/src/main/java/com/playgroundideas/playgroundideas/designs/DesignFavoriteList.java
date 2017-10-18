@@ -128,4 +128,15 @@ public class DesignFavoriteList extends DaggerFragment {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
+
+    /**
+     * Update when the list is visible to the user
+     */
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && gridViewAdapter != null) {
+            gridViewAdapter.notifyDataSetChanged();
+        }
+    }
 }

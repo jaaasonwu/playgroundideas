@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Playground Ideas</string>
     <string name="designs">Designs</string>
-    <string name="manuals">Manuals</string>
+    <string name="manuals">Handbooks</string>
     <string name="plans">Plans</string>
     <string name="projects">Projects</string>
 
@@ -9,7 +9,7 @@
     <string name="brs_designs">Browse Designs</string>
     <string name="my_plans">My Plans</string>
     <string name="brs_plans">Browse Plans</string>
-    <string name="offline_manuals">Offline Manuals</string>
+    <string name="offline_manuals">Offline Handbooks</string>
     <string name="my_projects">My Projects</string>
     <string name="brs_projects">Browse Projects</string>
     <string-array name="description">
@@ -56,7 +56,7 @@
     <string name="login_prompt">Already have an account? Log in!</string>
     <string name="prompt_sign_up">Enter the email to sign up</string>
     <string name="prompt_email">Username</string>
-    <string name="prompt_password">Password (optional)</string>
+    <string name="prompt_password">Password</string>
     <string name="action_log_in">Log In</string>
     <string name="action_sign_up">Sign Up</string>
     <string name="error_invalid_email">This email address is invalid</string>
@@ -89,7 +89,7 @@
     <string name="donation">Donation Method</string>
     <string name="account_info">Account Information</string>
     <string name="logout">Log out</string>
-    <string name="forget_pass">Forget Password?</string>
+    <string name="forget_pass">Forgot Password?</string>
     <string name="or">Or</string>
 
     <string name="download_failed">Download failed. Please check your Internet connection.</string>
@@ -116,5 +116,6 @@
     <string name="building_steps">Building Steps</string>
     <string name="tools">Tools</string>
     <string name="materials">Materials</string>
-
+    <string name="favourite_design_icon">{mdi-star}</string>
+    <string name="dislike_design_icon">{mdi-star-outline}</string>
 </resources>
