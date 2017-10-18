@@ -1,33 +1,29 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <TextView
-        android:id="@+id/imageTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:layout_below="@+id/categoryTitle"
-        android:layout_centerHorizontal="true" />
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:paddingLeft="@dimen/activity_horizontal_margin"
+              android:paddingRight="@dimen/activity_horizontal_margin"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:id="@+id/relative"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/imageDetails"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="200dp"
         app:srcCompat="@drawable/sample1"
-        android:layout_below="@+id/imageTitle"
-        android:layout_alignParentStart="true" />
-
+        android:layout_alignParentStart="true"
+        android:scaleType="centerCrop"/>
+    </RelativeLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_share_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="2dp"
         android:elevation="6dp"
         app:borderWidth="0dp"
         app:fabSize="normal"
@@ -47,8 +43,6 @@
         app:borderWidth="0dp"
         app:fabSize="normal"
         app:pressedTranslationZ="12dp"
-        tools:layout_editor_absoluteX="60dp"
-        tools:layout_editor_absoluteY="0dp"
         android:layout_above="@+id/fab_share_detail"
         android:layout_alignStart="@+id/fab_share_detail" />
 
@@ -62,134 +56,147 @@
         app:borderWidth="0dp"
         app:fabSize="normal"
         app:pressedTranslationZ="12dp"
-        tools:layout_editor_absoluteX="30dp"
-        tools:layout_editor_absoluteY="0dp"
         android:layout_above="@+id/fab_facebook_share_detail"
         android:layout_alignStart="@+id/fab_facebook_share_detail" />
 
-    <TextView
-        android:id="@+id/designerTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="34dp"
-        android:text="@string/design_by"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="32dp" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/relative">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/categoryTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/designerTitle"
-        android:layout_below="@+id/designerTitle"
-        android:layout_marginTop="16dp"
-        android:text="Category:"
-        android:textColor="@color/black"
-        android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/imageTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="28sp"
+                android:text="@string/project_title"/>
 
-    <TextView
-        android:id="@+id/designDescriptionTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Design Description"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:layout_alignStart="@+id/designerTitle"
-        android:layout_below="@+id/imageDetails"
-       />
+            <TextView
+                android:id="@+id/designerTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/designed_by"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:layout_marginTop="16dp" />
+            <TextView
+                android:id="@+id/designer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textSize="20sp"
+                android:text="@string/designed_by"
+                android:textColor="@color/black" />
 
-    <TextView
-        android:id="@+id/buildingStepsTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Building Steps"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:layout_below="@+id/designDescription"
-        android:layout_alignStart="@+id/designerTitle"
-        android:layout_marginTop="32dp" />
+            <TextView
+                android:id="@+id/categoryTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:text="@string/category"/>
+            <TextView
+                android:id="@+id/category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textSize="20sp"
+                android:text="@string/category"
+                android:textColor="@color/black"
+                />
 
-    <TextView
-        android:id="@+id/toolsTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tools"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:layout_below="@+id/materials"
-        android:layout_alignStart="@+id/designerTitle"
-        />
+            <TextView
+                android:id="@+id/designDescriptionTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/design_description"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                />
+            <TextView
+                android:id="@+id/designDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/design_description"
+                android:textColor="@color/black"
+                android:textSize="20sp"/>
 
-    <TextView
-        android:id="@+id/materialsTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Materials"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:layout_below="@+id/buildingSteps"
-        android:layout_alignStart="@+id/designerTitle"
-        />
+            <TextView
+                android:id="@+id/buildingStepsTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/building_steps"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                android:textSize="20sp"/>
 
-    <TextView
-        android:id="@+id/designer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textColor="@color/colorAccent"
-        android:layout_alignBottom="@+id/designerTitle"
-        android:layout_toRightOf="@+id/designerTitle" />
+            <TextView
+                android:id="@+id/buildingSteps"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/black"
+                android:text="@string/building_steps"
+                />
 
-    <TextView
-        android:id="@+id/category"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/categoryTitle"
-        android:layout_alignBaseline="@+id/categoryTitle"
-        android:text="TextView"
-        android:textColor="@color/colorAccent"
-        />
+            <TextView
+                android:id="@+id/toolsTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tools"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                android:textSize="20sp"
+                />
+            <TextView
+                android:id="@+id/tools"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:text="@string/tools"
+                />
 
-    <TextView
-        android:id="@+id/designDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="TextView"
-        android:textColor="@color/colorAccent"
-        android:layout_below="@+id/imageDetails"
-        android:layout_alignStart="@+id/designDescriptionTitle" />
+            <TextView
+                android:id="@+id/materialsTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/black"
+                android:text="@string/materials"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                />
+            <TextView
+                android:id="@+id/materials"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="@string/materials"
+                android:textSize="20sp"
+                />
 
-    <TextView
-        android:id="@+id/buildingSteps"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/buildingStepsTitle"
-        android:layout_below="@+id/buildingStepsTitle"
-        android:text="TextView"
-        android:textColor="@color/colorAccent"
-        />
 
-    <TextView
-        android:id="@+id/materials"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/materialsTitle"
-        android:layout_below="@+id/materialsTitle"
-        android:text="TextView"
-        android:textColor="@color/colorAccent"
-        />
+        </LinearLayout>
 
-    <TextView
-        android:id="@+id/tools"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/toolsTitle"
-        android:layout_below="@+id/toolsTitle"
-        android:text="TextView"
-        android:textColor="@color/colorAccent"
-        />
+    </ScrollView>
+
 </RelativeLayout>
