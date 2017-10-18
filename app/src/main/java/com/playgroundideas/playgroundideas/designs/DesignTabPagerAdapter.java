@@ -21,9 +21,9 @@ class DesignTabPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int i) {
         switch(i) {
-            case 0: return new DesignFavoriteList();
-            case 1: return new DesignBrowseList();
-            default: return new DesignFavoriteList();
+            case 0: return new DesignBrowseList();
+            case 1: return new DesignFavoriteList();
+            default: return new DesignBrowseList();
         }
     }
 
@@ -35,9 +35,9 @@ class DesignTabPagerAdapter extends FragmentPagerAdapter {
     @Override
     public String getPageTitle(int position) {
         switch (position) {
-            case 0: return resources.getString(R.string.fav_designs);
-            case 1: return resources.getString(R.string.brs_designs);
-            default: return resources.getString(R.string.fav_designs);
+            case 0: return resources.getString(R.string.brs_designs);
+            case 1: return resources.getString(R.string.fav_designs);
+            default: return resources.getString(R.string.brs_designs);
         }
     }
 }
