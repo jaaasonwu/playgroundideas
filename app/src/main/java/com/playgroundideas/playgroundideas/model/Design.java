@@ -31,9 +31,8 @@ public class Design extends VersionedEntity {
     private String buildingSteps;
     private String buildingMaterials;
     private String buildingTools;
-    private String pictureUrl;
 
-    public Design(long version, Long id, String name, Long creatorId, DesignCategory category, String description, String buildingMaterials, boolean published, boolean pickedByStaff, String safetyConsiderations, String buildingSteps, String buildingTools, String pictureUrl) {
+    public Design(long version, Long id, String name, Long creatorId, DesignCategory category, String description, String buildingMaterials, boolean published, boolean pickedByStaff, String safetyConsiderations, String buildingSteps, String buildingTools) {
         super(version);
         this.id = id;
         this.name = name;
@@ -46,12 +45,9 @@ public class Design extends VersionedEntity {
         this.safetyConsiderations = safetyConsiderations;
         this.buildingSteps = buildingSteps;
         this.buildingTools = buildingTools;
-        this.pictureUrl = pictureUrl;
     }
 
 
-    public String getPictureUrl() {return pictureUrl;
-    }
     public String getName() {
         return name;
     }

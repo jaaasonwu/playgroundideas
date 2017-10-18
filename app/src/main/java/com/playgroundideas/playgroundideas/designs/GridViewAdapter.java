@@ -51,7 +51,7 @@ import java.util.List;
     private ShareDialog shareDialog;
     static public ArrayList<Design> favoriteList = new ArrayList<Design>();
     private boolean isFavourite;
-
+    private String[]imageUrls;
     GridViewAdapter(Context context,CallbackManager callbackManager, ShareDialog shareDialog, boolean isFavourite){
         list = new ArrayList<Design>();
         this.context = context;
@@ -61,7 +61,7 @@ import java.util.List;
 
         Resources resources = context.getResources();
         String[] name = resources.getStringArray(R.array.description);
-        String[] imageUrls = {"https://playgroundideas.org/wp-content/uploads/design_gallery/Scoop and Shaft.jpg",
+        String[] imageUrlsSample = {"https://playgroundideas.org/wp-content/uploads/design_gallery/Scoop and Shaft.jpg",
                 "https://playgroundideas.org/wp-content/uploads/design_gallery/Mayan Pyramid.jpg",
                 "https://playgroundideas.org/wp-content/uploads/design_gallery/tire hurdle.jpg",
                 "https://playgroundideas.org/wp-content/uploads/design_gallery/wide slide .jpg",
@@ -70,6 +70,7 @@ import java.util.List;
                 "https://playgroundideas.org/wp-content/uploads/design_gallery/slide tile.jpg",
                 "https://playgroundideas.org/wp-content/uploads/design_gallery/Scorpion.jpg"
         };
+        this.imageUrls = imageUrlsSample;
         String description = "This play design may be added to cubbies for an extra element of fun " +
                 "as children uses the scoop to carry materials to the top of the cubby and pour it down the shaft at the top.";
         DesignCategory[] catergory = {DesignCategory.BRIDGES.BRIDGES, DesignCategory.CLIMBING, DesignCategory.CP, DesignCategory.GROUNDLEVEL,
@@ -78,7 +79,7 @@ import java.util.List;
 
         for(int i = 0; i < name.length; i++){
             long id = (long) i;
-            list.add(new Design(1, id, name[i], (long)1, catergory[i], description, "Materials", true, true, "Safe", "Steps", "Tools", imageUrls[i]));
+            list.add(new Design(1, id, name[i], (long)1, catergory[i], description, "Materials", true, true, "Safe", "Steps", "Tools"));
         }
         this.filterList = list;
 
@@ -227,7 +228,7 @@ import java.util.List;
                     toast.show();
                     Intent intent = new Intent(context, DesignDetailsActivity.class);
                     intent.putExtra("designName", this.designItem.getName());
-                    intent.putExtra("designDetail", this.designItem.getPictureUrl());
+                    intent.putExtra("designDetail",  imageUrls[itemSeq]);
                     intent.putExtra("designer", "playgroundIdeas");
                     intent.putExtra("category", this.designItem.getCategory().getDescription());
                     intent.putExtra("designDescription", this.designItem.getDescription());
@@ -284,6 +285,7 @@ import java.util.List;
     public View getView(int i, View view, ViewGroup viewGroup) {
 
         View designItem = view;
+        final int itemSeq = i;
         ViewHolder holder = null;
         if(designItem == null){
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -299,7 +301,7 @@ import java.util.List;
 
         final Design temp_item = list.get(i);
         holder.name.setText(temp_item.getName());
-        Glide.with(context).load(temp_item.getPictureUrl())
+        Glide.with(context).load(imageUrls[i])
                 .into(holder.image);
         ButtonHandler buttonHandler = new ButtonHandler(i, temp_item);
         holder.image.setOnClickListener(buttonHandler);
@@ -327,7 +329,7 @@ import java.util.List;
             public void onClick(View view) {
                 if (ShareDialog.canShow(ShareLinkContent.class)) {
                     ShareLinkContent linkContent = new ShareLinkContent.Builder()
-                            .setContentUrl(Uri.parse(temp_item.getPictureUrl()))
+                            .setContentUrl(Uri.parse(imageUrls[itemSeq]))
                             .build();
                     shareDialog.show(linkContent);
                 }
