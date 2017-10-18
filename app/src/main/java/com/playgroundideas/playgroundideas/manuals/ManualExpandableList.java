@@ -148,15 +148,4 @@ public class ManualExpandableList extends DaggerFragment implements Handler.Call
         }
         return false;
     }
-
-//    /**
-//     * Update when the list is visible to the user
-//     */
-//    @Override
-//    public void setUserVisibleHint(boolean isVisibleToUser) {
-//        super.setUserVisibleHint(isVisibleToUser);
-//        if (isVisibleToUser && mManualsListAdapter != null) {
-//            mManualsListAdapter.notifyDataSetChanged();
-//        }
-//    }
 }
