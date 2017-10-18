@@ -27,6 +27,7 @@ import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.MaterialIcons;
 import com.joanzapata.iconify.fonts.MaterialModule;
+import com.joanzapata.iconify.widget.IconTextView;
 import com.playgroundideas.playgroundideas.R;
 import com.playgroundideas.playgroundideas.model.Design;
 import com.playgroundideas.playgroundideas.model.DesignCategory;
@@ -144,56 +145,12 @@ import java.util.List;
     private class ViewHolder {
         private TextView name;
         private ImageView image;
-        private Button deleteButton;
-        private FloatingActionButton floatingActionPlus;
-        private FloatingActionButton floatingActionEmailShare;
-        private FloatingActionButton floatingActionFacebookShare;
-        private Animation fabOpenShare, fabCloseShare, fabRClockwise, fabRAnticlockwise;
+        private IconTextView favouriteIcon;
 
         ViewHolder(View view){
             name = (TextView) view.findViewById(R.id.textView);
             image = (ImageView) view.findViewById(R.id.imageView);
-            deleteButton = (Button) view.findViewById(R.id.add_or_delete_button);
-            floatingActionPlus = (FloatingActionButton) view.findViewById(R.id.fab_share);
-            floatingActionEmailShare = (FloatingActionButton) view.findViewById(R.id.fab_email_share);
-            floatingActionFacebookShare = (FloatingActionButton) view.findViewById(R.id.fab_facebook_share);
-
-            Iconify.with(new MaterialModule());
-
-            floatingActionPlus.setImageDrawable(new IconDrawable(context, MaterialIcons.md_add)
-                    .colorRes(R.color.black).actionBarSize());
-            floatingActionEmailShare.setImageDrawable(new IconDrawable(context, MaterialIcons.md_email)
-                    .colorRes(R.color.black).actionBarSize());
-            floatingActionFacebookShare.setImageDrawable(new IconDrawable(context, MaterialIcons.md_share)
-                    .colorRes(R.color.black).actionBarSize());
-            fabOpenShare = AnimationUtils.loadAnimation(context, R.anim.fab_open_share);
-            fabRClockwise = AnimationUtils.loadAnimation(context, R.anim.rotate_clockwise);
-            fabCloseShare = AnimationUtils.loadAnimation(context, R.anim.fab_close_share);
-            fabRAnticlockwise = AnimationUtils.loadAnimation(context, R.anim.rotate_anticlockwise);
-
-            floatingActionPlus.setOnClickListener(new View.OnClickListener() {
-                boolean isOpen = false;
-                @Override
-                public void onClick(View view) {
-                    if(isOpen){
-                        floatingActionEmailShare.startAnimation(fabCloseShare);
-                        floatingActionFacebookShare.startAnimation(fabCloseShare);
-                        floatingActionPlus.startAnimation(fabRAnticlockwise);
-                        floatingActionEmailShare.setClickable(false);
-                        floatingActionFacebookShare.setClickable(false);
-                        isOpen = false;
-                    }
-                    else{
-                        floatingActionEmailShare.startAnimation(fabOpenShare);
-                        floatingActionFacebookShare.startAnimation(fabOpenShare);
-                        floatingActionPlus.startAnimation(fabRClockwise);
-                        floatingActionEmailShare.setClickable(true);
-                        floatingActionFacebookShare.setClickable(true);
-                        isOpen = true;
-                    }
-                }
-            });
-
+            favouriteIcon = (IconTextView) view.findViewById(R.id.favourite_or_remove);
         }
     }
 
@@ -201,10 +158,12 @@ import java.util.List;
     class ButtonHandler implements View.OnClickListener {
         private int itemSeq;
         private Design designItem;
-        public ButtonHandler(int i, Design designItem)
+        private ViewHolder holder;
+        public ButtonHandler(int i, Design designItem, ViewHolder holder)
         {
             this.itemSeq = i;
             this.designItem = designItem;
+            this.holder = holder;
         }
 
         @Override
@@ -237,7 +196,7 @@ import java.util.List;
                     intent.putExtra("tools", this.designItem.getBuildingTools());
                     context.startActivity(intent);
                     break;
-                case R.id.add_or_delete_button:
+                case R.id.favourite_or_remove:
                     if(isFavourite) {
                         toast = Toast.makeText(context, textItemNum +
                                 " favorite design was removed.", Toast.LENGTH_SHORT);
@@ -247,14 +206,16 @@ import java.util.List;
                     }
                     else {
                         if(favoriteList.contains(this.designItem)){
-                            toast = Toast.makeText(context, "Can not be added since the " + textItemNum +
-                                    " favorite design was added before.", Toast.LENGTH_SHORT);
+                            toast = Toast.makeText(context, "Dislike " + textItemNum +
+                                    " any more.", Toast.LENGTH_SHORT);
+                            holder.favouriteIcon.setText("{mdi-star}");
+                            favoriteList.remove(this.designItem);
                             toast.show();
                         }
                         else{
                             favoriteList.add(this.designItem);
+                            holder.favouriteIcon.setText("{mdi-star-outline}");
                             notifyDataSetChanged();
-                            Log.d("Number", "" + favoriteList.size());
                             toast = Toast.makeText(context, "The " + textItemNum + " favorite design is added.", Toast.LENGTH_SHORT);
                             toast.show();
                         }
@@ -291,8 +252,9 @@ import java.util.List;
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             designItem = inflater.inflate(R.layout.design_item, viewGroup, false);
             holder = new ViewHolder(designItem);
-            if(isFavourite)
-                holder.deleteButton.setText("Delete");
+            if(isFavourite) {
+                holder.favouriteIcon.setText("{mdi-star-outline}");
+            }
             designItem.setTag(holder);
         }
         else{
@@ -303,38 +265,9 @@ import java.util.List;
         holder.name.setText(temp_item.getName());
         Glide.with(context).load(imageUrls[i])
                 .into(holder.image);
-        ButtonHandler buttonHandler = new ButtonHandler(i, temp_item);
+        ButtonHandler buttonHandler = new ButtonHandler(i, temp_item, holder);
         holder.image.setOnClickListener(buttonHandler);
-        holder.deleteButton.setOnClickListener(buttonHandler);
-
-
-        holder.floatingActionEmailShare.setOnClickListener(new View.OnClickListener(){
-            Intent intent = null, chooser = null;
-            @Override
-            public void onClick(View view) {
-                intent = new Intent(Intent.ACTION_SEND);
-                intent.setData(Uri.parse("mailto:"));
-                String[] to = {};
-                intent.putExtra(Intent.EXTRA_EMAIL, to);
-                intent.putExtra(Intent.EXTRA_SUBJECT, temp_item.getName() + " Sharing");
-                intent.putExtra(Intent.EXTRA_TEXT, temp_item.getName());
-                intent.setType("message/rfc822");
-                chooser = Intent.createChooser(intent, "Send Email");
-                context.startActivity(chooser);
-            }
-        });
-
-        holder.floatingActionFacebookShare.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (ShareDialog.canShow(ShareLinkContent.class)) {
-                    ShareLinkContent linkContent = new ShareLinkContent.Builder()
-                            .setContentUrl(Uri.parse(imageUrls[itemSeq]))
-                            .build();
-                    shareDialog.show(linkContent);
-                }
-            }
-        });
+        holder.favouriteIcon.setOnClickListener(buttonHandler);
         return  designItem;
     }
 
