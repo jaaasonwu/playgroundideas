@@ -80,8 +80,8 @@ public class ProjectsListAdapter extends BaseAdapter implements Filterable{
         String dayLeft = Integer.toString(mProject.get(position).getmDayleft());
         holder.titleTextView.setText(ProjectTitle);
         holder.countryTextView.setText(mProject.get(position).getCountry());
-        holder.currentFundTextView.setText(currentFund);
-        holder.goalFundTextView.setText(goalFund);
+        holder.currentFundTextView.setText("$" + currentFund);
+        holder.goalFundTextView.setText("$" + goalFund);
         holder.dayLeftTextView.setText(dayLeft);
         Glide.with(mContext).load(mProject.get(position).getImageUrl())
                             .into(holder.imageProjectView);

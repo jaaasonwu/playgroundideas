@@ -38,7 +38,7 @@ public class ProjectBrowser extends Fragment {
     private Button mFilter;
     private PopupWindow mPopWindow;
     private Spinner mFilterByCountry = null;
-    public static final String[] mSortSelections = {"-","Australia","American","South Africa","China","All"};
+    public static final String[] mSortSelections = {"-","Australia","American","Rwanda","China","All"};
     public static final String defaultText = "Location";
 
 

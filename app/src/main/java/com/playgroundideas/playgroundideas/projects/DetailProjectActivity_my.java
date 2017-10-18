@@ -96,8 +96,8 @@ public class DetailProjectActivity_my extends AppCompatActivity {
         startDateView.setText(ProjectDate);
         endDateView.setText(ProjectDate);
         emailAddressView.setText(test.getEmailAddress());
-        currentFund.setText(Integer.toString(test.getmCurrentFund()));
-        goalFund.setText(Integer.toString(test.getmGoalFund()));
+        currentFund.setText("$" + Integer.toString(test.getmCurrentFund()));
+        goalFund.setText("$"  + Integer.toString(test.getmGoalFund()));
         dayLeft.setText(Integer.toString(test.getmDayleft()));
         mEmailShare = (FloatingActionButton) findViewById(R.id.email_share);
         mFacebookShare = (FloatingActionButton) findViewById(R.id.facebook_share);

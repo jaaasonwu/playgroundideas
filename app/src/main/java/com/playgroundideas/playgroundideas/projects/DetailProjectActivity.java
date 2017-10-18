@@ -82,8 +82,8 @@ public class DetailProjectActivity extends AppCompatActivity {
                         .colorRes(R.color.white).actionBarSize());
         mFacebookShare.setImageDrawable(new IconDrawable(this, MaterialCommunityIcons.mdi_facebook)
                 .colorRes(R.color.white).actionBarSize());
-        currentFund.setText(Integer.toString(test.getmCurrentFund()));
-        goalFund.setText(Integer.toString(test.getmGoalFund()));
+        currentFund.setText("$" + Integer.toString(test.getmCurrentFund()));
+        goalFund.setText("$" + Integer.toString(test.getmGoalFund()));
         dayLeft.setText(Integer.toString(test.getmDayleft()));
 
         //shareButton listener
