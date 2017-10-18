@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.playgroundideas.playgroundideas.R;
 
+import org.w3c.dom.Text;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +42,7 @@ public class ProjectsListAdapter extends BaseAdapter implements Filterable{
     }
 
     @Override
-    public Object getItem(int position) {
+    public ProjectItem getItem(int position) {
         return mProject.get(position);
     }
 
@@ -60,6 +62,10 @@ public class ProjectsListAdapter extends BaseAdapter implements Filterable{
             converView = inflater.inflate(R.layout.project_list_item, parent, false);
             holder = new ViewHolder();
             holder.titleTextView = (TextView) converView.findViewById(R.id.project_title);
+            holder.countryTextView = (TextView) converView.findViewById(R.id.location);
+            holder.currentFundTextView = (TextView) converView.findViewById(R.id.current_funding);
+            holder.goalFundTextView = (TextView) converView.findViewById(R.id.goal_funding);
+            holder.dayLeftTextView = (TextView) converView.findViewById(R.id.percentage);
             holder.imageProjectView = (ImageView) converView.findViewById(R.id.project_image);
 
             converView.setTag(holder);
@@ -69,7 +75,14 @@ public class ProjectsListAdapter extends BaseAdapter implements Filterable{
         }
 
         String ProjectTitle = mProject.get(position).getProjectTtile();
+        String currentFund = Integer.toString(mProject.get(position).getmCurrentFund());
+        String goalFund = Integer.toString(mProject.get(position).getmGoalFund());
+        String dayLeft = Integer.toString(mProject.get(position).getmDayleft());
         holder.titleTextView.setText(ProjectTitle);
+        holder.countryTextView.setText(mProject.get(position).getCountry());
+        holder.currentFundTextView.setText(currentFund);
+        holder.goalFundTextView.setText(goalFund);
+        holder.dayLeftTextView.setText(dayLeft);
         Glide.with(mContext).load(mProject.get(position).getImageUrl())
                             .into(holder.imageProjectView);
 
@@ -78,6 +91,10 @@ public class ProjectsListAdapter extends BaseAdapter implements Filterable{
 
     public static class ViewHolder {
         TextView titleTextView;
+        TextView countryTextView;
+        TextView currentFundTextView;
+        TextView goalFundTextView;
+        TextView dayLeftTextView;
         ImageView imageProjectView;
     }
 
@@ -138,4 +155,5 @@ public class ProjectsListAdapter extends BaseAdapter implements Filterable{
     public String getPreviousQuery() {
         return previousQuery;
     }
+
 }

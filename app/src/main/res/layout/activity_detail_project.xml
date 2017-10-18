@@ -112,7 +112,6 @@
                         android:id="@+id/current_funding"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="$20000"
                         android:textColor="@color/black"
                         android:textSize="20sp"
                         android:textStyle="bold"/>
@@ -137,7 +136,6 @@
                         android:id="@+id/goal_funding"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="$50000"
                         android:textColor="@color/black"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -161,7 +159,6 @@
                         android:id="@+id/percentage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="3"
                         android:textColor="@color/black"
                         android:textSize="20sp"
                         android:textStyle="bold" />

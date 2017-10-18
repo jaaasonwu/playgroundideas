@@ -56,7 +56,7 @@ public class ProjectBrowser extends Fragment {
         mProjectSampleList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                checkProjectDetail();
+                checkProjectDetail(mProjectListAdapter.getItem(i));
             }
         });
         mSearchView = (SearchView)rootView.findViewById(R.id.projectSearch);
@@ -71,25 +71,46 @@ public class ProjectBrowser extends Fragment {
     }
 
     private void initial_list() {
+        Calendar mCalendar = Calendar.getInstance();
         mProject = new ArrayList<>();
         Date sampleDate = mCalendar.getTime();
+        String sampleTitle = "My Project";
         String sampleEmailAddress = "playpus@gmail.com";
         String sampleCountry = "Australia";
         String sampleCurrency = "AUD";
         String sampleDescription = "It is my first project";
-        String sampleTitle = "My Project";
-        String sampleImageUrl = "https://playgroundideas.org/wp-content/uploads/2016/09/DSC_2414-1024x685.jpg";
+        String[] sampleImageUrl = {"https://playgroundideas.org/wp-content/uploads/2017/02/IMGP0204-1024x768.jpg"
+                ,"https://playgroundideas.org/wp-content/uploads/2017/02/IMG_0871-1024x768.jpg"
+                ,"https://playgroundideas.org/wp-content/uploads/2017/02/IMG_0782-1024x572.jpg"
+                ,"https://playgroundideas.org/wp-content/uploads/2017/02/IMGP0184-1024x768.jpg"
+                ,"https://playgroundideas.org/wp-content/uploads/2017/02/IMG_2269-1024x683.jpg"
+                ,"https://playgroundideas.org/wp-content/uploads/2017/02/IMG_2269-1024x683.jpg"
+                ,"https://playgroundideas.org/wp-content/uploads/2017/02/IMG_2370-1024x683.jpg"
+                ,"https://playgroundideas.org/wp-content/uploads/2017/02/IMG_8878-1024x768.jpg"
+                ,"https://playgroundideas.org/wp-content/uploads/2017/02/IMG_2345-1024x683.jpg"
+                ,"https://playgroundideas.org/wp-content/uploads/2017/02/IMG_8831-1024x768.jpg"
+                ,"https://playgroundideas.org/wp-content/uploads/2017/02/IMG_2407-1024x683.jpg"};
         ProjectItem newProject;
-        for(int i = 0; i< PROJECT_COUNTER; i++) {
+        for(int i = 0; i< PROJECT_COUNTER ; i++) {
+            if(i < 2) {
+                sampleCountry = "China";
+            } else if(i < 5){
+                sampleCountry = "Australia";
+            } else if(i < 8) {
+                sampleCountry = "Rwanda";
+            } else {
+                sampleCountry = "American";
+            }
             newProject = new ProjectItem(sampleTitle+ " " + i,sampleDate,sampleDate,sampleEmailAddress
-                    ,sampleCountry,sampleCurrency,sampleDescription,sampleImageUrl);
+                    ,sampleCountry,sampleCurrency,sampleDescription,sampleImageUrl[i],i*100,i*1000,i);
             mProject.add(newProject);
         }
     }
 
-    public void checkProjectDetail() {
-        Intent intent = new Intent();
+    public void checkProjectDetail(ProjectItem pro) {
+        Intent intent = new Intent(getContext(),DetailProjectActivity.class);
         intent.setClass(getContext(), DetailProjectActivity.class);
+        intent.putExtra("project_data",pro);
         startActivity(intent);
     }
 

@@ -69,7 +69,7 @@ public class ProjectMy extends Fragment {
         mProjectSampleList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                checkProjectDetail();
+                checkProjectDetail(mProjectListAdapter.getItem(i));
             }
         });
         mCreateBtn.setImageDrawable(new IconDrawable(getContext(), MaterialIcons.md_add)
@@ -91,9 +91,10 @@ public class ProjectMy extends Fragment {
         startActivity(intent);
     }
 
-    public void checkProjectDetail() {
-        Intent intent = new Intent();
+    public void checkProjectDetail(ProjectItem pro) {
+        Intent intent = new Intent(getContext(),DetailProjectActivity_my.class);
         intent.setClass(getContext(), DetailProjectActivity_my.class);
+        intent.putExtra("project_data",pro);
         startActivity(intent);
     }
 
@@ -129,8 +130,7 @@ public class ProjectMy extends Fragment {
                 sampleCountry = "American";
             }
             newProject = new ProjectItem(sampleTitle+ " " + i,sampleDate,sampleDate,sampleEmailAddress
-                    ,sampleCountry,sampleCurrency,sampleDescription,sampleImageUrl[i]);
-
+                    ,sampleCountry,sampleCurrency,sampleDescription,sampleImageUrl[i],i*100,i*1000,i);
             mProject.add(newProject);
         }
     }

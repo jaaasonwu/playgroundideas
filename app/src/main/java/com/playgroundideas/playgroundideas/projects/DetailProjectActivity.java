@@ -29,6 +29,9 @@ public class DetailProjectActivity extends AppCompatActivity {
     private TextView startDateView;
     private TextView endDateView;
     private ImageView imageView;
+    private TextView currentFund;
+    private TextView goalFund;
+    private TextView dayLeft;
     private TextView emailAddressView;
     private ProjectItem sampleProject;
     private FloatingActionButton mShare;
@@ -41,7 +44,7 @@ public class DetailProjectActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_project);
 
-        initial();
+        ProjectItem test = (ProjectItem) getIntent().getParcelableExtra("project_data");
 
         titleView =(TextView) findViewById(R.id.title_project_detail);
         contryView = (TextView) findViewById(R.id.title_project_country);
@@ -51,16 +54,23 @@ public class DetailProjectActivity extends AppCompatActivity {
         imageView =(ImageView) findViewById(R.id.project_detail_image);
         emailAddressView = (TextView) findViewById(R.id.paypal_email);
 
-        titleView.setText(sampleProject.getProjectTtile());
-        contryView.setText(sampleProject.getCountry());
-        descriptionView.setText(sampleProject.getProjectDescription());
-        String ProjectDate = new SimpleDateFormat("dd-MM-yyyy").format(sampleProject.getStartDate());
+        currentFund = (TextView) findViewById(R.id.current_funding);
+        goalFund = (TextView) findViewById(R.id.goal_funding);
+        dayLeft = (TextView) findViewById(R.id.percentage);
+
+        titleView.setText(test.getProjectTtile());
+        contryView.setText(test.getCountry());
+        descriptionView.setText(test.getProjectDescription());
+        String ProjectDate = new SimpleDateFormat("dd-MM-yyyy").format(test.getStartDate());
         startDateView.setText(ProjectDate);
         endDateView.setText(ProjectDate);
-        emailAddressView.setText(sampleProject.getEmailAddress());
+        emailAddressView.setText(test.getEmailAddress());
         mEmailShare = (TextView) findViewById(R.id.email_share);
         mFacebookShare = (TextView) findViewById(R.id.facebook_share);
         mShare = (FloatingActionButton) findViewById(R.id.shareButton);
+        currentFund.setText(Integer.toString(test.getmCurrentFund()));
+        goalFund.setText(Integer.toString(test.getmGoalFund()));
+        dayLeft.setText(Integer.toString(test.getmDayleft()));
         mShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,23 +87,7 @@ public class DetailProjectActivity extends AppCompatActivity {
         });
         contactOwner();
         shareListener();
-        Glide.with(this).load(sampleProject.getImageUrl()).into(imageView);
-    }
-
-    private void initial() {
-
-        Calendar mCalendar = Calendar.getInstance();
-        Date sampleDate = mCalendar.getTime();
-        String sampleEmailAddress = "platypustestplatyground@gmail.com";
-        String sampleCountry = "Australia";
-        String sampleCurrency = "AUD";
-        String sampleDescription = "It is my first project. I like to build playground for children.";
-        String sampleTitle = "My Project";
-        String sampleImageUrl = "https://playgroundideas.org/wp-content/uploads/2017/02/IMGP0204-1024x768.jpg";
-
-        sampleProject = new ProjectItem(sampleTitle,sampleDate,sampleDate,sampleEmailAddress
-                ,sampleCountry,sampleCurrency,sampleDescription,sampleImageUrl);
-
+        Glide.with(this).load(test.getImageUrl()).into(imageView);
     }
 
     public void shareListener() {

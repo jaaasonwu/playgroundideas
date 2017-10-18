@@ -26,6 +26,9 @@ import com.facebook.share.model.SharePhotoContent;
 import com.facebook.share.widget.ShareDialog;
 import com.playgroundideas.playgroundideas.BuildConfig;
 import com.playgroundideas.playgroundideas.R;
+import com.playgroundideas.playgroundideas.model.Project;
+
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,6 +43,9 @@ public class DetailProjectActivity_my extends AppCompatActivity {
     private TextView descriptionView;
     private TextView startDateView;
     private TextView endDateView;
+    private TextView currentFund;
+    private TextView goalFund;
+    private TextView dayLeft;
     private ImageView imageView;
     private TextView emailAddressView;
     private ProjectItem sampleProject;
@@ -62,9 +68,7 @@ public class DetailProjectActivity_my extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_project_my);
 
-        intial();
-
-
+        ProjectItem test = (ProjectItem) getIntent().getParcelableExtra("project_data");
         titleView =(TextView) findViewById(R.id.title_project_detail);
         contryView = (TextView) findViewById(R.id.title_project_country);
         descriptionView = (TextView) findViewById(R.id.description);
@@ -73,13 +77,19 @@ public class DetailProjectActivity_my extends AppCompatActivity {
         imageView =(ImageView) findViewById(R.id.project_detail_image);
         emailAddressView = (TextView) findViewById(R.id.paypal_email);
         mAddPhoto = (Button) findViewById(R.id.button_new_photo);
-        titleView.setText(sampleProject.getProjectTtile());
-        contryView.setText(sampleProject.getCountry());
-        descriptionView.setText(sampleProject.getProjectDescription());
-        String ProjectDate = new SimpleDateFormat("dd-MM-yyyy").format(sampleProject.getStartDate());
+        currentFund = (TextView) findViewById(R.id.current_funding);
+        goalFund = (TextView) findViewById(R.id.goal_funding);
+        dayLeft = (TextView) findViewById(R.id.percentage);
+        titleView.setText(test.getProjectTtile());
+        contryView.setText(test.getCountry());
+        descriptionView.setText(test.getProjectDescription());
+        String ProjectDate = new SimpleDateFormat("dd-MM-yyyy").format(test.getStartDate());
         startDateView.setText(ProjectDate);
         endDateView.setText(ProjectDate);
-        emailAddressView.setText(sampleProject.getEmailAddress());
+        emailAddressView.setText(test.getEmailAddress());
+        currentFund.setText(Integer.toString(test.getmCurrentFund()));
+        goalFund.setText(Integer.toString(test.getmGoalFund()));
+        dayLeft.setText(Integer.toString(test.getmDayleft()));
         mEmailShare = (TextView) findViewById(R.id.email_share);
         mFacebookShare = (TextView) findViewById(R.id.facebook_share);
         mShare = (FloatingActionButton) findViewById(R.id.shareButton);
@@ -110,24 +120,9 @@ public class DetailProjectActivity_my extends AppCompatActivity {
         });
         contactOwner();
         shareListener();
-        Glide.with(this).load(sampleProject.getImageUrl()).into(imageView);
+        Glide.with(this).load(test.getImageUrl()).into(imageView);
     }
 
-    private void intial() {
-
-        Calendar mCalendar = Calendar.getInstance();
-        Date sampleDate = mCalendar.getTime();
-        String sampleEmailAddress = "platypustestplatyground@gmail.com";
-        String sampleCountry = "Australia";
-        String sampleCurrency = "AUD";
-        String sampleDescription = "It is my first project. I like to build playground for children.";
-        String sampleTitle = "My Project";
-        String sampleImageUrl = "https://playgroundideas.org/wp-content/uploads/2017/02/IMGP0204-1024x768.jpg";
-
-        sampleProject = new ProjectItem(sampleTitle,sampleDate,sampleDate,sampleEmailAddress
-                ,sampleCountry,sampleCurrency,sampleDescription,sampleImageUrl);
-
-    }
 
     public void shareListener() {
         mEmailShare.setOnClickListener(new View.OnClickListener() {
