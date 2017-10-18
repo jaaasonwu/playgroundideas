@@ -272,6 +272,12 @@ import java.util.List;
         }
         else{
             holder = (ViewHolder) designItem.getTag();
+            if(favoriteList.contains(filterList.get(itemSeq))){
+                holder.favouriteIcon.setText("{mdi-star}");
+            }
+            else{
+                holder.favouriteIcon.setText("{mdi-star-outline}");
+            }
         }
 
         final Design temp_item = list.get(i);
