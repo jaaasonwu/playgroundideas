@@ -198,7 +198,7 @@ import java.util.List;
                     break;
                 case R.id.favourite_or_remove:
                     if(isFavourite) {
-                        toast = Toast.makeText(context, textItemNum +
+                        toast = Toast.makeText(context, "The " + textItemNum +
                                 " favorite design was removed.", Toast.LENGTH_SHORT);
                         filterList.remove(itemSeq);
                         notifyDataSetChanged();
@@ -206,17 +206,17 @@ import java.util.List;
                     }
                     else {
                         if(favoriteList.contains(this.designItem)){
-                            toast = Toast.makeText(context, "Dislike " + textItemNum +
-                                    " any more.", Toast.LENGTH_SHORT);
-                            holder.favouriteIcon.setText("{mdi-star}");
+                            toast = Toast.makeText(context, "The " + textItemNum +
+                                    " design is not a favourite design any more.", Toast.LENGTH_SHORT);
+                            holder.favouriteIcon.setText("{mdi-star-outline}");
                             favoriteList.remove(this.designItem);
                             toast.show();
                         }
                         else{
                             favoriteList.add(this.designItem);
-                            holder.favouriteIcon.setText("{mdi-star-outline}");
+                            holder.favouriteIcon.setText("{mdi-star}");
                             notifyDataSetChanged();
-                            toast = Toast.makeText(context, "The " + textItemNum + " favorite design is added.", Toast.LENGTH_SHORT);
+                            toast = Toast.makeText(context, "The " + textItemNum + " design is added as a favourite one.", Toast.LENGTH_SHORT);
                             toast.show();
                         }
                     }
@@ -253,7 +253,7 @@ import java.util.List;
             designItem = inflater.inflate(R.layout.design_item, viewGroup, false);
             holder = new ViewHolder(designItem);
             if(isFavourite) {
-                holder.favouriteIcon.setText("{mdi-star-outline}");
+                holder.favouriteIcon.setText("{mdi-star}");
             }
             designItem.setTag(holder);
         }
