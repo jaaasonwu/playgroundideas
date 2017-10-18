@@ -206,6 +206,8 @@ public class DetailProjectActivity_my extends AppCompatActivity {
         View conternView = LayoutInflater.from(DetailProjectActivity_my.this).inflate(R.layout.project_new_photo_popupview,null);
         mPopWindow = new PopupWindow(conternView);
         mPopWindow.setContentView(conternView);
+        mPopWindow.setOutsideTouchable(true);
+        mPopWindow.setFocusable(true);
         mPopWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
         mPopWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
         mAddPhotoFromGallery = (Button) conternView.findViewById(R.id.buttonGallery);

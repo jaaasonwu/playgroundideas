@@ -146,6 +146,15 @@ public class ProjectMy extends Fragment {
 
     private void setupSearchView() {
         mSearchView.setQueryHint("search title");
+        mSearchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mSearchView.onActionViewExpanded();
+                mSearchView.setIconified(false);
+                mSearchView.clearFocus();
+            }
+        });
+
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {

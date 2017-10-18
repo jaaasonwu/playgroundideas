@@ -325,6 +325,8 @@
                 android:id="@+id/button_new_photo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorAccent"
+                android:textColor="@color/white"
                 android:text="Add new Photo" />
         </LinearLayout>
     </ScrollView>

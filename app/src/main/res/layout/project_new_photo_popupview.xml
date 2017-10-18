@@ -9,11 +9,15 @@
         android:id="@+id/buttonGallery"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="From Gallery" />
+        android:text="From Gallery"
+        android:backgroundTint="@color/green"
+        android:textColor="@color/white"/>
 
     <Button
         android:id="@+id/buttonCamera"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="From Camera" />
+        android:text="From Camera"
+        android:backgroundTint="@color/green"
+        android:textColor="@color/white"/>
 </LinearLayout>
