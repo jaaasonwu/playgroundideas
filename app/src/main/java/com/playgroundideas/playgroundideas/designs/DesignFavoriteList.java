@@ -85,6 +85,9 @@ public class DesignFavoriteList extends DaggerFragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 TextView option = (TextView) view;
+                if (option == null) {
+                    return;
+                }
                 Toast.makeText(getContext(), option.getText() + " selected", Toast.LENGTH_SHORT).show();
                 Filter filter = gridViewAdapter.getFilter();
                 gridViewAdapter.catergory = option.getText().toString();
