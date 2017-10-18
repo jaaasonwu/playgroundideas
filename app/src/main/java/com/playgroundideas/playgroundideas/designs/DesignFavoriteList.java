@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ import com.playgroundideas.playgroundideas.R;
 import com.playgroundideas.playgroundideas.model.Design;
 import com.playgroundideas.playgroundideas.viewmodel.DesignListViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -45,7 +47,8 @@ public class DesignFavoriteList extends DaggerFragment {
     private DesignListViewModel viewModel;
     private CallbackManager callbackManager;
     private ShareDialog shareDialog;
-    private GridViewAdapterFavorite gridViewAdapterFavorite;
+    private GridViewAdapter gridViewAdapter;
+
     @Inject
     ViewModelProvider.Factory viewModelFactory;
 
@@ -58,8 +61,8 @@ public class DesignFavoriteList extends DaggerFragment {
         myFavoriteGrid = view.findViewById(R.id.my_favorite_grid);
         searchView = (SearchView) view.findViewById(R.id.search_favorite);
         // Construct the adapter to fill data into view components
-        gridViewAdapterFavorite = new GridViewAdapterFavorite(getActivity(),callbackManager,shareDialog);
-        myFavoriteGrid.setAdapter(gridViewAdapterFavorite);
+        gridViewAdapter = new GridViewAdapter(getActivity(),callbackManager,shareDialog,true);
+        myFavoriteGrid.setAdapter(gridViewAdapter);
         // Initialize the searchView
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -69,25 +72,26 @@ public class DesignFavoriteList extends DaggerFragment {
 
             @Override
             public boolean onQueryTextChange(String query) {
-                Filter filter = gridViewAdapterFavorite.getFilter();
-                gridViewAdapterFavorite.previousQuery = query;
+                Filter filter = gridViewAdapter.getFilter();
+                gridViewAdapter.previousQuery = query;
                 filter.filter(query);
                 return false;
             }
         });
+
         // Initialize the spinner
         spinner = (Spinner) view.findViewById(R.id.spinner_favorite);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 TextView option = (TextView) view;
+                if (option == null) {
+                    return;
+                }
                 Toast.makeText(getContext(), option.getText() + " selected", Toast.LENGTH_SHORT).show();
-                Filter filter = gridViewAdapterFavorite.getFilter();
-                gridViewAdapterFavorite.catergory = option.getText().toString();
-                filter.filter(gridViewAdapterFavorite.previousQuery);
-
-
-
+                Filter filter = gridViewAdapter.getFilter();
+                gridViewAdapter.catergory = option.getText().toString();
+                filter.filter(gridViewAdapter.previousQuery);
             }
 
             @Override
@@ -103,16 +107,6 @@ public class DesignFavoriteList extends DaggerFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        this.designsAddFab = getActivity().findViewById(R.id.add_designs_fab);
-        designsAddFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                designsFragment = (DesignsFragment) getParentFragment();
-                designsFragment.respond();
-            }
-        });
-        designsAddFab.setImageDrawable(new IconDrawable(getContext(), MaterialIcons.md_add)
-                .colorRes(R.color.white).actionBarSize());
 
 
 
@@ -122,7 +116,7 @@ public class DesignFavoriteList extends DaggerFragment {
         viewModel.getDesignList().observe(this, new Observer<List<Design>>() {
             @Override
             public void onChanged(@Nullable List<Design> designs) {
-                //gridViewAdapterFavorite.designItemsChanged(designs);
+               // gridViewAdapter.designItemsChanged(designs);
 
             }
         });

@@ -24,18 +24,11 @@ import java.util.ArrayList;
 
 public class DesignBrowseList extends Fragment {
 
-    private ArrayList<Design> favoriteList;
     private GridView myGrid;
     private SearchView searchView;
     private Spinner spinner;
     private CallbackManager callbackManager;
     private ShareDialog shareDialog;
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        favoriteList = new ArrayList<Design>();
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,8 +41,8 @@ public class DesignBrowseList extends Fragment {
         myGrid = (GridView) view.findViewById(R.id.my_browse_grid);
         searchView = (SearchView) view.findViewById(R.id.search_browse);
         // Construct the adapter to fill data into view components
-        final GridViewAdapterBrowse gridViewAdapterBrowse = new GridViewAdapterBrowse(getActivity(), favoriteList, callbackManager,shareDialog);
-        myGrid.setAdapter(gridViewAdapterBrowse);
+        final GridViewAdapter gridViewAdapter = new GridViewAdapter(getActivity(),callbackManager,shareDialog,false);
+        myGrid.setAdapter(gridViewAdapter);
         // Initialize the searchView
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -59,8 +52,8 @@ public class DesignBrowseList extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String query) {
-                Filter filter = gridViewAdapterBrowse.getFilter();
-                gridViewAdapterBrowse.previousQuery = query;
+                Filter filter = gridViewAdapter.getFilter();
+                gridViewAdapter.previousQuery = query;
                 filter.filter(query);
                 return false;
             }
@@ -72,10 +65,13 @@ public class DesignBrowseList extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 TextView option = (TextView) view;
+                if (option==null) {
+                    return;
+                }
                 Toast.makeText(getContext(), option.getText() + " selected", Toast.LENGTH_SHORT).show();
-                Filter filter = gridViewAdapterBrowse.getFilter();
-                gridViewAdapterBrowse.catergory = option.getText().toString();
-                filter.filter(gridViewAdapterBrowse.previousQuery);
+                Filter filter = gridViewAdapter.getFilter();
+                gridViewAdapter.catergory = option.getText().toString();
+                filter.filter(gridViewAdapter.previousQuery);
             }
 
             @Override
