@@ -24,6 +24,12 @@ import com.facebook.FacebookSdk;
 import com.facebook.share.model.SharePhoto;
 import com.facebook.share.model.SharePhotoContent;
 import com.facebook.share.widget.ShareDialog;
+import com.joanzapata.iconify.IconDrawable;
+import com.joanzapata.iconify.Iconify;
+import com.joanzapata.iconify.fonts.MaterialCommunityIcons;
+import com.joanzapata.iconify.fonts.MaterialCommunityModule;
+import com.joanzapata.iconify.fonts.MaterialIcons;
+import com.joanzapata.iconify.fonts.MaterialModule;
 import com.playgroundideas.playgroundideas.BuildConfig;
 import com.playgroundideas.playgroundideas.R;
 import com.playgroundideas.playgroundideas.model.Project;
@@ -48,10 +54,9 @@ public class DetailProjectActivity_my extends AppCompatActivity {
     private TextView dayLeft;
     private ImageView imageView;
     private TextView emailAddressView;
-    private ProjectItem sampleProject;
     private FloatingActionButton mShare;
-    private TextView mEmailShare;
-    private TextView mFacebookShare;
+    private FloatingActionButton mEmailShare;
+    private FloatingActionButton mFacebookShare;
     private Boolean isOpen = false;
     private Boolean isOpenPopupView = false;
     private Button mAddPhoto;
@@ -91,9 +96,19 @@ public class DetailProjectActivity_my extends AppCompatActivity {
         currentFund.setText(Integer.toString(test.getmCurrentFund()));
         goalFund.setText(Integer.toString(test.getmGoalFund()));
         dayLeft.setText(Integer.toString(test.getmDayleft()));
-        mEmailShare = (TextView) findViewById(R.id.email_share);
-        mFacebookShare = (TextView) findViewById(R.id.facebook_share);
+        mEmailShare = (FloatingActionButton) findViewById(R.id.email_share);
+        mFacebookShare = (FloatingActionButton) findViewById(R.id.facebook_share);
         mShare = (FloatingActionButton) findViewById(R.id.shareButton);
+
+        //initial floating button
+        Iconify.with(new MaterialModule()).with(new MaterialCommunityModule());
+        mShare.setImageDrawable(new IconDrawable(this, MaterialIcons.md_share)
+                .colorRes(R.color.white).actionBarSize());
+        mEmailShare.setImageDrawable(new IconDrawable(this, MaterialIcons.md_email)
+                .colorRes(R.color.white).actionBarSize());
+        mFacebookShare.setImageDrawable(new IconDrawable(this, MaterialCommunityIcons.mdi_facebook)
+                .colorRes(R.color.white).actionBarSize());
+
         mShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -133,7 +148,7 @@ public class DetailProjectActivity_my extends AppCompatActivity {
                 Intent i = new Intent(Intent.ACTION_SEND);
                 i.setType("message/rfc822");
                 i.putExtra(Intent.EXTRA_SUBJECT,"Project Sharing");
-                i.putExtra(Intent.EXTRA_TEXT,sampleProject.getProjectTtile() + "\n" + sampleProject.getProjectDescription());
+                i.putExtra(Intent.EXTRA_TEXT,test.getProjectTtile() + "\n\n" + test.getProjectDescription());
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 try {
                     startActivity(Intent.createChooser(i,"Share peoject through mail applications..."));

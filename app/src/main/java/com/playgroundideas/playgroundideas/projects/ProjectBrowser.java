@@ -74,11 +74,20 @@ public class ProjectBrowser extends Fragment {
         Calendar mCalendar = Calendar.getInstance();
         mProject = new ArrayList<>();
         Date sampleDate = mCalendar.getTime();
-        String sampleTitle = "My Project";
+        String[] sampleTitle = {"Go to play"
+                                ,"Gawad Kalinga Village Playground"
+                                ,"Children on the Edge"
+                                ,"Rolling Dreams"
+                                ,"Maendeleo Playscape & Farm"
+                                ,"AMOR ACTIVO COPAN"
+                                ,"Pact Playground"
+                                ,"Morocco Interactive Playspace"
+                                ,"St. Monica’s Preschool"
+                                ,"Preschool Playground"};
         String sampleEmailAddress = "playpus@gmail.com";
-        String sampleCountry = "Australia";
+        String sampleCountry;
         String sampleCurrency = "AUD";
-        String sampleDescription = "It is my first project";
+        String sampleDescription = "This recycled playground was built at a Gawad Kalinga Village in Davao, Philippines in November 2011.The playground was built in a housing development of about 100 small, low cost homes. An unexpected donation of 20 tractor tires, enabled us create interesting cubby features as a part of the design. Design by Playground Ideas, rendering by Howard Lorenzo, photography by Macky Madalangconsuegra.";
         String[] sampleImageUrl = {"https://playgroundideas.org/wp-content/uploads/2017/02/IMGP0204-1024x768.jpg"
                 ,"https://playgroundideas.org/wp-content/uploads/2017/02/IMG_0871-1024x768.jpg"
                 ,"https://playgroundideas.org/wp-content/uploads/2017/02/IMG_0782-1024x572.jpg"
@@ -101,8 +110,8 @@ public class ProjectBrowser extends Fragment {
             } else {
                 sampleCountry = "American";
             }
-            newProject = new ProjectItem(sampleTitle+ " " + i,sampleDate,sampleDate,sampleEmailAddress
-                    ,sampleCountry,sampleCurrency,sampleDescription,sampleImageUrl[i],i*100,i*1000,i);
+            newProject = new ProjectItem(sampleTitle[i],sampleDate,sampleDate,sampleEmailAddress
+                    ,sampleCountry,sampleCurrency,sampleDescription,sampleImageUrl[i],i*100+1042,i*1000+4123,i);
             mProject.add(newProject);
         }
     }

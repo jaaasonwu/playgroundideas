@@ -102,11 +102,20 @@ public class ProjectMy extends Fragment {
         Calendar mCalendar = Calendar.getInstance();
         mProject = new ArrayList<>();
         Date sampleDate = mCalendar.getTime();
-        String sampleTitle = "My Project";
-        String sampleEmailAddress = "playpus@gmail.com";
-        String sampleCountry = "Australia";
+        String[] sampleTitle = {"Go to play"
+                ,"Gawad Kalinga Village Playground"
+                ,"Children on the Edge"
+                ,"Maendeleo Playscape & Farm"
+                ,"AMOR ACTIVO COPAN"
+                ,"Morocco Interactive Playspace"
+                ,"Pact Playground"
+                ,"St. Monica’s Preschool"
+                ,"Rolling Dreams"
+                ,"Preschool Playground"};
+        String sampleEmailAddress = "platypustestplatyground@gmail.com";
+        String sampleCountry;
         String sampleCurrency = "AUD";
-        String sampleDescription = "It is my first project";
+        String sampleDescription = "This playground project was a partnership between  University of Canberra, Playground Ideas, Pacific Adventist University and Koiari Park Adventist Primary School. The playground was built to be a demonstration playground and research site, with the long-term goal to promote playgrounds built of locally sourced materials as safe and stimulating play and learning environments for children and also to serve as community hubs.";
         String[] sampleImageUrl = {"https://playgroundideas.org/wp-content/uploads/2017/02/IMGP0204-1024x768.jpg"
                 ,"https://playgroundideas.org/wp-content/uploads/2017/02/IMG_0782-1024x572.jpg"
                 ,"https://playgroundideas.org/wp-content/uploads/2017/02/IMG_0871-1024x768.jpg"
@@ -129,8 +138,8 @@ public class ProjectMy extends Fragment {
             } else {
                 sampleCountry = "American";
             }
-            newProject = new ProjectItem(sampleTitle+ " " + i,sampleDate,sampleDate,sampleEmailAddress
-                    ,sampleCountry,sampleCurrency,sampleDescription,sampleImageUrl[i],i*100,i*1000,i);
+            newProject = new ProjectItem(sampleTitle[i],sampleDate,sampleDate,sampleEmailAddress
+                    ,sampleCountry,sampleCurrency,sampleDescription,sampleImageUrl[i],i*100+1231,i*1000+1321,i);
             mProject.add(newProject);
         }
     }
