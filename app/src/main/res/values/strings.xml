@@ -110,7 +110,12 @@
     <string name="facebook_share1">{md-share}</string>
     <string name="facebook_app_id">705598346299936</string>
     <string name="plan_open_button">Open Plan Tool</string>
-    <string name="design_by">Design by:</string>
+    <string name="designed_by">Designed by</string>
+    <string name="category">Category</string>
+    <string name="design_description">Design Description</string>
+    <string name="building_steps">Building Steps</string>
+    <string name="tools">Tools</string>
+    <string name="materials">Materials</string>
     <string name="favourite_design_icon">{mdi-star}</string>
     <string name="dislike_design_icon">{mdi-star-outline}</string>
 </resources>
