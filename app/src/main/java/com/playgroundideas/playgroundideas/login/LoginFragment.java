@@ -119,7 +119,8 @@ public class LoginFragment extends DaggerFragment {
         @Override
         public void onClick(View view) {
             String email = mEmailView.getText().toString();
-            mLoginWebservice.forgetPassword(email);
+            //Uncomment after having the forget password API
+//            mLoginWebservice.forgetPassword(email);
         }
     }
 
