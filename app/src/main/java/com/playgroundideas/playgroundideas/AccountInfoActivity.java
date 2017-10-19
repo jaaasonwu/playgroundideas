@@ -61,11 +61,11 @@ public class AccountInfoActivity extends DaggerActivity {
     private class OnSaveClick implements View.OnClickListener {
         @Override
         public void onClick(View view) {
-            mLoginWebservice.updateInfo(mFirstName.getText().toString(),
-                    mLastName.getText().toString(),
-                    mEmail.getText().toString(),
-                    (String)mCountry.getSelectedItem(),
-                    mPaypal.getText().toString());
+//            mLoginWebservice.updateInfo(mFirstName.getText().toString(),
+//                    mLastName.getText().toString(),
+//                    mEmail.getText().toString(),
+//                    (String)mCountry.getSelectedItem(),
+//                    mPaypal.getText().toString());
         }
     }
 
