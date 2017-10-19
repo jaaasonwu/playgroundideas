@@ -123,6 +123,10 @@ public class ManualRepository {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            if (res == null) {
+                sendToastMessage(context.getString(R.string.download_failed));
+                return false;
+            }
             if (res.isSuccessful()) {
                 sendToastMessage(context.getString(R.string.download_start));
                 ResponseBody body = (ResponseBody) res.body();
@@ -158,8 +162,10 @@ public class ManualRepository {
         @Override
         protected void onPostExecute(Boolean b) {
             super.onPostExecute(b);
-            Toast toast = Toast.makeText(context, "Downloaded Finished!", Toast.LENGTH_LONG);
-            toast.show();
+            if (b) {
+                Toast toast = Toast.makeText(context, "Downloaded Finished!", Toast.LENGTH_LONG);
+                toast.show();
+            }
         }
         private void sendToastMessage(String str) {
             Message msg = Message.obtain();
