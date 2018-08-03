@@ -64,7 +64,8 @@ public class SignUpFragment extends DaggerFragment {
         @Override
         public void onClick(View view) {
             String email = mEmailView.getText().toString();
-            mLoginWebservice.signup(email);
+            // Uncomment after having the sign up API
+//            mLoginWebservice.signup(email);
         }
     }
 }
